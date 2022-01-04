@@ -71,22 +71,22 @@ class InternalFunctions implements ViewModel {
      * @memberof InternalFunctions
      */
     static async ready() {
-        shopView.emit('OSS:Vue:SetItems', items, xType);
+        shopView.emit(`${PAGE_NAME}:Vue:SetItems`, items, xType);
     }
 }
 
-alt.on('OSS:Vue:Open', (shopItems, type: string) => {
+alt.on(`${PAGE_NAME}:Vue:Open`, (shopItems, type: string) => {
     items = shopItems;
     xType = type;
     InternalFunctions.open();
     return;
 });
 
-shopView.on('OSS:Vue:CloseShop', () => {
+shopView.on(`${PAGE_NAME}:Vue:CloseShop`, () => {
     InternalFunctions.close();
 });
 
-shopView.on('OSS:Client:HandleShop', (shopItem, amount: number, type: string) => {
-    alt.emitServer('OSS:Server:HandleShop', shopItem, amount, type);
+shopView.on(`${PAGE_NAME}:Client:HandleShop`, (shopItem: {}[], amount: number, type: string) => {
+    alt.emitServer(`${PAGE_NAME}:Server:HandleShop`, shopItem, amount, type);
     return;
 });

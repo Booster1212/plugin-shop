@@ -1,6 +1,6 @@
 import * as alt from 'alt-client';
-
-alt.onServer('OSS:Client:OpenShop', (shopItems, type: string) => {
-    alt.emit('OSS:Vue:Open', shopItems, type);
+const PAGE_NAME = 'ShopUI';
+alt.onServer(`${PAGE_NAME}:Client:OpenShop`, (shopItems: {}[], type: string) => {
+    alt.emit(`${PAGE_NAME}:Vue:Open`, shopItems, type);
     return;
 });

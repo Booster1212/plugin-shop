@@ -1,8 +1,8 @@
 import * as alt from 'alt-server'; 
 import { playerFuncs } from '../../../server/extensions/Player';
 import { ItemFactory } from '../../../server/systems/item';
-
-alt.onClient('OSS:Server:HandleShop', async (player: alt.Player, shopItem: any, amount: number, type: string) => {
+const PAGENAME = 'ShopUI';
+alt.onClient(`${PAGENAME}:Server:HandleShop`, async (player: alt.Player, shopItem: any, amount: number, type: string) => {
     const itemToAdd = await ItemFactory.get(shopItem.dbName);
     const itemIsInInventory = playerFuncs.inventory.isInInventory(player, { name: itemToAdd.name });
     const emptySlot = playerFuncs.inventory.getFreeInventorySlot(player);

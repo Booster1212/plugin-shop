@@ -20,7 +20,9 @@
             <div class="ShopSystem-ItemHolder" v-for="(shopItem, index) in ShopSystem.ShopItems" :key="index">
                 <div class="ShopSystem-Items" v-if="ShopSystem.ShopItems">
                     <div class="ShopSystem-ImageHolder">
-                        <img :src="`../../../public/assets/icons/${shopItem.image}.png`" id="Images" />
+                        <img :src="ResolvePath(`../../assets/icons/${shopItem.image}.png`)" id="Images" />
+                        <!--  
+                        <img :src="`../../../public/assets/icons/${shopItem.image}.png`" id="Images" /> -->
                     </div>
                     <span>{{ shopItem.name }}</span
                     ><br /><br />
@@ -61,6 +63,7 @@ import Modal from '../../components/Modal.vue';
 import Module from '../../components/Module.vue';
 import RangeInput from '../../components/RangeInput.vue';
 import Toolbar from '../../components/Toolbar.vue';
+import ResolvePath from '../../utility/pathResolver';
 
 const SHOP = [
     { id: 0, name: 'Burger', price: 250, image: 'burger' },
@@ -104,7 +107,7 @@ export default defineComponent({
         // this.fillShopItems(SHOP);
         if ('alt' in window) {
             alt.emit(`${ComponentName}:Ready`);
-            alt.on('OSS:Vue:SetItems', this.fillShopItems);
+            alt.on(`${ComponentName}:Vue:SetItems`, this.fillShopItems);
         }
         // Add Keybinds for In-Menu
         document.addEventListener('keyup', this.handleKeyPress);
@@ -117,7 +120,7 @@ export default defineComponent({
         // document.removeEventListener('mousemove', this.someFunction)
         if ('alt' in window) {
             alt.off(`${ComponentName}:Close`, this.close);
-            alt.off('OSS:Vue:SetItems', this.fillShopItems);
+            alt.off(`${ComponentName}:Vue:SetItems`, this.fillShopItems);
         }
         // Remove Keybinds for In-Menu
         document.removeEventListener('keyup', this.handleKeyPress);
@@ -153,13 +156,32 @@ export default defineComponent({
                 this.selectedAmount[index] = 1;
             console.log(JSON.stringify(shopSystem.ShopItems[0]));
             console.log(index, this.selectedAmount[index]);
-            alt.emit('OSS:Client:HandleShop', shopSystem.ShopItems[index], this.selectedAmount[index]);
+            alt.emit(`${ComponentName}:Client:HandleShop`, shopSystem.ShopItems[index], this.selectedAmount[index]);
             return;
         },
         closePage() {
             if ('alt' in window) {
-                alt.emit('OSS:Vue:CloseShop');
+                alt.emit(`${ComponentName}:Vue:CloseShop`);
             }
+        },
+        ResolvePath,
+        setIncrementAmount(e, amount) {
+            // Clicked a button
+            if (!e) {
+                if (amount <= -1 && this.splitAmount - 1 >= 1) {
+                    this.splitAmount -= 1;
+                    return;
+                }
+
+                if (amount >= 1 && this.splitAmount + 1 <= this.split.item.quantity - 1) {
+                    this.splitAmount += 1;
+                    return;
+                }
+                return;
+            }
+
+            const value = parseFloat(e.target['value']);
+            this.splitAmount = value;
         },
     },
 });

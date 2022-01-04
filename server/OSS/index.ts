@@ -1,11 +1,11 @@
 import Database from '@stuyk/ezmongodb';
 import * as alt from 'alt-server';
 import { ServerBlipController } from '../../server/systems/blip';
+import ChatController from '../../server/systems/chat';
 import { InteractionController } from '../../server/systems/interaction';
-import { ItemFactory } from '../../server/systems/item';
 import { PluginSystem } from '../../server/systems/plugins';
-import { sha256 } from '../../server/utility/encryption';
 import { SYSTEM_EVENTS } from '../../shared/enums/system';
+import { PERMISSIONS } from '../../shared/flags/permissionFlags';
 import IShop from './src/interfaces/IShop';
 import './src/server-events';
 
@@ -14,6 +14,7 @@ const OSS = {
     version: 'v1.0',
     collection: 'shops',
 };
+const PAGENAME = 'ShopUI';
 PluginSystem.registerPlugin(OSS.name, async () => {
     alt.log(`~lg~${OSS.name} ${OSS.version} successfully loaded.`);
     await Database.createCollection(OSS.collection);
@@ -46,6 +47,13 @@ const budsBuyer = [
 ];
 const sellLists = [budsBuyer];
 
+// DEBUGGING Purpose, or maybe it could be used to change prices ingame? ;)
+ChatController.addCommand('Testshop', '/Testshop', PERMISSIONS.ADMIN, testFunction)
+async function testFunction(shopIndex: number, itemIndex: number, newPrice: number) {
+    const fetched = await Database.fetchData<IShop>('buyerIndex', shopIndex, OSS.collection);
+    // await Database.updatePartialData(fetched._id, fetched.data.items.entries().next, newPrice);
+}
+
 alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
     for(let sellIndex = 0; sellIndex < sellLists.length; sellIndex ++) {
         const newSeller: IShop = {
@@ -58,7 +66,6 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
         };
         const dataExists = await Database.fetchData<IShop>('position', SELLERS[sellIndex] as alt.Vector3, OSS.collection);
         if(!dataExists) await Database.insertData(newSeller, OSS.collection, false);
-        alt.log("Created Seller.");
     }
     
     for (let listIndex = 0; listIndex < buyLists.length; listIndex++) {
@@ -72,7 +79,6 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
         };
         const dataExists = await Database.fetchData<IShop>('position', BUYERS[listIndex] as alt.Vector3, OSS.collection);
         if(!dataExists) await Database.insertData(newBuyer, OSS.collection, false);
-        alt.log("Created buyer");
     } 
 });
 
@@ -95,7 +101,7 @@ for (let i = 0; i < BUYERS.length; i++) {
             const allShops = await Database.fetchAllData<IShop>(OSS.collection);
             allShops.forEach((shop, index) => {
                 if (player.pos.isInRange(shop.position as alt.Vector3, INTERACTION_RANGE)) {
-                    alt.emitClient(player, 'OSS:Client:OpenShop', shop.data.items, shop.shopType);
+                    alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, shop.data.items, shop.shopType);
                 }
             });
             return;
@@ -121,7 +127,7 @@ for(let i = 0; i < SELLERS.length;i++) {
             const allShops = await Database.fetchAllData<IShop>(OSS.collection);
             allShops.forEach((shop, index) => {
                 if (player.pos.isInRange(shop.position as alt.Vector3, INTERACTION_RANGE)) {
-                    alt.emitClient(player, 'OSS:Client:OpenShop', shop.data.items, shop.shopType);
+                    alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, shop.data.items, shop.shopType);
                 }
             });
             return;
