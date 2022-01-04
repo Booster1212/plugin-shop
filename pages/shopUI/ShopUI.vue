@@ -1,9 +1,10 @@
 <template>
-    <div class="ShopSystem-Body" id="Mainbody" style="display: block">
+    <div class="ShopSystem-Body" id="Mainbody" style="width: 50%; height: 75%">
         <div class="Main-Background">
             <br />
             <div class="ShopSystem-Header">
-                <Button color="red" id="content" style="border-radius: 25px">Shopmenü schließen</Button>
+                <Button color="red" id="content" style="border-radius: 25px" @click="closePage()">Close</Button>
+                <span>Open Source Shopsystem by Der Lord! & N1X</span>
                 <hr />
             </div>
             <div class="ShopSystem-ItemHolder" v-for="(shopItem, index) in ShopSystem.ShopItems" :key="index">
@@ -15,21 +16,16 @@
                     ><br /><br />
                     <span>{{ shopItem.price }}$</span><br />
                     <hr />
-                    <input
-                        :class="textboxClass"
-                        class="textbox pa-2"
-                        type="number"
-                        placeholder="Amount"
-                        v-model="selectedAmount[index]"
-                    />
+                    <input type="number" placeholder="1" v-model="selectedAmount[index]" />
                     <br />
                     <Button
                         id="buyButton"
                         color="green"
                         :flatten="false"
+                        :padding="2"
                         @click="buyShopItem(index)"
-                        style="background-color: rgba(0, 0, 0, 0.85)"
-                        >Kaufen</Button
+                        style="background-color: rgba(0, 0, 0, 0.85); font-family: monospace"
+                        >Buy me!</Button
                     >
                     <hr />
                 </div>
@@ -38,7 +34,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue';
 import Button from '../../components/Button.vue';
 import Frame from '../../components/Frame.vue';
@@ -48,14 +44,16 @@ import Modal from '../../components/Modal.vue';
 import Module from '../../components/Module.vue';
 import RangeInput from '../../components/RangeInput.vue';
 import Toolbar from '../../components/Toolbar.vue';
+
 const SHOP = [
-    { id: 0, name: 'Burger', price: 250, image: 'burger', type: 'buy' },
-    { id: 1, name: 'Bread', price: 350, image: 'bread', type: 'buy' },
-    { id: 2, name: 'Burger', price: 450, image: 'burger', type: 'buy' },
-    { id: 3, name: 'Bread', price: 550, image: 'bread', type: 'buy' },
-    { id: 4, name: 'Burger', price: 650, image: 'burger', type: 'buy' },
-    { id: 5, name: 'Bread', price: 750, image: 'bread', type: 'buy' },
+    { id: 0, name: 'Burger', price: 250, image: 'burger' },
+    { id: 1, name: 'Bread', price: 350, image: 'bread' },
+    { id: 2, name: 'Burger', price: 450, image: 'burger' },
+    { id: 3, name: 'Bread', price: 550, image: 'bread' },
+    { id: 4, name: 'Burger', price: 650, image: 'burger' },
+    { id: 5, name: 'Bread', price: 750, image: 'bread' },
 ];
+
 // Very Important! The name of the component must match the file name.
 // Don't forget to do this. This is a note so you don't forget.
 const ComponentName = 'ShopUI';
@@ -78,21 +76,17 @@ export default defineComponent({
             shopType: '',
             selectedAmount: [],
             ShopSystem: {
-                ShopItems: {},
-            },
-            Translations: {
-                shopName: 'System',
-                buyName: 'Kaufpreis',
-                inStorage: 'Lagerbestand',
+                ShopItems: [],
             },
         };
     },
     // Called when the page is loaded.
     mounted() {
-        this.openShopView(SHOP);
         // Bind Events to Methods
+        this.fillShopItems(SHOP);
         if ('alt' in window) {
             alt.emit(`${ComponentName}:Ready`);
+            alt.on('OSS:Vue:SetItems', this.fillShopItems);
         }
         // Add Keybinds for In-Menu
         document.addEventListener('keyup', this.handleKeyPress);
@@ -105,49 +99,49 @@ export default defineComponent({
         // document.removeEventListener('mousemove', this.someFunction)
         if ('alt' in window) {
             alt.off(`${ComponentName}:Close`, this.close);
+            alt.off('OSS:Vue:SetItems', this.fillShopItems);
         }
         // Remove Keybinds for In-Menu
         document.removeEventListener('keyup', this.handleKeyPress);
     },
     // Used to define functions you can call with 'this.x'
     methods: {
+        testFunc() {
+            alt.on('OSS:Vue:SetItems', (shopItems) => {
+                console.log('Shop Items ' + JSON.stringify(shopItems));
+                this.fillShopItems(shopItems);
+            });
+        },
         handleKeyPress(e) {
             // Escape Key
             if (e.keyCode === 27 && 'alt' in window) {
                 alt.emit(`${ComponentName}:Close`);
             }
         },
-        openShopView(Items) {
+        fillShopItems(shopItems: Array<String | number>[]) {
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
-            shopSystem.ShopItems = Items;
-            console.log('Filled shop!');
-        },
-        closeShopView() {
-            document.getElementById('Mainbody').style.display = 'none';
-            alt.emit('ShopSystem:Vue:CloseShop');
+            shopSystem.ShopItems = SHOP;
+            /// shopSystem.ShopItems = shopItems;
+            console.log('Filled Shop?');
+            console.log(JSON.stringify(shopItems));
+            return;
         },
         // ShopItem
-        buyShopItem(index) {
+        buyShopItem(index: number) {
+            const shopSystem = { ...this.ShopSystem };
+            this.ShopSystem = shopSystem;
+            if (this.selectedAmount[index] === null || this.selectedAmount[index] === undefined)
+                this.selectedAmount[index] = 1;
+            console.log(JSON.stringify(shopSystem.ShopItems[0]));
             console.log(index, this.selectedAmount[index]);
+            alt.emit('OSS:Client:HandleShop', shopSystem.ShopItems[index], this.selectedAmount[index]);
+            return;
         },
-        sellShopItem() {
-            // N/A
-        },
-    },
-    computed: {
-        textboxClass() {
-            const classes = {};
-
-            if (!this.stack) {
-                classes['textbox-full-width'] = true;
+        closePage() {
+            if ('alt' in window) {
+                alt.emit('OSS:Vue:CloseShop');
             }
-
-            if (this.stack) {
-                classes['mt-2'] = true;
-            }
-
-            return classes;
         },
     },
 });
@@ -165,6 +159,7 @@ export default defineComponent({
     margin-top: 5%;
     padding: 10px;
     display: block;
+    overflow: hidden;
 }
 .Main-Background {
     position: absolute;
@@ -173,9 +168,9 @@ export default defineComponent({
     width: 50vw;
     text-align: center;
     user-select: none;
-    overflow-x: scroll;
     margin: 0 auto;
-    border-radius: 25px;
+    border-radius: 15px;
+    overflow: auto;
 }
 
 #buyButton {
@@ -185,17 +180,17 @@ export default defineComponent({
     position: absolute;
     color: white;
     text-align: center;
-    font-family: 'Chibi';
+    font-family: monospace;
     font-weight: bold;
     font-size: 1.5em;
     width: 100%;
     user-select: none;
     z-index: 100;
-    top: 5px;
+    top: 1vh;
 }
 .ShopSystem-ItemHolder {
     position: relative;
-    top: 1.5vh;
+    top: 7.5vh;
     color: white;
     display: inline-flex;
     flex-direction: row;
@@ -205,34 +200,32 @@ export default defineComponent({
     padding: 25px;
 }
 #Images {
-    width: 128px;
-    height: 128px;
+    width: 96px;
+    height: 96px;
     padding: 2px;
 }
 .ShopSystem-ImageHolder {
     max-height: 150px;
-    overflow: auto;
 }
 .ShopSystem-Items {
     color: white;
     max-width: 200px;
-    font-family: 'CHIBI';
+    font-family: monospace;
     font-weight: bold;
     font-size: 1.2em;
 }
-input[type='number']::-ms-input-placeholder {
+input {
     text-align: center;
 }
 .Main-Background::-webkit-scrollbar {
-    position: absolute;
     width: 0.3em;
+    border-radius: 25px;
 }
 .Main-Background::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.7);
+    border-radius: 25px;
 }
 .Main-Background::-webkit-scrollbar-thumb {
-    background-color: rgb(255, 0, 0);
-    outline: 1px solid rgb(0, 0, 0);
     border-radius: 25px;
 }
 </style>
