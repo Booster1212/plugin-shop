@@ -3,9 +3,7 @@
         <div class="Main-Background">
             <br />
             <div class="ShopSystem-Header">
-                <Button color="red" id="content" style="border-radius: 25px" @click="closePage()">Close</Button>
-                <span>Open Source Shopsystem by Der Lord! & N1X</span>
-                <hr />
+                <Button color="red" id="content" style="border-radius: 10px" @click="closePage()">Close</Button>
             </div>
             <div class="ShopSystem-ItemHolder" v-for="(shopItem, index) in ShopSystem.ShopItems" :key="index">
                 <div class="ShopSystem-Items" v-if="ShopSystem.ShopItems">
@@ -15,7 +13,7 @@
                     <span>{{ shopItem.name }}</span
                     ><br /><br />
                     <span>{{ shopItem.price }}$</span><br />
-                    <hr />
+                    <br />
                     <input type="number" placeholder="1" v-model="selectedAmount[index]" />
                     <br />
                     <Button
@@ -24,10 +22,15 @@
                         :flatten="false"
                         :padding="2"
                         @click="buyShopItem(index)"
-                        style="background-color: rgba(0, 0, 0, 0.85); font-family: monospace"
+                        style="
+                            background-color: rgba(0, 0, 0, 0.85);
+                            font-family: monospace;
+                            border-radius: 10px;
+                            border: 0px;
+                            top: 1vh;
+                        "
                         >Buy me!</Button
                     >
-                    <hr />
                 </div>
             </div>
         </div>
@@ -106,12 +109,6 @@ export default defineComponent({
     },
     // Used to define functions you can call with 'this.x'
     methods: {
-        testFunc() {
-            alt.on('OSS:Vue:SetItems', (shopItems) => {
-                console.log('Shop Items ' + JSON.stringify(shopItems));
-                this.fillShopItems(shopItems);
-            });
-        },
         handleKeyPress(e) {
             // Escape Key
             if (e.keyCode === 27 && 'alt' in window) {
@@ -122,7 +119,7 @@ export default defineComponent({
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
             shopSystem.ShopItems = SHOP;
-            /// shopSystem.ShopItems = shopItems;
+            //  shopSystem.ShopItems = shopItems;
             console.log('Filled Shop?');
             console.log(JSON.stringify(shopItems));
             return;
@@ -148,11 +145,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-@font-face {
-    font-family: 'CHIBI';
-    src: url(./chibi.ttf);
-}
-
 .ShopSystem-Body {
     margin: auto;
     width: 50%;
@@ -169,15 +161,12 @@ export default defineComponent({
     text-align: center;
     user-select: none;
     margin: 0 auto;
-    border-radius: 15px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
     overflow: auto;
 }
-
-#buyButton {
-    margin-top: 10px;
-}
 .ShopSystem-Header {
-    position: absolute;
+    position: sticky;
     color: white;
     text-align: center;
     font-family: monospace;
@@ -185,12 +174,12 @@ export default defineComponent({
     font-size: 1.5em;
     width: 100%;
     user-select: none;
+    top: 0vh;
     z-index: 100;
-    top: 1vh;
 }
 .ShopSystem-ItemHolder {
     position: relative;
-    top: 7.5vh;
+    top: 2vh;
     color: white;
     display: inline-flex;
     flex-direction: row;
@@ -200,8 +189,8 @@ export default defineComponent({
     padding: 25px;
 }
 #Images {
-    width: 96px;
-    height: 96px;
+    width: 128px;
+    height: 128px;
     padding: 2px;
 }
 .ShopSystem-ImageHolder {
@@ -210,22 +199,46 @@ export default defineComponent({
 .ShopSystem-Items {
     color: white;
     max-width: 200px;
-    font-family: monospace;
-    font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
+        'Helvetica Neue', sans-serif;
+    font-weight: none;
     font-size: 1.2em;
+    border: 0.2px solid grey;
+    border-radius: 45px;
+    padding: 60px;
 }
 input {
+    background: black;
+    color: white;
     text-align: center;
+    user-select: none;
+    height: 2.2vh;
+    border: 0px;
+    border-radius: 15px;
+    border-color: white;
 }
-.Main-Background::-webkit-scrollbar {
-    width: 0.3em;
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
     border-radius: 25px;
 }
-.Main-Background::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.7);
-    border-radius: 25px;
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #000000;
 }
-.Main-Background::-webkit-scrollbar-thumb {
-    border-radius: 25px;
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(255, 0, 0);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(255, 0, 0);
+}
+::placeholder {
+    color: white;
+    opacity: 1;
 }
 </style>
