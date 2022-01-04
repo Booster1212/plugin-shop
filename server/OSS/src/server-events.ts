@@ -2,12 +2,23 @@ import * as alt from 'alt-server';
 import { playerFuncs } from '../../../server/extensions/Player';
 import { ItemFactory } from '../../../server/systems/item';
 
-alt.onClient('OSS:Server:HandleShop', async (player: alt.Player, shopItem: any, index: number, amount: number) => {
+alt.onClient('OSS:Server:HandleShop', async (player: alt.Player, shopItem: any, amount: number, type: string) => {
+    const itemToAdd = await ItemFactory.get(shopItem.dbName);
+    const itemIsInInventory = playerFuncs.inventory.isInInventory(player, { name: itemToAdd.name });
     const emptySlot = playerFuncs.inventory.getFreeInventorySlot(player);
-    const addedItem = await ItemFactory.get(shopItem.dbName);
-    alt.log(JSON.stringify(shopItem));
-    alt.log(JSON.stringify(shopItem.name))
-    alt.log(JSON.stringify(addedItem));
-    alt.log(emptySlot);
-    // playerFuncs.inventory.inventoryAdd(player, addedItem, emptySlot.slot);
-});
+    alt.log(JSON.stringify(itemIsInInventory))
+    if(!itemIsInInventory) {
+        itemToAdd.quantity = amount;
+        playerFuncs.inventory.inventoryAdd(player, itemToAdd, emptySlot.slot);
+        playerFuncs.save.field(player, 'inventory', player.data.inventory);
+        playerFuncs.sync.inventory(player);
+        playerFuncs.emit.notification(player, `You've bought ${itemToAdd.name} x${amount} for ${shopItem.price * amount}$!`);
+        return;
+    } else if(itemIsInInventory) {
+        player.data.inventory[itemIsInInventory.index].quantity += amount;
+        playerFuncs.save.field(player, 'inventory', player.data.inventory);
+        playerFuncs.sync.inventory(player);
+        playerFuncs.emit.notification(player, `You've bought ${itemToAdd.name} for ${shopItem.price * amount}$`);
+        return;
+    }
+}); 

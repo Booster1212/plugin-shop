@@ -7,7 +7,7 @@ import { isAnyMenuOpen } from '../../client/utility/menus';
 const PAGE_NAME = 'ShopUI';
 const shopView = await WebViewController.get();
 let items = [];
-
+let xType = '';
 class InternalFunctions implements ViewModel {
     static async open() {
         // Check if any other menu is open before opening this.
@@ -71,12 +71,13 @@ class InternalFunctions implements ViewModel {
      * @memberof InternalFunctions
      */
     static async ready() {
-        shopView.emit('OSS:Vue:SetItems', items);
+        shopView.emit('OSS:Vue:SetItems', items, xType);
     }
 }
 
-alt.on('OSS:Vue:Open', (shopItems) => {
+alt.on('OSS:Vue:Open', (shopItems, type: string) => {
     items = shopItems;
+    xType = type;
     InternalFunctions.open();
     return;
 });
@@ -85,7 +86,7 @@ shopView.on('OSS:Vue:CloseShop', () => {
     InternalFunctions.close();
 });
 
-shopView.on('OSS:Client:HandleShop', (shopItem) => {
-    alt.emitServer('OSS:Server:HandleShop', shopItem);
-    alt.log("CLIENT " + JSON.stringify(shopItem));
+shopView.on('OSS:Client:HandleShop', (shopItem, amount: number, type: string) => {
+    alt.emitServer('OSS:Server:HandleShop', shopItem, amount, type);
+    return;
 });
