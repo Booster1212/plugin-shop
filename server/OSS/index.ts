@@ -16,13 +16,14 @@ import './src/shopLists/buyers/buyer';
 import './src/shopLists/sellers/sellers';
 import './src/shopLists/vendingmachines/vendingItems';
 
-const OSS = {
+export const OSS = {
     name: 'OSS',
     version: 'v1.0',
     collection: 'shops',
     enableVendingmachines: false,
     randomizeBuyers: false, // Will randomize output of vending machines as well.
     randomizeSellers: false, // Randomize drug dealer prices for examples (based on list.)
+    useItemFactory: true // Disable if you want to use items which are not stored into the database "items"-collection.
 };
 const INTERACTION_RANGE = 2;
 
@@ -67,6 +68,35 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
     }
 
     if (OSS.randomizeSellers) {
+        const allShops = await Database.fetchAllData<IShop>(OSS.collection);
+        if (allShops) {
+            allShops.forEach(async (shop, index) => {
+                shop.data.items.forEach((item, main, itemArray) => {
+                    if (shop.shopType === 'sell') {
+                        sellLists.forEach((list, x) => {
+                            list.forEach((entry, index, listArray) => {
+                                if (itemArray[main]['name'] === listArray[index]['name']) {
+                                    itemArray[main]['price'] = getRandomInt(1, listArray[index].price);
+                                }
+                            });
+                        });
+                    }
+                });
+            });
+        }
+    } else if (!OSS.randomizeSellers) {
+        for (let i = 0; i < SELLERS.length; i++) {
+            const dataExists = await Database.fetchData<IShop>('position', SELLERS[i] as alt.Vector3, OSS.collection);
+            if(dataExists) {
+                const updateDocument: IShop = {
+                    data: {
+                        items: sellLists[i]
+                    },
+                    position: dataExists.position
+                }
+                await Database.updatePartialData(dataExists._id, updateDocument, OSS.collection);
+            } else break;
+        }
     }
 
     if (OSS.enableVendingmachines) {

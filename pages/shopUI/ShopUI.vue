@@ -7,7 +7,7 @@
                     color="red"
                     id="content"
                     style="
-                        background-color: rgba(0, 0, 0, 0.75);
+                        background-color: rgba(0, 0, 0, 1);
                         border: 0px;
                         border-top-left-radius: 25px;
                         border-top-right-radius: 0px;
@@ -35,25 +35,17 @@
                         <input type="number" placeholder="1" v-model="selectedAmount[index]" />
                         <br />
                         <Button
-                            id="buyButton"
+                            class="buyButton"
                             :color="buttonColor"
                             :flatten="false"
                             :padding="2"
                             @click="buyShopItem(index)"
-                            style="
-                                background-color: rgba(90, 90, 90, 1);
-                                font-family: monospace;
-                                border-radius: 15px;
-                                border: 15px;
-                                top: 1vh;
-                                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
-                                    Arial, sans-serif, 'Helvetica Neue', sans-serif;
-                            "
                             >{{ buttonText }}</Button
                         >
                     </div>
                 </div>
             </div>
+            <div class="footer">Open Source Shopsystem by Der Lord! For the Athena Framework by Stuyk</div>
         </div>
     </div>
 </template>
@@ -110,7 +102,7 @@ export default defineComponent({
     // Called when the page is loaded.
     mounted() {
         // Bind Events to Methods
-        // this.fillShopItems(SHOP); // Debugging Purpose
+        this.fillShopItems(SHOP); // Debugging Purpose
         if ('alt' in window) {
             alt.emit(`${ComponentName}:Ready`);
             alt.on(`${ComponentName}:Vue:SetItems`, this.fillShopItems);
@@ -142,8 +134,8 @@ export default defineComponent({
         fillShopItems(shopItems: Array<String | number>[], type: string) {
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
-            // shopSystem.ShopItems = SHOP; // Debugging Purpose
-            shopSystem.ShopItems = shopItems;
+            shopSystem.ShopItems = SHOP; // Debugging Purpose
+            // shopSystem.ShopItems = shopItems;
             if (type === 'sell') {
                 this.buttonText = 'Sell';
                 this.buttonColor = 'red';
@@ -219,7 +211,8 @@ export default defineComponent({
 .ShopSystem-ItemHolder {
     position: relative;
     max-width: 8vw;
-    top: 2vh;
+    max-height: 50vh;
+    top: 0vh;
     color: white;
     display: inline-flex;
     flex-direction: row;
@@ -227,6 +220,7 @@ export default defineComponent({
     margin: auto;
     user-select: none;
     padding: 1.5vw;
+    padding-bottom: 0.5vh;
     right: 0.7vw;
 }
 #Images {
@@ -242,19 +236,17 @@ export default defineComponent({
 .ShopSystem-Items {
     color: white;
     width: 350px;
-    height: 300px;
+    height: 270px;
     max-width: 250px;
-    max-height: 250px;
+    max-height: 270px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
         'Helvetica Neue', sans-serif;
     font-weight: none;
     font-size: 1em;
-    border: 1px solid grey;
-    border-radius: 25px;
-    padding: 30px;
-}
-#buyButton {
-    max-height: 2vw;
+    background: rgba(138, 142, 146, 0.205);
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    padding: 25px;
 }
 input {
     background-color: rgba(90, 90, 90, 1);
@@ -273,6 +265,21 @@ input {
     position: relative;
     top: 1.5vh;
     align-items: center;
+}
+.buyButton {
+    background-color: rgba(90, 90, 90, 1);
+    border-radius: 15px;
+    border: 15px;
+    top: 1vh;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
+        'Helvetica Neue', sans-serif;
+}
+.footer {
+    position: relative;
+    background: rgba(255, 0, 0, 0.35);
+    margin-top: 10px;
+    height: 25px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 .descriptions {
     position: relative;
@@ -293,17 +300,17 @@ input {
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #000000;
+    background: rgba(0, 0, 0, 0.35);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: rgb(255, 0, 0);
+    background: rgba(255, 0, 0, 0.35);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: rgb(255, 0, 0);
+    background: rgba(255, 0, 0, 0.35);
 }
 ::placeholder {
     color: white;
