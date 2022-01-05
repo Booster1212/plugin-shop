@@ -21,10 +21,17 @@ const OSS = {
     name: 'OSS',
     version: 'v1.0',
     collection: 'shops',
+
     enableVendingmachines: false,
+
     randomizeBuyers: true,
+    randomizeBuyPriceMax: 250, // Price can be anything betweenn 1-250 (max)
+
     randomizeDealers: false,
+    randomizeSellPriceMax: 250, // Price can be anything betweenn 1-250 (max)
+
     randomizeVending: false,
+    randomizeVendingPriceMax: 250, // Price can be anything betweenn 1-250 (max)
 };
 const INTERACTION_RANGE = 2;
 
@@ -36,6 +43,27 @@ PluginSystem.registerPlugin(OSS.name, async () => {
 });
 
 alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
+    if (OSS.randomizeBuyers || OSS.randomizeDealers || OSS.randomizeVending) {
+        const allShops = await Database.fetchAllData<IShop>(OSS.collection);
+        if (allShops) {
+            allShops.forEach(async (shop, index) => {
+                shop.data.items.forEach((item, x, itemArray) => {
+                    if (shop.shopType === 'buy') {
+                        itemArray[x]['price'] = getRandomInt(1, OSS.randomizeBuyPriceMax); // Add array price value as max here
+                        alt.log('randomized all buying prices!');
+                    }
+                });
+                const updateDocument: IShop = {
+                    data: {
+                        items: shop.data.items,
+                    },
+                    position: shop.position,
+                };
+                await Database.updatePartialData(shop._id, updateDocument, OSS.collection);
+            });
+        }
+    }
+
     if (OSS.enableVendingmachines) {
         for (let x = 0; x < vendingMachines.length; x++) {
             for (let vendIndex = 0; vendIndex < vendingItems.length; vendIndex++) {
@@ -166,4 +194,11 @@ for (let vendingIndex = 0; vendingIndex < vendingMachines.length; vendingIndex++
             });
         },
     });
+}
+
+// Thanks to developer docs of mozilla kekw.
+function getRandomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
 }
