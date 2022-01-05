@@ -47,10 +47,18 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
         const allShops = await Database.fetchAllData<IShop>(OSS.collection);
         if (allShops) {
             allShops.forEach(async (shop, index) => {
-                shop.data.items.forEach((item, x, itemArray) => {
+                shop.data.items.forEach((item, main, itemArray) => {
                     if (shop.shopType === 'buy') {
-                        itemArray[x]['price'] = getRandomInt(1, OSS.randomizeBuyPriceMax); // Add array price value as max here
-                        alt.log('randomized all buying prices!');
+                        buyLists.forEach((list, x) => {
+                            list.forEach((entry, index, listArray) => {
+                                if(itemArray[main]['name'] === listArray[index]['name']) {
+                                    alt.log(listArray[index]['name']);
+                                    alt.log(listArray[index]['price']);
+                                    itemArray[main]['price'] = getRandomInt(1, listArray[index].price);
+                                }
+                            });
+                        });
+                       // itemArray[x]['price'] = getRandomInt(1, OSS.randomizeBuyPriceMax); // Add array price value as max here
                     }
                 });
                 const updateDocument: IShop = {
