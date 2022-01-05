@@ -24,29 +24,34 @@
                         <!--  
                         <img :src="`../../../public/assets/icons/${shopItem.image}.png`" id="Images" /> -->
                     </div>
-                    <span>{{ shopItem.name }}</span
-                    ><br /><br />
-                    <span>{{ shopItem.price }}$</span><br />
-                    <br />
-                    <input type="number" placeholder="1" v-model="selectedAmount[index]" />
-                    <br /><br />
-                    <Button
-                        id="buyButton"
-                        :color="buttonColor"
-                        :flatten="false"
-                        :padding="2"
-                        @click="buyShopItem(index)"
-                        style="
-                            background-color: rgba(90, 90, 90, 1);
-                            font-family: monospace;
-                            border-radius: 0px;
-                            border: 15px;
-                            top: 1vh;
-                            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial,
-                                sans-serif, 'Helvetica Neue', sans-serif;
-                        "
-                        >{{ buttonText }}</Button
-                    >
+                    <div class="descriptions">
+                        <span>{{ shopItem.name }}</span
+                        ><br /><br /><br /><br />
+                        <br />
+                    </div>
+                    <hr />
+                    <span>{{ shopItem.price }}$ / each</span><br />
+                    <div class="inputButtons">
+                        <input type="number" placeholder="1" v-model="selectedAmount[index]" />
+                        <br />
+                        <Button
+                            id="buyButton"
+                            :color="buttonColor"
+                            :flatten="false"
+                            :padding="2"
+                            @click="buyShopItem(index)"
+                            style="
+                                background-color: rgba(90, 90, 90, 1);
+                                font-family: monospace;
+                                border-radius: 15px;
+                                border: 15px;
+                                top: 1vh;
+                                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
+                                    Arial, sans-serif, 'Helvetica Neue', sans-serif;
+                            "
+                            >{{ buttonText }}</Button
+                        >
+                    </div>
                 </div>
             </div>
         </div>
@@ -66,7 +71,7 @@ import Toolbar from '../../components/Toolbar.vue';
 import ResolvePath from '../../utility/pathResolver';
 
 const SHOP = [
-    { id: 0, name: 'Burger', price: 250, image: 'burger' },
+    { id: 0, name: 'Hochleistungsreinigungsgerät', price: 250, image: 'burger' },
     { id: 1, name: 'Bread', price: 350, image: 'bread' },
     { id: 2, name: 'Burger', price: 450, image: 'burger' },
     { id: 3, name: 'Bread', price: 550, image: 'bread' },
@@ -93,6 +98,7 @@ export default defineComponent({
     // Used to define state
     data() {
         return {
+            shopType: 'buy',
             buttonText: 'Buy me!',
             buttonColor: 'green',
             selectedAmount: [],
@@ -104,7 +110,7 @@ export default defineComponent({
     // Called when the page is loaded.
     mounted() {
         // Bind Events to Methods
-        // this.fillShopItems(SHOP);
+        // this.fillShopItems(SHOP); // Debugging Purpose
         if ('alt' in window) {
             alt.emit(`${ComponentName}:Ready`);
             alt.on(`${ComponentName}:Vue:SetItems`, this.fillShopItems);
@@ -136,15 +142,16 @@ export default defineComponent({
         fillShopItems(shopItems: Array<String | number>[], type: string) {
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
-            // shopSystem.ShopItems = SHOP;
+            // shopSystem.ShopItems = SHOP; // Debugging Purpose
             shopSystem.ShopItems = shopItems;
-            console.log(type);
             if (type === 'sell') {
                 this.buttonText = 'Sell';
                 this.buttonColor = 'red';
+                this.shopType = 'sell';
             } else if (type === 'buy') {
                 this.buttonText = 'Buy me!';
                 this.buttonColor = 'green';
+                this.shopType = 'buy';
             }
             return;
         },
@@ -156,7 +163,12 @@ export default defineComponent({
                 this.selectedAmount[index] = 1;
             console.log(JSON.stringify(shopSystem.ShopItems[0]));
             console.log(index, this.selectedAmount[index]);
-            alt.emit(`${ComponentName}:Client:HandleShop`, shopSystem.ShopItems[index], this.selectedAmount[index]);
+            alt.emit(
+                `${ComponentName}:Client:HandleShop`,
+                shopSystem.ShopItems[index],
+                this.selectedAmount[index],
+                this.shopType,
+            );
             return;
         },
         closePage() {
@@ -165,24 +177,6 @@ export default defineComponent({
             }
         },
         ResolvePath,
-        setIncrementAmount(e, amount) {
-            // Clicked a button
-            if (!e) {
-                if (amount <= -1 && this.splitAmount - 1 >= 1) {
-                    this.splitAmount -= 1;
-                    return;
-                }
-
-                if (amount >= 1 && this.splitAmount + 1 <= this.split.item.quantity - 1) {
-                    this.splitAmount += 1;
-                    return;
-                }
-                return;
-            }
-
-            const value = parseFloat(e.target['value']);
-            this.splitAmount = value;
-        },
     },
 });
 </script>
@@ -207,7 +201,7 @@ export default defineComponent({
     margin: 0 auto;
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
-    overflow: auto;
+    overflow-y: scroll;
 }
 .ShopSystem-Header {
     position: sticky;
@@ -274,6 +268,22 @@ input {
     border-color: white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
         'Helvetica Neue', sans-serif;
+}
+.inputButtons {
+    position: relative;
+    top: 1.5vh;
+    align-items: center;
+}
+.descriptions {
+    position: relative;
+    top: 1.5vh;
+    display: inline-block; /* or inline-block */
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    max-height: 4.4em;
+    line-height: 1.4em;
+    max-width: 7vw;
 }
 /* width */
 ::-webkit-scrollbar {
