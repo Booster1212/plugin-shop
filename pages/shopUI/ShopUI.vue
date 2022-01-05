@@ -21,8 +21,6 @@
                 <div class="ShopSystem-Items" v-if="ShopSystem.ShopItems">
                     <div class="ShopSystem-ImageHolder">
                         <img :src="ResolvePath(`../../assets/icons/${shopItem.image}.png`)" id="Images" />
-                        <!--  
-                        <img :src="`../../../public/assets/icons/${shopItem.image}.png`" id="Images" /> -->
                     </div>
                     <div class="descriptions">
                         <span>{{ shopItem.name }}</span
@@ -45,7 +43,6 @@
                     </div>
                 </div>
             </div>
-            <div class="footer">Open Source Shopsystem by Der Lord! For the Athena Framework by Stuyk</div>
         </div>
     </div>
 </template>
@@ -102,7 +99,7 @@ export default defineComponent({
     // Called when the page is loaded.
     mounted() {
         // Bind Events to Methods
-        this.fillShopItems(SHOP); // Debugging Purpose
+        // this.fillShopItems(SHOP); // Debugging Purpose
         if ('alt' in window) {
             alt.emit(`${ComponentName}:Ready`);
             alt.on(`${ComponentName}:Vue:SetItems`, this.fillShopItems);
@@ -134,8 +131,8 @@ export default defineComponent({
         fillShopItems(shopItems: Array<String | number>[], type: string) {
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
-            shopSystem.ShopItems = SHOP; // Debugging Purpose
-            // shopSystem.ShopItems = shopItems;
+            // shopSystem.ShopItems = SHOP; // Debugging Purpose
+            shopSystem.ShopItems = shopItems;
             if (type === 'sell') {
                 this.buttonText = 'Sell';
                 this.buttonColor = 'red';
@@ -275,11 +272,12 @@ input {
         'Helvetica Neue', sans-serif;
 }
 .footer {
-    position: relative;
+    position: sticky;
     background: rgba(255, 0, 0, 0.35);
     margin-top: 10px;
     height: 25px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    z-index: 350;
 }
 .descriptions {
     position: relative;

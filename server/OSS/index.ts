@@ -63,7 +63,7 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
                     position: dataExists.position
                 }
                 await Database.updatePartialData(dataExists._id, updateDocument, OSS.collection);
-            } else break;
+            }
         }
     }
 

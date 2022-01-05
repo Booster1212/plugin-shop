@@ -7,6 +7,7 @@ alt.onClient(
     `${PAGENAME}:Server:HandleShop`,
     async (player: alt.Player, shopItem: any, amount: number, type: string) => {
         const itemToAdd = await ItemFactory.get(shopItem.dbName);
+        if(!itemToAdd) return;
         const itemIsInInventory = playerFuncs.inventory.isInInventory(player, { name: itemToAdd.name });
         const emptySlot = playerFuncs.inventory.getFreeInventorySlot(player);
         if (type === 'buy') {
@@ -42,11 +43,18 @@ alt.onClient(
             }
         } else {
             if (itemIsInInventory) {
-                if(player.data.inventory[itemIsInInventory.index].quantity - amount <= 0) return;
+                if(amount > player.data.inventory[itemIsInInventory.index].quantity) {
+                    playerFuncs.emit.notification(player, `Invalid action.`);
+                    return;
+                }
                 player.data.inventory[itemIsInInventory.index].quantity -= amount;
+                if(player.data.inventory[itemIsInInventory.index].quantity <= 1) {
+                    playerFuncs.inventory.findAndRemove(player, player.data.inventory[itemIsInInventory.index].name);
+                }
                 playerFuncs.save.field(player, 'inventory', player.data.inventory);
                 playerFuncs.sync.inventory(player);
                 playerFuncs.emit.notification(player, `You've sold ${itemToAdd.name} for ${shopItem.price * amount}$`);
+                playerFuncs.currency.add(player, CurrencyTypes.CASH, shopItem.price * amount);
                 return;
             }
         }
