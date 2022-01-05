@@ -15,23 +15,14 @@ import './src/server-events';
 import './src/shopLists/buyers/buyer';
 import './src/shopLists/sellers/sellers';
 import './src/shopLists/vendingmachines/vendingItems';
-import { items } from '../core-items/src/items';
 
 const OSS = {
     name: 'OSS',
     version: 'v1.0',
     collection: 'shops',
-
     enableVendingmachines: false,
-
-    randomizeBuyers: true,
-    randomizeBuyPriceMax: 250, // Price can be anything betweenn 1-250 (max)
-
-    randomizeDealers: false,
-    randomizeSellPriceMax: 250, // Price can be anything betweenn 1-250 (max)
-
-    randomizeVending: false,
-    randomizeVendingPriceMax: 250, // Price can be anything betweenn 1-250 (max)
+    randomizeBuyers: false, // Will randomize output of vending machines as well.
+    randomizeSellers: false, // Randomize drug dealer prices for examples (based on list.)
 };
 const INTERACTION_RANGE = 2;
 
@@ -43,7 +34,7 @@ PluginSystem.registerPlugin(OSS.name, async () => {
 });
 
 alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
-    if (OSS.randomizeBuyers || OSS.randomizeDealers || OSS.randomizeVending) {
+    if (OSS.randomizeBuyers) {
         const allShops = await Database.fetchAllData<IShop>(OSS.collection);
         if (allShops) {
             allShops.forEach(async (shop, index) => {
@@ -51,25 +42,31 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
                     if (shop.shopType === 'buy') {
                         buyLists.forEach((list, x) => {
                             list.forEach((entry, index, listArray) => {
-                                if(itemArray[main]['name'] === listArray[index]['name']) {
-                                    alt.log(listArray[index]['name']);
-                                    alt.log(listArray[index]['price']);
+                                if (itemArray[main]['name'] === listArray[index]['name']) {
                                     itemArray[main]['price'] = getRandomInt(1, listArray[index].price);
                                 }
                             });
                         });
-                       // itemArray[x]['price'] = getRandomInt(1, OSS.randomizeBuyPriceMax); // Add array price value as max here
                     }
                 });
-                const updateDocument: IShop = {
-                    data: {
-                        items: shop.data.items,
-                    },
-                    position: shop.position,
-                };
-                await Database.updatePartialData(shop._id, updateDocument, OSS.collection);
             });
         }
+    } else if (!OSS.randomizeBuyers) {
+        for (let i = 0; i < BUYERS.length; i++) {
+            const dataExists = await Database.fetchData<IShop>('position', BUYERS[i] as alt.Vector3, OSS.collection);
+            if(dataExists) {
+                const updateDocument: IShop = {
+                    data: {
+                        items: buyLists[i]
+                    },
+                    position: dataExists.position
+                }
+                await Database.updatePartialData(dataExists._id, updateDocument, OSS.collection);
+            } else break;
+        }
+    }
+
+    if (OSS.randomizeSellers) {
     }
 
     if (OSS.enableVendingmachines) {
