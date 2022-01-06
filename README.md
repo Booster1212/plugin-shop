@@ -71,3 +71,5 @@ export const OSS = {
 
 ![image](https://user-images.githubusercontent.com/82890183/148335389-30f30d20-1228-45e0-b668-959eb37f7317.png)
 
+Join the plugin Discord -> https://discord.gg/swBPcKdzzy
+
