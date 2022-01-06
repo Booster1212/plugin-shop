@@ -6,12 +6,12 @@ export const SELLERS: alt.Vector3[] = [
     // { Add stuff yourself } Just another seller, INDEX 1 -> The secoond list will get into this position.
 ];
 
-export const budsBuyer = [
+const burgerBuyer = [
     { name: 'Burger', dbName: 'burger', price: 330, image: 'crate' }, // SellList INDEX -> 0
     // { Add stuff yourself. } Second Items for SELLERS Index -> 0
 ];
-export const anotherExampleList = [
+const anotherExampleList = [
     // { Fill me! } -> Index 0
 ];
 
-export const sellLists = [budsBuyer, /*anotherExampleList*/]; // Dont forget to add custom item lists here
+export const sellLists = [burgerBuyer, /*anotherExampleList*/]; // Dont forget to add custom item lists here

@@ -5,11 +5,10 @@ import ChatController from '../../server/systems/chat';
 import { InteractionController } from '../../server/systems/interaction';
 import { PluginSystem } from '../../server/systems/plugins';
 import { SYSTEM_EVENTS } from '../../shared/enums/system';
-import { PERMISSIONS } from '../../shared/flags/permissionFlags';
 import vendingMachines from '../../shared/information/vendingMachines';
 import { BUYERS, buyLists } from './src/shopLists/buyers/buyer';
 import { SELLERS, sellLists } from './src/shopLists/sellers/sellers';
-import { vendingItems, vendingList } from './src/shopLists/vendingmachines/vendingItems';
+import { vendingList } from './src/shopLists/vendingmachines/vendingItems';
 import IShop from './src/interfaces/IShop';
 import './src/server-events';
 import './src/shopLists/buyers/buyer';
@@ -23,7 +22,6 @@ export const OSS = {
     enableVendingmachines: false,
     randomizeBuyers: false, // Will randomize output of vending machines as well.
     randomizeSellers: false, // Randomize drug dealer prices for examples (based on list.)
-    useItemFactory: true // Disable if you want to use items which are not stored into the database "items"-collection.
 };
 const INTERACTION_RANGE = 2;
 
@@ -101,7 +99,7 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
 
     if (OSS.enableVendingmachines) {
         for (let x = 0; x < vendingMachines.length; x++) {
-            for (let vendIndex = 0; vendIndex < vendingItems.length; vendIndex++) {
+            for (let vendIndex = 0; vendIndex < vendingList.length; vendIndex++) {
                 const newMachine: IShop = {
                     sellerIndex: vendIndex,
                     shopType: 'buy',
@@ -125,7 +123,7 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
                 );
                 if (!dataExists) await Database.insertData(newMachine, OSS.collection, false);
             }
-        }
+        } 
     }
 
     for (let sellIndex = 0; sellIndex < sellLists.length; sellIndex++) {
@@ -231,7 +229,7 @@ for (let vendingIndex = 0; vendingIndex < vendingMachines.length; vendingIndex++
     });
 }
 
-// Thanks to developer docs of mozilla kekw.
+// Thanks to developer docs of mozilla.
 function getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
