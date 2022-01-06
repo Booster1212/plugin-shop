@@ -13,6 +13,19 @@ This plugin is based on Athena's ItemFactory so you'll need items in the databas
 
 # Setup (Plugin)
 
+- Drop ShopUI into a folder called "shopUI" inside of src-webviews/pages
+- Drop server/client files into OSS folders -> src/core/client-plugins, client stuff here -> src/core/plugins -> server stuff here.
+
+
+```typescript
+Imports (Client) ->
+import './OSS/view';
+import './OSS/src/client-events';
+
+Imports (Server) ->
+import './OSS/index';
+```
+
 # Setup (Shop - Buy)
 ```ts
 import * as alt from 'alt-server';
