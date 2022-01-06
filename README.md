@@ -24,6 +24,10 @@ import './OSS/src/client-events';
 
 Imports (Server) ->
 import './OSS/index';
+
+// src-webviews/pages/components.ts ->
+import ShopUI from './shopUI/ShopUI.vue';
+ShopUI: shallowRef(ShopUI)
 ```
 
 # Setup (Shop - Buy)
