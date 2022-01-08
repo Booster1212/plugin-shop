@@ -6,12 +6,17 @@ export const SELLERS: alt.Vector3[] = [
     // { Add stuff yourself } Just another seller, INDEX 1 -> The secoond list will get into this position.
 ];
 
+// Used to give all the shops are different blip, just copy the line as often as you need it.
+export const sellersBlips = [
+    { sprite: 52, color: 1, text: 'Shop Index ZERO >> SELL', scale: 1 }, // Index 0
+];
+
 const burgerBuyer = [
     { name: 'Burger', dbName: 'burger', price: 330, image: 'crate' }, // SellList INDEX -> 0
     // { Add stuff yourself. } Second Items for SELLERS Index -> 0
 ];
 const anotherExampleList = [
-    // { Fill me! } -> Index 0
+    // { Fill me! } -> Index 1
 ];
 
 export const sellLists = [burgerBuyer, /*anotherExampleList*/]; // Dont forget to add custom item lists here

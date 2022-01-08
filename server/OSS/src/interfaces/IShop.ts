@@ -6,6 +6,12 @@ export default interface IShop {
     shopType?: string; // Buy || sell
     data: {
         items?: {}[]
+    },
+    blipData?: {
+        sprite: number;
+        scale: number;
+        shortRange: boolean;
+        color: number;
     }
     position: alt.Vector3,
 }
