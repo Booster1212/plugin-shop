@@ -13,6 +13,23 @@ This plugin is based on Athena's ItemFactory so you'll need items in the databas
 
 # Setup (Plugin)
 
+- Drop ShopUI into a folder called "shopUI" inside of src-webviews/pages
+- Drop server/client files into OSS folders -> src/core/client-plugins, client stuff here -> src/core/plugins -> server stuff here.
+
+
+```typescript
+Imports (Client) ->
+import './OSS/view';
+import './OSS/src/client-events';
+
+Imports (Server) ->
+import './OSS/index';
+
+// src-webviews/pages/components.ts ->
+import ShopUI from './shopUI/ShopUI.vue';
+ShopUI: shallowRef(ShopUI)
+```
+
 # Setup (Shop - Buy)
 ```ts
 import * as alt from 'alt-server';
@@ -24,13 +41,18 @@ export const BUYERS: alt.Vector3[] = [
 
 // Every shop CAN hold individual items, or you can just go ahead fill one list for all 24/7 and just fill the POS-Array.
 // Example if you fill Index Zero 0 - 9 just fill in "shopList" x9 Times into buyLists.
-export const shopList = [
+const shopList = [
     { name: 'Bread', dbName: 'bread', price: 3450, image: 'crate' }
+    /* { name: 'Northern Haze Seeds', dbName: 'Northern Haze Seeds', price: '75', image: 'crate' },
+    { name: 'Lemon Haze Seeds', dbName: 'Lemon Haze Seeds', price: '85', image: 'crate' },
+    { name: 'OG Kush Seeds', dbName: 'OG Kush Seeds', price: '115', image: 'crate' },
+    { name: 'Mango Kush Seeds', dbName: 'Mango Kush Seeds', price: '125', image: 'crate' },
+    { name: 'Purple Haze Seeds', dbName: 'Purple Haze Seeds', price: '105', image: 'crate' }, ..... */
 ]; // Shop INDEX -> 0
 
-export const foodList= [{ name: 'Burger', dbName: 'burger', price: 350, image: 'crate' }]; // Shop INDEX -> 1
-
-export const buyLists = [shopList, foodList]; // ADD YOUR LISTS HERE!
+const foodList = [{ name: 'Burger', dbName: 'burger', price: 350, image: 'crate' }]; // Shop INDEX -> 1
+// const anotherExampleList = [];
+export const buyLists = [shopList, foodList, /*anotherExampleList*/]; // ADD YOUR LISTS HERE!
 ```
 
 # Set (Shop - Sell)
@@ -43,16 +65,15 @@ export const SELLERS: alt.Vector3[] = [
     // { Add stuff yourself } Just another seller, INDEX 1 -> The secoond list will get into this position.
 ];
 
-export const budsBuyer = [
+const burgerBuyer = [
     { name: 'Burger', dbName: 'burger', price: 330, image: 'crate' }, // SellList INDEX -> 0
     // { Add stuff yourself. } Second Items for SELLERS Index -> 0
 ];
-export const anotherExampleList = [
+const anotherExampleList = [
     // { Fill me! } -> Index 0
 ];
 
-export const sellLists = [budsBuyer, /*anotherExampleList*/]; // Dont forget to add custom item lists here
-
+export const sellLists = [burgerBuyer, /*anotherExampleList*/]; // Dont forget to add custom item lists here
 ```
 
 # Settings
@@ -73,3 +94,4 @@ export const OSS = {
 
 ![image](https://user-images.githubusercontent.com/82890183/148634183-00270cd2-ba69-4a46-94ba-58434967c890.png)
 
+Join the plugin Discord -> https://discord.gg/Pk6gQ2agbQ
