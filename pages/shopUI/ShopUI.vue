@@ -1,52 +1,45 @@
 <template>
-    <div class="ShopSystem-Body" id="Mainbody" style="width: 50%; height: 75%">
-        <div class="Main-Background">
-            <br />
-            <div class="ShopSystem-Header">
-                <Button
-                    color="red"
-                    id="content"
-                    style="
-                        background-color: rgba(0, 0, 0, 1);
-                        border: 0px;
-                        border-top-left-radius: 25px;
-                        border-top-right-radius: 0px;
-                        margin-top: -2vh;
-                    "
-                    @click="closePage()"
-                    >Close</Button
-                >
-            </div>
-            <div class="ShopSystem-ItemHolder" v-for="(shopItem, index) in ShopSystem.ShopItems" :key="index">
-                <div class="ShopSystem-Items" v-if="ShopSystem.ShopItems">
-                    <div class="ShopSystem-ImageHolder">
-                        <img :src="ResolvePath(`../../assets/icons/${shopItem.image}.png`)" id="Images" />
-                    </div>
-                    <div class="descriptions">
-                        <span>{{ shopItem.name }}</span
-                        ><br /><br /><br /><br />
-                        <br />
-                    </div>
-                    <hr />
-                    <span>{{ shopItem.price }}$ / each</span><br />
-                    <div class="inputButtons">
-                        <input type="number" placeholder="1" v-model="selectedAmount[index]" />
-                        <br />
-                        <Button
-                            class="buyButton"
-                            :color="buttonColor"
-                            :flatten="false"
-                            :padding="2"
-                            @click="buyShopItem(index)"
-                            >{{ buttonText }}</Button
-                        >
+    <div class="shopContainer" id="Mainbody" style="width: 50%; height: 75%">
+        <div class="shopBackground">
+            <div class="shopWrapper">
+                <div class="shopItem" v-for="(shopItem, index) in ShopSystem.ShopItems" :key="index">
+                    <div class="item" v-if="ShopSystem.ShopItems">
+                        <div class="image">
+                            <img :src="ResolvePath(`../../assets/icons/${shopItem.image}.png`)" id="Images" />
+                        </div>
+                        <div class="descriptions">
+                            <span>{{ shopItem.name }}</span
+                            ><br /><br /><br /><br />
+                            <br />
+                        </div>
+                        <hr />
+                        <span>{{ shopItem.price }}$ / each</span><br />
+                        <div class="inputButtons">
+                            <input type="number" placeholder="1" v-model="selectedAmount[index]" />
+                            <Button
+                                class="btn-grad"
+                                :color="buttonColor"
+                                :flatten="false"
+                                :padding="2"
+                                @click="buyShopItem(index)"
+                                >{{ buttonText }}</Button
+                            >
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="decoration" style="position: relative">
+            <div class="logo"></div>
+            <div class="search-bar">
+                <input type="text" placeholder="" required />
+                <div class="search-icon"></div>
+            </div>
+            <Button color="red" class="btn-close" @click="closePage()">Close</Button>
+        </div>
     </div>
 </template>
-
+ 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Button from '../../components/Button.vue';
@@ -60,12 +53,18 @@ import Toolbar from '../../components/Toolbar.vue';
 import ResolvePath from '../../utility/pathResolver';
 
 const SHOP = [
-    { id: 0, name: 'Hochleistungsreinigungsgerät', price: 250, image: 'burger' },
+    { id: 0, name: 'Hochleistungsreinigungsgerä ich töte kacke gerne', price: 250, image: 'burger' },
     { id: 1, name: 'Bread', price: 350, image: 'bread' },
     { id: 2, name: 'Burger', price: 450, image: 'burger' },
     { id: 3, name: 'Bread', price: 550, image: 'bread' },
     { id: 4, name: 'Burger', price: 650, image: 'burger' },
     { id: 5, name: 'Bread', price: 750, image: 'bread' },
+    { id: 6, name: 'Bread', price: 750, image: 'bread' },
+    { id: 7, name: 'Bread', price: 750, image: 'bread' },
+    { id: 8, name: 'Bread', price: 750, image: 'bread' },
+    { id: 9, name: 'Bread', price: 750, image: 'bread' },
+    { id: 10, name: 'Bread', price: 750, image: 'bread' },
+    { id: 11, name: 'Bread', price: 750, image: 'bread' },
 ];
 
 // Very Important! The name of the component must match the file name.
@@ -99,7 +98,7 @@ export default defineComponent({
     // Called when the page is loaded.
     mounted() {
         // Bind Events to Methods
-        // this.fillShopItems(SHOP); // Debugging Purpose
+        this.fillShopItems(SHOP); // Debugging Purpose
         if ('alt' in window) {
             alt.emit(`${ComponentName}:Ready`);
             alt.on(`${ComponentName}:Vue:SetItems`, this.fillShopItems);
@@ -131,8 +130,8 @@ export default defineComponent({
         fillShopItems(shopItems: Array<String | number>[], type: string) {
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
-            // shopSystem.ShopItems = SHOP; // Debugging Purpose
-            shopSystem.ShopItems = shopItems;
+            shopSystem.ShopItems = SHOP; // Debugging Purpose
+            // shopSystem.ShopItems = shopItems;
             if (type === 'sell') {
                 this.buttonText = 'Sell';
                 this.buttonColor = 'red';
@@ -169,94 +168,123 @@ export default defineComponent({
     },
 });
 </script>
-
+ 
 <style scoped>
-.ShopSystem-Body {
-    margin: auto;
-    width: 50%;
-    margin-top: 5%;
-    padding: 0px;
-    display: block;
+/* SHOPWRAPPER - DO NOT MODIFY */
+.shopWrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
 }
-.Main-Background {
+
+.shopContainer {
+    width: 60vw;
+    padding: 0px;
+    height: auto;
+}
+
+.shopItem {
+    position: relative;
+    color: white;
+    user-select: none;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.shopItem .item {
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
+        'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    font-weight: none;
+    font-size: 1em;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+.shopItem .image {
+    max-height: 150px;
+}
+
+.shopItem .descriptions {
+    position: relative;
+    margin-top: 1.5vh;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    max-height: 4.4em;
+    line-height: 1.4em;
+    text-align: center;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.shopBackground {
     position: absolute;
     background: rgba(0, 0, 0, 0.75);
-    right: 59vw;
-    top: 5vh;
-    height: 65vh;
-    width: 40vw;
+    left: 10vw;
+    top: 10vh;
+    height: 80vh;
+    width: 50vw;
     text-align: center;
     user-select: none;
     margin: 0 auto;
-    border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
-.ShopSystem-Header {
-    position: sticky;
-    color: white;
-    text-align: center;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
-        'Helvetica Neue', sans-serif;
-    font-weight: bold;
-    font-size: 1.5em;
-    width: 100%;
-    user-select: none;
-    top: 0vh;
-    z-index: 300;
-}
-.ShopSystem-ItemHolder {
-    position: relative;
-    max-width: 8vw;
-    max-height: 50vh;
-    top: 0vh;
-    color: white;
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    margin: auto;
-    user-select: none;
-    padding: 1.5vw;
-    padding-bottom: 0.5vh;
-    right: 0.7vw;
-}
+
 #Images {
-    max-width: 128px;
     width: 64px;
     height: 64px;
     max-height: 128px;
-    padding: 2px;
+    padding-top: 20px;
 }
-.ShopSystem-ImageHolder {
-    max-height: 150px;
+
+.decoration {
+    width: 15vw;
+    height: 75vh;
+    background: linear-gradient(180deg, rgba(35, 39, 42, 1) 0%, rgba(44, 47, 51, 0.7511379551820728) 100%),
+        url('shopUI.jpg');
+    float: right;
+    background-size: cover;
+    background-position: center;
+    padding-top: 0;
 }
-.ShopSystem-Items {
+
+.decoration input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
     color: white;
-    width: 350px;
-    height: 270px;
-    max-width: 250px;
-    max-height: 270px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
-        'Helvetica Neue', sans-serif;
-    font-weight: none;
-    font-size: 1em;
-    background: rgba(138, 142, 146, 0.205);
-    border-top-left-radius: 50px;
-    border-bottom-right-radius: 50px;
-    padding: 25px;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    outline: none;
 }
-input {
-    background-color: rgba(90, 90, 90, 1);
+.logo {
+    width: 100%;
+    height: auto;
+    min-height: 222px;
+    background: url('247logo.png') no-repeat;
+    background-size: contain;
+    margin-top: 60%;
+}
+
+.shopItem input {
+    background-color: rgba(90, 90, 90, 0.75);
     color: white;
-    max-width: 7vw;
+    widows: 100%;
     text-align: center;
     user-select: none;
     height: 2.2vh;
     border: 0px;
-    border-radius: 15px;
+    border-radius: 5px;
     border-color: white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
         'Helvetica Neue', sans-serif;
+    margin-bottom: 1vh;
 }
 .inputButtons {
     position: relative;
@@ -271,25 +299,38 @@ input {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
         'Helvetica Neue', sans-serif;
 }
-.footer {
-    position: sticky;
-    background: rgba(255, 0, 0, 0.35);
-    margin-top: 10px;
-    height: 25px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    z-index: 350;
+
+.btn-grad {
+    background-image: rgba(0, 0, 0, 0.5);
 }
-.descriptions {
-    position: relative;
-    top: 1.5vh;
-    display: inline-block; /* or inline-block */
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-    overflow: hidden;
-    max-height: 4.4em;
-    line-height: 1.4em;
-    max-width: 7vw;
+.btn-grad {
+    padding: 25px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 100% auto;
+    color: white !important;
+    border-left: 0px;
+    border-right: 0px;
 }
+
+.btn-grad:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-close {
+    max-width: 15vw;
+    float: right;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    border: 0px;
+    width: 100%;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
@@ -311,7 +352,101 @@ input {
     background: rgba(255, 0, 0, 0.35);
 }
 ::placeholder {
-    color: white;
+    color: rgba(255, 255, 255, 0.363);
     opacity: 1;
+}
+.search-bar {
+    height: auto;
+    width: auto;
+    position: absolute;
+    display: inline-block;
+    margin-top: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+}
+.search-bar input {
+    height: 44px;
+    width: 44px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    font-size: 18px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 100;
+    background-color: transparent;
+    transition: all 0.5s ease-out;
+    color: transparent;
+}
+.search-bar input::-moz-placeholder {
+    color: transparent;
+}
+.search-bar input:-ms-input-placeholder {
+    color: transparent;
+}
+.search-bar input::placeholder {
+    color: transparent;
+}
+.search-bar input:invalid {
+    box-shadow: none;
+}
+.search-bar input:hover {
+    border: 2px solid #fff;
+}
+.search-bar input:focus,
+.search-bar input:valid {
+    width: 12vw;
+    border: 2px solid rgb(0, 0, 0);
+    outline: none;
+    cursor: auto;
+    background-color: rgba(0, 0, 0, 0.548);
+    color: white;
+}
+.search-bar input:focus::-moz-placeholder,
+.search-bar input:valid::-moz-placeholder {
+    color: #999;
+}
+.search-bar input:focus:-ms-input-placeholder,
+.search-bar input:valid:-ms-input-placeholder {
+    color: #999;
+}
+.search-bar input:focus::placeholder,
+.search-bar input:valid::placeholder {
+    color: #999;
+}
+.search-bar input:focus + .search-icon,
+.search-bar input:valid + .search-icon {
+    z-index: 0;
+    border-color: #ccc;
+    right: 20px;
+}
+.search-bar input:focus + .search-icon:after,
+.search-bar input:valid + .search-icon:after {
+    background-color: #ccc;
+}
+
+.search-icon {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    position: absolute;
+    right: 12px;
+    top: 8px;
+    z-index: -1;
+}
+.search-icon:after {
+    content: '';
+    position: absolute;
+    top: 19.07px;
+    left: 17.07px;
+    transform: rotate(45deg);
+    height: 2px;
+    width: 10px;
+    background-color: #fff;
+    border-radius: 10px;
 }
 </style>
