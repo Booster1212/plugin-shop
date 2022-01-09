@@ -2,19 +2,17 @@
     <div class="shopContainer" id="Mainbody" style="width: 50%; height: 75%">
         <div class="shopBackground">
             <div class="shopWrapper">
-                <div class="shopItem" v-for="(shopItem, index) in ShopSystem.ShopItems" :key="index">
+                <div class="shopItem" v-for="(shopItem, index) in filteredItems" :key="index">
                     <div class="item" v-if="ShopSystem.ShopItems">
                         <div class="image">
                             <img :src="ResolvePath(`../../assets/icons/${shopItem.image}.png`)" id="Images" />
                         </div>
                         <div class="descriptions">
                             <span>{{ shopItem.name }}</span
-                            ><br /><br /><br /><br />
-                            <br />
+                            ><br /><br /><br />
                         </div>
-                        <hr />
-                        <span>{{ shopItem.price }}$ / each</span><br />
                         <div class="inputButtons">
+                            <span>{{ shopItem.price }}$</span><br /><br />
                             <input type="number" placeholder="1" v-model="selectedAmount[index]" />
                             <Button
                                 class="btn-grad"
@@ -32,14 +30,14 @@
         <div class="decoration" style="position: relative">
             <div class="logo"></div>
             <div class="search-bar">
-                <input type="text" placeholder="" required />
+                <input type="text" v-model="search" placeholder="" required />
                 <div class="search-icon"></div>
             </div>
             <Button color="red" class="btn-close" @click="closePage()">Close</Button>
         </div>
     </div>
 </template>
- 
+
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Button from '../../components/Button.vue';
@@ -51,22 +49,23 @@ import Module from '../../components/Module.vue';
 import RangeInput from '../../components/RangeInput.vue';
 import Toolbar from '../../components/Toolbar.vue';
 import ResolvePath from '../../utility/pathResolver';
-
+// DEBUGGING
+/*
 const SHOP = [
-    { id: 0, name: 'Hochleistungsreinigungsgerä ich töte kacke gerne', price: 250, image: 'burger' },
-    { id: 1, name: 'Bread', price: 350, image: 'bread' },
-    { id: 2, name: 'Burger', price: 450, image: 'burger' },
-    { id: 3, name: 'Bread', price: 550, image: 'bread' },
-    { id: 4, name: 'Burger', price: 650, image: 'burger' },
-    { id: 5, name: 'Bread', price: 750, image: 'bread' },
-    { id: 6, name: 'Bread', price: 750, image: 'bread' },
-    { id: 7, name: 'Bread', price: 750, image: 'bread' },
-    { id: 8, name: 'Bread', price: 750, image: 'bread' },
-    { id: 9, name: 'Bread', price: 750, image: 'bread' },
-    { id: 10, name: 'Bread', price: 750, image: 'bread' },
-    { id: 11, name: 'Bread', price: 750, image: 'bread' },
-];
-
+    { name: 'Northern Haze Seeds', dbName: 'Northern Haze Seeds', price: 250, image: 'burger' },
+    { name: 'Bread', dbName: 'Bread', price: 350, image: 'bread' },
+    { name: 'Burger', dbName: 'burger', price: 450, image: 'burger' },
+    { name: 'Bread', price: 550, image: 'bread' },
+    { name: 'Burger', price: 650, image: 'burger' },
+    { name: 'Bread', price: 750, image: 'bread' },
+    { name: 'Bread', price: 750, image: 'bread' },
+    { name: 'Bread', price: 750, image: 'bread' },
+    { name: 'Bread', price: 750, image: 'bread' },
+    { name: 'Bread', price: 750, image: 'bread' },
+    { name: 'Bread', price: 750, image: 'bread' },
+    { name: 'Bread', price: 750, image: 'bread' },
+]; 
+*/
 // Very Important! The name of the component must match the file name.
 // Don't forget to do this. This is a note so you don't forget.
 const ComponentName = 'ShopUI';
@@ -89,7 +88,9 @@ export default defineComponent({
             shopType: 'buy',
             buttonText: 'Buy me!',
             buttonColor: 'green',
+            search: '',
             selectedAmount: [],
+            keyword: '',
             ShopSystem: {
                 ShopItems: [],
             },
@@ -98,7 +99,7 @@ export default defineComponent({
     // Called when the page is loaded.
     mounted() {
         // Bind Events to Methods
-        this.fillShopItems(SHOP); // Debugging Purpose
+        // this.fillShopItems(SHOP); // Debugging Purpose
         if ('alt' in window) {
             alt.emit(`${ComponentName}:Ready`);
             alt.on(`${ComponentName}:Vue:SetItems`, this.fillShopItems);
@@ -118,6 +119,13 @@ export default defineComponent({
         }
         // Remove Keybinds for In-Menu
         document.removeEventListener('keyup', this.handleKeyPress);
+    }, 
+    computed: {
+        filteredItems() {
+            return this.ShopSystem.ShopItems.filter((ShopItem) =>
+                ShopItem.name.toLowerCase().includes(this.search.toLowerCase())
+            );
+        },
     },
     // Used to define functions you can call with 'this.x'
     methods: {
@@ -130,8 +138,8 @@ export default defineComponent({
         fillShopItems(shopItems: Array<String | number>[], type: string) {
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
-            shopSystem.ShopItems = SHOP; // Debugging Purpose
-            // shopSystem.ShopItems = shopItems;
+            //shopSystem.ShopItems = SHOP; // Debugging Purpose
+            shopSystem.ShopItems = shopItems;
             if (type === 'sell') {
                 this.buttonText = 'Sell';
                 this.buttonColor = 'red';
@@ -168,7 +176,7 @@ export default defineComponent({
     },
 });
 </script>
- 
+
 <style scoped>
 /* SHOPWRAPPER - DO NOT MODIFY */
 .shopWrapper {
@@ -188,7 +196,7 @@ export default defineComponent({
     color: white;
     user-select: none;
     height: auto;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .shopItem .item {
@@ -198,7 +206,14 @@ export default defineComponent({
     font-weight: 700;
     font-weight: none;
     font-size: 1em;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background: rgba(119, 145, 165, 0.185);
+    border: 2px solid rgba(124, 118, 118, 0.548);
+    border-top-left-radius: 15%;
+    border-bottom-right-radius: 15%;
+    padding-bottom: 10%;
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .shopItem .image {
@@ -220,7 +235,7 @@ export default defineComponent({
 
 .shopBackground {
     position: absolute;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.95);
     left: 10vw;
     top: 10vh;
     height: 80vh;
@@ -264,16 +279,19 @@ export default defineComponent({
     outline: none;
 }
 .logo {
-    width: 100%;
+    margin-left: 10%;
+    width: 80%;
     height: auto;
     min-height: 222px;
-    background: url('247logo.png') no-repeat;
+    background: url('osslogo.png') no-repeat;
     background-size: contain;
-    margin-top: 60%;
+    margin-top: 10%;
 }
 
 .shopItem input {
-    background-color: rgba(90, 90, 90, 0.75);
+    background-color: rgba(0, 108, 180, 0.788);
+    width: 80%;
+    max-width: 80%;
     color: white;
     widows: 100%;
     text-align: center;
@@ -284,24 +302,25 @@ export default defineComponent({
     border-color: white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
         'Helvetica Neue', sans-serif;
+    font-size: 1.1em;
+    font-weight: bolder;
     margin-bottom: 1vh;
 }
 .inputButtons {
     position: relative;
-    top: 1.5vh;
+    top: -0.5vh;
     align-items: center;
 }
 .buyButton {
-    background-color: rgba(90, 90, 90, 1);
-    border-radius: 15px;
-    border: 15px;
-    top: 1vh;
+    border-radius: 5px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
         'Helvetica Neue', sans-serif;
 }
 
 .btn-grad {
     background-image: rgba(0, 0, 0, 0.5);
+    width: 50%;
+    left: 25%;
 }
 .btn-grad {
     padding: 25px 45px;
@@ -309,9 +328,10 @@ export default defineComponent({
     text-transform: uppercase;
     transition: 0.5s;
     background-size: 100% auto;
-    color: white !important;
+    background: black;
     border-left: 0px;
     border-right: 0px;
+    border-radius: 10px;
 }
 
 .btn-grad:hover {
@@ -361,7 +381,7 @@ export default defineComponent({
     position: absolute;
     display: inline-block;
     margin-top: 50px;
-    top: 50%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     box-sizing: border-box;
