@@ -8,6 +8,10 @@ alt.onClient(
     async (player: alt.Player, shopItem: any, amount: number, type: string) => {
         const itemToAdd = await ItemFactory.get(shopItem.dbName);
         if(!itemToAdd) return;
+        if(amount < 1) {
+            playerFuncs.emit.notification(player, `How do you think this would be possible?`);
+            return;
+        }
         const itemIsInInventory = playerFuncs.inventory.isInInventory(player, { name: itemToAdd.name });
         const emptySlot = playerFuncs.inventory.getFreeInventorySlot(player);
         if (type === 'buy') {
