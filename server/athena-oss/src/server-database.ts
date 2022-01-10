@@ -154,6 +154,7 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
             position: BUYERS[i],
             description: OSS_TRANSLATIONS.openShop,
             range: OSS.interactionRange,
+            uid: `IC-${BUYERS[i]}`,
             callback: async (player: alt.Player) => {
                 const allShops = await Database.fetchAllData<IShop>(OSS.collection);
                 allShops.forEach((shop, index) => {
@@ -181,6 +182,7 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
             position: SELLERS[i],
             description: OSS_TRANSLATIONS.openSeller,
             range: OSS.interactionRange,
+            uid: `IC-${SELLERS[i]}`,
             callback: async (player: alt.Player) => {
                 const allShops = await Database.fetchAllData<IShop>(OSS.collection);
                 allShops.forEach((shop, index) => {

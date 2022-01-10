@@ -4,14 +4,9 @@ export default interface IShop {
     buyerIndex?: number; // Used to change price ingame instead of relaying on database/file action.
     sellerIndex?: number; // Used to change price ingame instead of relaying on database/file action.
     shopType?: string; // Buy || sell
+    shopImage?: string;
     data: {
         items?: {}[]
     },
-    blipData?: {
-        sprite: number;
-        scale: number;
-        shortRange: boolean;
-        color: number;
-    }
     position: alt.Vector3,
 }

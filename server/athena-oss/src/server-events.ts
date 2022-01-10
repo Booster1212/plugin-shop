@@ -1,5 +1,5 @@
 import * as alt from 'alt-server';
-import { playerFuncs } from '../../../server/extensions/Player';
+import { playerFuncs } from '../../../server/extensions/extPlayer';
 import { ItemFactory } from '../../../server/systems/item';
 import { CurrencyTypes } from '../../../shared/enums/currency';
 const PAGENAME = 'ShopUI';
