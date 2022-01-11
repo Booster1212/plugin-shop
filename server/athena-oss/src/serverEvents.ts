@@ -1,7 +1,9 @@
 import * as alt from 'alt-server';
+import { OSS_TRANSLATIONS } from '..';
 import { playerFuncs } from '../../../server/extensions/extPlayer';
 import { ItemFactory } from '../../../server/systems/item';
 import { CurrencyTypes } from '../../../shared/enums/currency';
+
 const PAGENAME = 'ShopUI';
 alt.onClient(
     `${PAGENAME}:Server:HandleShop`,
@@ -13,7 +15,7 @@ alt.onClient(
         if (type === 'buy') {
             if (!itemIsInInventory) {
                 if(shopItem.price * amount >  player.data.cash) {
-                    playerFuncs.emit.notification(player, 'Not enough cash!');
+                    playerFuncs.emit.notification(player, OSS_TRANSLATIONS.notEnoughCash);
                     return;
                 } 
                 itemToAdd.quantity = amount;
@@ -28,7 +30,7 @@ alt.onClient(
                 return;
             } else if (itemIsInInventory) {
                 if(shopItem.price * amount >  player.data.cash) {
-                    playerFuncs.emit.notification(player, 'Not enough cash!');
+                    playerFuncs.emit.notification(player, OSS_TRANSLATIONS.notEnoughCash);
                     return;
                 } 
                 player.data.inventory[itemIsInInventory.index].quantity += amount;

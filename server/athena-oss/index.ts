@@ -2,12 +2,14 @@ import * as alt from 'alt-server';
 import { PluginSystem } from '../../server/systems/plugins';
 import Database from '@stuyk/ezmongodb';
 
-import './src/oss-discord';
-import './src/server-events';
-import './src/shopLists/buyers/buyer';
-import './src/shopLists/sellers/sellers';
-import './src/shopLists/vendingmachines/vendingItems';
-import './src/server-database';
+import './src/ossDiscord';
+import './src/items/shopItems';
+import './src/items/itemEvents';
+import './src/serverEvents';
+import './src/shopLists/buyingShops/buyers';
+import './src/shopLists/sellingShops/sellers';
+import './src/shopLists/vendingMachines/vendingMachines';
+import './src/serverDatabase';
 
 export const OSS = {
     name: 'OSS',
@@ -19,10 +21,11 @@ export const OSS = {
     randomizeSellers: false, // Randomize drug dealer prices for examples (based on list.)
 };
 
-export const OSS_TRANSLATIONS = {
-    openShop: 'Open Shop',
-    openSeller: 'Open Shop',
-    openVendingMachine: 'Open Vending Machine',
+export enum OSS_TRANSLATIONS {
+    openShop = 'Open Shop',
+    openSellingShop = 'Open Shop',
+    openVendingMachine = 'Open Vending Machine',
+    notEnoughCash = 'Not enough cash!',
 }
 
 PluginSystem.registerPlugin(OSS.name, async () => {

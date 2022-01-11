@@ -1,14 +1,15 @@
 import * as alt from 'alt-server';
-import Database from '@stuyk/ezmongodb';
-import { InteractionController } from '../../../server/systems/interaction';
 import vendingMachines from '../../../shared/information/vendingMachines';
+import Database from '@stuyk/ezmongodb';
 import IShop from './interfaces/IShop';
-import { buyerBlips, BUYERS, buyLists } from './shopLists/buyers/buyer';
+
+import { SELLERS, sellersBlips, sellLists } from './shopLists/sellingShops/sellers';
+import { buyerBlips, BUYERS, buyLists } from './shopLists/buyingShops/buyers';
 import { OSS, OSS_TRANSLATIONS } from '../index';
-import { SYSTEM_EVENTS } from '../../../shared/enums/system';
-import { SELLERS, sellersBlips, sellLists } from './shopLists/sellers/sellers';
-import { vendingList } from './shopLists/vendingmachines/vendingItems';
+import { InteractionController } from '../../../server/systems/interaction';
 import { ServerBlipController } from '../../../server/systems/blip';
+import { SYSTEM_EVENTS } from '../../../shared/enums/system';
+import { vendingList } from './shopLists/vendingMachines/vendingMachines';
 
 const PAGENAME = 'ShopUI';
 
@@ -155,6 +156,7 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
             description: OSS_TRANSLATIONS.openShop,
             range: OSS.interactionRange,
             uid: `IC-${BUYERS[i]}`,
+            debug: false,
             callback: async (player: alt.Player) => {
                 const allShops = await Database.fetchAllData<IShop>(OSS.collection);
                 allShops.forEach((shop, index) => {
@@ -180,9 +182,10 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
 
         InteractionController.add({
             position: SELLERS[i],
-            description: OSS_TRANSLATIONS.openSeller,
+            description: OSS_TRANSLATIONS.openSellingShop,
             range: OSS.interactionRange,
             uid: `IC-${SELLERS[i]}`,
+            debug: false,
             callback: async (player: alt.Player) => {
                 const allShops = await Database.fetchAllData<IShop>(OSS.collection);
                 allShops.forEach((shop, index) => {
@@ -199,6 +202,7 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
         InteractionController.add({
             position: vendingMachines[vendingIndex],
             description: OSS_TRANSLATIONS.openVendingMachine,
+            debug: false,
             callback: async (player: alt.Player) => {
                 const allShops = await Database.fetchAllData<IShop>(OSS.collection);
                 allShops.forEach((shop, index) => {
