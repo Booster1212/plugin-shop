@@ -8,7 +8,7 @@ export const SELLERS: alt.Vector3[] = [
 
 // Used to give all the shops are different blip, just copy the line as often as you need it.
 export const sellersBlips = [
-    { sprite: 52, color: 1, text: 'Shop Index ZERO >> SELL', scale: 1 }, // Index 0
+    { sprite: 52, color: 1, text: 'Seller Example - Index 0', scale: 1 }, // Index 0
 ];
 
 const burgerBuyer = [

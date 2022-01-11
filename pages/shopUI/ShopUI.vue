@@ -12,8 +12,14 @@
                             ><br /><br /><br />
                         </div>
                         <div class="inputButtons">
-                            <span>{{ shopItem.price }}$</span><br /><br />
-                            <input type="number" placeholder="1" v-model="selectedAmount[index]" />
+                            <span>{{ addCommas(shopItem.price) }}$</span><br /><br />
+                            <input
+                                type="number"
+                                placeholder="1"
+                                v-model="selectedAmount[index]"
+                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value < 0) this.value = 1;"
+                                maxlength="3"
+                            />
                             <Button
                                 class="btn-grad"
                                 :color="buttonColor"
@@ -64,7 +70,7 @@ const SHOP = [
     { name: 'Bread', price: 750, image: 'bread' },
     { name: 'Bread', price: 750, image: 'bread' },
     { name: 'Bread', price: 750, image: 'bread' },
-]; 
+];
 */
 // Very Important! The name of the component must match the file name.
 // Don't forget to do this. This is a note so you don't forget.
@@ -91,6 +97,7 @@ export default defineComponent({
             search: '',
             selectedAmount: [],
             keyword: '',
+            shopLogo: './osslogo.png',
             ShopSystem: {
                 ShopItems: [],
             },
@@ -119,16 +126,33 @@ export default defineComponent({
         }
         // Remove Keybinds for In-Menu
         document.removeEventListener('keyup', this.handleKeyPress);
-    }, 
+    },
     computed: {
         filteredItems() {
             return this.ShopSystem.ShopItems.filter((ShopItem) =>
-                ShopItem.name.toLowerCase().includes(this.search.toLowerCase())
+                ShopItem.name.toLowerCase().includes(this.search.toLowerCase()),
             );
+        },
+        cssVars() {
+            return {
+                /* variables you want to pass to css */
+                '--img': this.shopLogo,
+            };
         },
     },
     // Used to define functions you can call with 'this.x'
     methods: {
+        addCommas(nStr: string) {
+            nStr += '';
+            var x = nStr.split('.');
+            var x1 = x[0];
+            var x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + '.' + '$2');
+            }
+            return x1 + x2;
+        },
         handleKeyPress(e) {
             // Escape Key
             if (e.keyCode === 27 && 'alt' in window) {
@@ -155,7 +179,11 @@ export default defineComponent({
         buyShopItem(index: number) {
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
-            if (this.selectedAmount[index] === null || this.selectedAmount[index] === undefined)
+            if (
+                this.selectedAmount[index] === null ||
+                this.selectedAmount[index] === undefined ||
+                this.selectedAmount[index] < 1
+            )
                 this.selectedAmount[index] = 1;
             console.log(JSON.stringify(shopSystem.ShopItems[0]));
             console.log(index, this.selectedAmount[index]);
@@ -206,10 +234,10 @@ export default defineComponent({
     font-weight: 700;
     font-weight: none;
     font-size: 1em;
-    background: rgba(119, 145, 165, 0.185);
-    border: 2px solid rgba(124, 118, 118, 0.548);
-    border-top-left-radius: 15%;
-    border-bottom-right-radius: 15%;
+    background: rgb(0, 0, 0);
+    border: 2px outset rgb(65, 154, 196);
+    border-top-left-radius: 10%;
+    border-bottom-right-radius: 10%;
     padding-bottom: 10%;
     margin-top: 10%;
     margin-left: 10%;
@@ -278,12 +306,13 @@ export default defineComponent({
     text-align: center;
     outline: none;
 }
+
 .logo {
     margin-left: 10%;
     width: 80%;
     height: auto;
     min-height: 222px;
-    background: url('osslogo.png') no-repeat;
+    background: url('./osslogo.png') no-repeat;
     background-size: contain;
     margin-top: 10%;
 }
@@ -318,20 +347,21 @@ export default defineComponent({
 }
 
 .btn-grad {
-    background-image: rgba(0, 0, 0, 0.5);
-    width: 50%;
-    left: 25%;
+    width: 75%;
+    left: 12.5%;
 }
 .btn-grad {
+    margin-top: 5%;
     padding: 25px 45px;
     text-align: center;
     text-transform: uppercase;
     transition: 0.5s;
     background-size: 100% auto;
-    background: black;
+    background: rgb(0, 0, 0);
+    border: 1px solid rgb(20, 171, 218);
     border-left: 0px;
     border-right: 0px;
-    border-radius: 10px;
+    border-radius:50px;
 }
 
 .btn-grad:hover {
