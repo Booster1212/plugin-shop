@@ -1,21 +1,26 @@
 # OpenSourceShop![Fichier 37mdpi](https://user-images.githubusercontent.com/82890183/148142146-ba173e98-4c11-47d9-95da-6d83de2608af.png)
 
-Since Athena doesn't offer Shops in core at the moment i've decided to rebuild my old Vue3 Shop with new Athena Single Page Application (Vue3)
-So here we go again. ;)
+Welcome to Athena Open Source Shop! 
+Bringing Shops to the Athena Framework as absolute free and open source solution licensed as MIT. 
 
-This plugin is based on Athena's ItemFactory so you'll need items in the database collection 'items' to make it work as expected.
+So feel free to do whatever you want!
 
 # Features
-- Different Item lists for different shops
-- Ability to create buy / sell shops
-- Randomize prices of items on Athena's Bootup entry (Optional)
-- Fill up all vending machines with custom item lists.
+- VueJS (3)
+- Based on Athena's ItemFactory - Full Database integration (MongoDB)
+- Build on the latest version of the Athena Framework
+- Build with ease of use in mind
+- Different Shops for different Items 
+- Each shop can hold individual items.
+- Create selling or buying shops i.e. Drugseller or 24/7 Shop
+- Synced Food / Water List (Custom Item List for OSS / Custom Events)
+- 34 Default Shops
+- Minimalistic Frontend
 
 # Setup (Plugin)
 
 - Drop ShopUI into a folder called "shopUI" inside of src-webviews/pages
-- Drop server/client files into OSS folders -> src/core/client-plugins, client stuff here -> src/core/plugins -> server stuff here.
-
+- Drop server/client files into athena-oss -> src/core/client-plugins, client stuff here -> src/core/server-plugins -> server stuff here.
 
 ```typescript
 Imports (Client) ->
@@ -29,33 +34,33 @@ import './OSS/index';
 import ShopUI from './shopUI/ShopUI.vue';
 ShopUI: shallowRef(ShopUI)
 ```
-
-# Setup (Shop - Buy)
-```ts
-import * as alt from 'alt-server';
-// Positions are based on the index of the array so, keep that in mind when creating a shop or just do it step by step.
+# Setup (Buying Shop - 24/7)
+```typescript
 export const BUYERS: alt.Vector3[] = [
-    { x: 25.980966567993164, y: -1345.6417236328125, z: 28.497024536132812 } as alt.Vector3, // This position is using shopList (Array Index 0)
-    { x: -48.5690803527832, y: -1757.6961669921875, z: 28.4210147857666 } as alt.Vector3, // This position is using foodList (Array Index 1)
+    { x: 25.980966567993164, y: -1345.6417236328125, z: 28.497024536132812 } as alt.Vector3, // Index 0
 ];
 
-// Every shop CAN hold individual items, or you can just go ahead fill one list for all 24/7 and just fill the POS-Array.
-// Example if you fill Index Zero 0 - 9 just fill in "shopList" x9 Times into buyLists.
-const shopList = [
-    { name: 'Bread', dbName: 'bread', price: 3450, image: 'crate' }
-    /* { name: 'Northern Haze Seeds', dbName: 'Northern Haze Seeds', price: '75', image: 'crate' },
-    { name: 'Lemon Haze Seeds', dbName: 'Lemon Haze Seeds', price: '85', image: 'crate' },
-    { name: 'OG Kush Seeds', dbName: 'OG Kush Seeds', price: '115', image: 'crate' },
-    { name: 'Mango Kush Seeds', dbName: 'Mango Kush Seeds', price: '125', image: 'crate' },
-    { name: 'Purple Haze Seeds', dbName: 'Purple Haze Seeds', price: '105', image: 'crate' }, ..... */
-]; // Shop INDEX -> 0
+// Used to give all the shops are different blip, just copy the line as often as you need it.
+export const buyerBlips = [
+    { sprite: 59, color: 2, text: '24/7 Shop', scale: 1 }, // Index 0
+];
 
-const foodList = [{ name: 'Burger', dbName: 'burger', price: 350, image: 'crate' }]; // Shop INDEX -> 1
-// const anotherExampleList = [];
-export const buyLists = [shopList, foodList, /*anotherExampleList*/]; // ADD YOUR LISTS HERE!
+// In OSS each Shop can hold individual items or you can add the same list to a few more stores over and over again.
+// Default List for all 24/7 & LTD Stores.
+const shopList = [
+    { name: 'Bread', dbName: 'bread', price: 75, image: 'crate' },
+    { name: 'Hotdog', dbName: 'Shophotdog', price: 375, image: 'crate' },
+    { name: 'Waterbottle', dbName: 'Shopwater', price: 250, image: 'crate' },
+    { name: 'Cola', dbName: 'Shopcola', price: 250, image: 'crate'},
+    { name: 'Energy Drink', dbName: 'Shopenergy', price: 300, image: 'crate'}
+];
+
+export const buyLists = [
+    shopList,
+]; // ADD YOUR LISTS HERE!
 ```
 
-# Set (Shop - Sell)
+# Setup (Drugsellers)
 ```typescript
 import * as alt from 'alt-server';
 
@@ -65,32 +70,25 @@ export const SELLERS: alt.Vector3[] = [
     // { Add stuff yourself } Just another seller, INDEX 1 -> The secoond list will get into this position.
 ];
 
+// Used to give all the shops are different blip, just copy the line as often as you need it.
+export const sellersBlips = [
+    { sprite: 52, color: 1, text: 'Seller Example - Index 0', scale: 1 }, // Index 0
+];
+
 const burgerBuyer = [
     { name: 'Burger', dbName: 'burger', price: 330, image: 'crate' }, // SellList INDEX -> 0
     // { Add stuff yourself. } Second Items for SELLERS Index -> 0
 ];
 const anotherExampleList = [
-    // { Fill me! } -> Index 0
+    // { Fill me! } -> Index 1
 ];
 
 export const sellLists = [burgerBuyer, /*anotherExampleList*/]; // Dont forget to add custom item lists here
-```
 
-# Settings
-```typescript
-export const OSS = {
-    name: 'OSS',
-    version: 'v1.0',
-    collection: 'shops',
-    enableVendingmachines: false,
-    randomizeBuyers: false, // Will randomize output of vending machines as well.
-    randomizeSellers: false, // Randomize drug dealer prices for examples (based on list.)
-};
 ```
 
 # Images
-
-![image](https://user-images.githubusercontent.com/82890183/148335389-30f30d20-1228-45e0-b668-959eb37f7317.png)
+![unknown](https://user-images.githubusercontent.com/82890183/148910952-470985fe-5fed-41ed-8b87-08c9977f71c2.png)
 
 ![image](https://user-images.githubusercontent.com/82890183/148634183-00270cd2-ba69-4a46-94ba-58434967c890.png)
 
