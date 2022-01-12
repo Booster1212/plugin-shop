@@ -1,4 +1,5 @@
 import * as alt from 'alt-server';
+import IShopListItem from "./IShopListItem";
 export default interface IShop {
     _id?: string;
     buyerIndex?: number; // Used to change price ingame instead of relaying on database/file action.
@@ -6,7 +7,7 @@ export default interface IShop {
     shopType?: string; // Buy || sell
     shopImage?: string;
     data: {
-        items?: {}[]
+        items?: IShopListItem[]
     },
     position: alt.Vector3,
 }
