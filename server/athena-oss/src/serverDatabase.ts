@@ -10,6 +10,7 @@ import { InteractionController } from '../../../server/systems/interaction';
 import { ServerBlipController } from '../../../server/systems/blip';
 import { SYSTEM_EVENTS } from '../../../shared/enums/system';
 import { vendingList } from './shopLists/vendingMachines/vendingMachines';
+import {ItemFactory} from "../../../server/systems/item";
 
 const PAGENAME = 'ShopUI';
 
@@ -157,15 +158,7 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
             range: OSS.interactionRange,
             uid: `IC-${BUYERS[i]}`,
             debug: false,
-            callback: async (player: alt.Player) => {
-                const allShops = await Database.fetchAllData<IShop>(OSS.collection);
-                allShops.forEach((shop, index) => {
-                    if (player.pos.isInRange(shop.position as alt.Vector3, OSS.interactionRange)) {
-                        alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, shop.data.items, shop.shopType);
-                    }
-                });
-                return;
-            },
+            callback: initShopCallback,
         });
     }
 
@@ -186,15 +179,7 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
             range: OSS.interactionRange,
             uid: `IC-${SELLERS[i]}`,
             debug: false,
-            callback: async (player: alt.Player) => {
-                const allShops = await Database.fetchAllData<IShop>(OSS.collection);
-                allShops.forEach((shop, index) => {
-                    if (player.pos.isInRange(shop.position as alt.Vector3, OSS.interactionRange)) {
-                        alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, shop.data.items, shop.shopType);
-                    }
-                });
-                return;
-            },
+            callback: initShopCallback
         });
     }
 
@@ -203,14 +188,7 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
             position: vendingMachines[vendingIndex],
             description: OSS_TRANSLATIONS.openVendingMachine,
             debug: false,
-            callback: async (player: alt.Player) => {
-                const allShops = await Database.fetchAllData<IShop>(OSS.collection);
-                allShops.forEach((shop, index) => {
-                    if (player.pos.isInRange(shop.position as alt.Vector3, OSS.interactionRange)) {
-                        alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, shop.data.items, shop.shopType);
-                    }
-                });
-            },
+            callback: initShopCallback,
         });
     }
 });
@@ -220,4 +198,40 @@ function getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
+}
+
+async function initShopCallback(player: alt.Player) {
+    const allShops = await Database.fetchAllData<IShop>(OSS.collection);
+    for (const shop of allShops) {
+        alt.log(`searching shop`);
+        if (player.pos.isInRange(shop.position as alt.Vector3, OSS.interactionRange)) {
+            alt.log(`got shop`);
+            let dataItems = [];
+            for (const item of shop.data.items) {
+                alt.log(`Item ${item.dbName}`);
+                let factoryItem = await ItemFactory.get(item.dbName);
+                if (!factoryItem) {
+                    alt.log(`~lr~${OSS.name} ${OSS.version}: Item ${item.dbName} is not in your ItemFactory!`);
+                } else {
+                    let itemIcon;
+                    let itemName;
+                    let itemDbName = item.dbName;
+                    let itemPrice = item.price;
+                    if (!item.icon || !item.name) {
+                        itemIcon = item.icon ? item.icon : factoryItem.icon;
+                        itemName = item.name ? item.name : factoryItem.name;
+                    } else {
+                        itemIcon = item.icon;
+                        itemName = item.name;
+                    }
+                    alt.log(`Item ${itemName} ${itemIcon} ${itemDbName} ${itemPrice} ${factoryItem.icon} ${factoryItem.name}`);
+                    // { name: 'Bread', dbName: 'bread', price: 75, image: 'crate' },
+                    dataItems.push({name: itemName, dbName: itemDbName, price: itemPrice, image: itemIcon})
+                }
+            }
+            alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, dataItems, shop.shopType);
+            return;
+        }
+    }
+    return;
 }

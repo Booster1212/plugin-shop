@@ -1,4 +1,5 @@
 import * as alt from 'alt-server';
+import IShopListItem from "../../interfaces/IShopListItem";
 
 export const BUYERS: alt.Vector3[] = [
     { x: 25.980966567993164, y: -1345.6417236328125, z: 28.497024536132812 } as alt.Vector3, // Index 0
@@ -77,18 +78,18 @@ export const buyerBlips = [
 
 // In OSS each Shop can hold individual items or you can add the same list to a few more stores over and over again.
 // Default List for all 24/7 & LTD Stores.
-const shopList = [
-    { name: 'Bread', dbName: 'bread', price: 75, image: 'crate' },
-    { name: 'Hotdog', dbName: 'Shophotdog', price: 375, image: 'crate' },
-    { name: 'Waterbottle', dbName: 'Shopwater', price: 250, image: 'crate' },
-    { name: 'Cola', dbName: 'Shopcola', price: 250, image: 'crate'},
-    { name: 'Energy Drink', dbName: 'Shopenergy', price: 300, image: 'crate'}
+const shopList:IShopListItem[] = [
+    {dbName: 'bread', price: 75},
+    {dbName: 'Shophotdog', price: 375},
+    {dbName: 'Shopwater', price: 250},
+    {dbName: 'Shopcola', price: 250},
+    {dbName: 'Shopenergy', price: 300}
 ];
 
 // Default List for all Ammunations
-const ammunationList = [
-    { name: 'Pistol', dbName: 'Pistol', price: 50000, image: 'pistol' },
-    { name: 'Railgun', dbName: 'Railgun', price: 500000, image: 'railgun' }
+const ammunationList:IShopListItem[] = [
+    {dbName: 'Pistol', price: 50000},
+    {dbName: 'Railgun', price: 500000 }
 ];
 
 export const buyLists = [
