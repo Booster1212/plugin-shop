@@ -6,9 +6,6 @@ import './src/ossDiscord';
 import './src/items/shopItems';
 import './src/items/itemEvents';
 import './src/serverEvents';
-import './src/shopLists/buyingShops/buyers';
-import './src/shopLists/sellingShops/sellers';
-import './src/shopLists/vendingMachines/vendingMachines';
 import './src/serverDatabase';
 
 export const OSS = {
@@ -16,7 +13,7 @@ export const OSS = {
     version: 'v1.0',
     collection: 'shops',
     interactionRange: 2,
-    enableVendingmachines: false,
+    //enableVendingmachines: false, // OUTDATED <<->> Update: Remove Vendors from shopRegistry if not needed
     randomizeBuyers: false, // Will randomize output of vending machines as well.
     randomizeSellers: false, // Randomize drug dealer prices for examples (based on list.)
 };
@@ -24,7 +21,7 @@ export const OSS = {
 export enum OSS_TRANSLATIONS {
     openShop = 'Open Shop',
     openSellingShop = 'Open Shop',
-    openVendingMachine = 'Open Vending Machine',
+    //openVendingMachine = 'Open Vending Machine', //TODO: VendingMachine as its own shopType?
     notEnoughCash = 'Not enough cash!',
 }
 
