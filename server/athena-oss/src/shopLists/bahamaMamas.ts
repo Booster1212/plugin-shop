@@ -1,10 +1,10 @@
-import {IShopLocation} from "../interfaces/IShop";
-import alt from "alt-server";
+import { IShopLocation } from '../interfaces/IShop';
+import alt from 'alt-server';
 
-export const bahamaMamasLocations:IShopLocation[]=  [
+export const bahamaMamasLocations: IShopLocation[] = [
     { x: -1394.1494140625, y: -603.96923828125, z: 30.3077392578125 } as IShopLocation, // Index 31
     { x: -1377.6131591796875, y: -627.3362426757812, z: 30.813232421875 } as IShopLocation, // Index 32
-]
+];
 
 export const BUYERS: IShopLocation[] = [
     { x: 25.980966567993164, y: -1345.6417236328125, z: 28.497024536132812 } as IShopLocation, // Index 0
