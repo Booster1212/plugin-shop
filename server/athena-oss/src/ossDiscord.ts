@@ -20,7 +20,6 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
         let buyShopsFound = 0;
         let sellShopsFound = 0;
         let itemsInShops = 0;
-        // inside a command, event listener, etc.
         alt.setTimeout(() => {
             for (let x = 0; x < allShops.length; x++) {
                 if (allShops[x].data.items.length > 0) itemsInShops++;

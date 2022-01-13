@@ -1,5 +1,5 @@
 import * as alt from 'alt-server';
-import { OSS_TRANSLATIONS } from '..';
+import { OSS_TRANSLATIONS } from '../index';
 import { playerFuncs } from '../../../server/extensions/extPlayer';
 import { ItemFactory } from '../../../server/systems/item';
 import { CurrencyTypes } from '../../../shared/enums/currency';

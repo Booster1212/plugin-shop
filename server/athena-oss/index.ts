@@ -13,7 +13,7 @@ export const OSS = {
     version: 'v1.0',
     collection: 'shops',
     interactionRange: 2,
-    enableVendingmachines: false, //update: Remove Vendors from shopRegistry if not needed
+    //enableVendingmachines: false, // OUTDATED <<->> Update: Remove Vendors from shopRegistry if not needed
     randomizeBuyers: false, // Will randomize output of vending machines as well.
     randomizeSellers: false, // Randomize drug dealer prices for examples (based on list.)
 };

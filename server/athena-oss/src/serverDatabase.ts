@@ -88,8 +88,7 @@ async function initShopCallback(player: alt.Player, shop: IShop) {
                 itemIcon = item.icon;
                 itemName = item.name;
             }
-            alt.log(`Item ${itemName} ${itemIcon} ${itemDbName} ${itemPrice} ${factoryItem.icon} ${factoryItem.name}`);
-            // { name: 'Bread', dbName: 'bread', price: 75, image: 'crate' },
+            // alt.log(`Item ${itemName} ${itemIcon} ${itemDbName} ${itemPrice} ${factoryItem.icon} ${factoryItem.name}`);
             dataItems.push({ name: itemName, dbName: itemDbName, price: itemPrice, image: itemIcon });
         }
     }
