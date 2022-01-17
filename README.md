@@ -34,8 +34,10 @@ src-webviews/pages/components.ts ->
 - import ShopUI from './shopUI/ShopUI.vue';
 - ShopUI: shallowRef(ShopUI)
 ```
-# Setup (Shops / TYPE )
+
+# Setup (Shops / TYPE)
 ```typescript
+// IShopLocation & IShop can be imported from "server/athena-oss/src/interfaces"
 export const coreShopLocations: IShopLocation[] = [
     { x: 25.980966567993164, y: -1345.6417236328125, z: 28.497024536132812, isBlip: true } as IShopLocation, 
     { x: 374.3475341796875, y: 328.112060546875, z: 102.56637573242188, isBlip: true } as IShopLocation, 
@@ -47,7 +49,7 @@ export const coreShopLocations: IShopLocation[] = [
     { x: 2555.4609375, y: 382.1643371582031, z: 107.62295532226562, isBlip: true } as IShopLocation, 
 ];
 
-export const ShopRegistry: Array<IShop> = [
+export const ShopRegistry: IShop[] = [
     // BUY SHOP
     {
         name: '24/7 Shop',
