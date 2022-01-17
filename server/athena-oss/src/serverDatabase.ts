@@ -1,6 +1,6 @@
 import * as alt from 'alt-server';
 import Database from '@stuyk/ezmongodb';
-import IShop, { ShopType } from './interfaces/IShop';
+import IShop, { shopType } from './interfaces/IShop';
 
 import { OSS, OSS_TRANSLATIONS } from '../index';
 import { InteractionController } from '../../../server/systems/interaction';
@@ -20,8 +20,8 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
         }
 
         if (
-            (OSS.randomizeSellers && shop.shopType === ShopType.SELL) ||
-            (OSS.randomizeBuyers && (!shop.shopType || shop.shopType === ShopType.BUY))
+            (OSS.randomizeSellers && shop.shopType === shopType.SELL) ||
+            (OSS.randomizeBuyers && (!shop.shopType || shop.shopType === shopType.BUY))
         ) {
             dbShop.data.items.forEach((item) => {
                 let registryPrice = shop.data.items.find((itemToFind) => itemToFind.dbName === item.dbName).price;
