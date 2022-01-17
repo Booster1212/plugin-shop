@@ -6,7 +6,7 @@ export default interface IShop {
     dbName: string;
     buyerIndex?: number; // Used to change price ingame instead of relaying on database/file action.
     sellerIndex?: number; // Used to change price ingame instead of relaying on database/file action.
-    shopType?: ShopType; // BUY || SELL - Default BUY
+    ShopType?: ShopType; // BUY || SELL - Default BUY
     shopImage?: string;
     blipShortRange?: boolean;
     blipSprite: number;

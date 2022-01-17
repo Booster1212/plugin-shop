@@ -20,8 +20,8 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
         }
 
         if (
-            (OSS.randomizeSellers && shop.shopType === ShopType.SELL) ||
-            (OSS.randomizeBuyers && (!shop.shopType || shop.shopType === ShopType.BUY))
+            (OSS.randomizeSellers && shop.ShopType === ShopType.SELL) ||
+            (OSS.randomizeBuyers && (!shop.ShopType || shop.ShopType === ShopType.BUY))
         ) {
             dbShop.data.items.forEach((item) => {
                 let registryPrice = shop.data.items.find((itemToFind) => itemToFind.dbName === item.dbName).price;
@@ -92,5 +92,5 @@ async function initShopCallback(player: alt.Player, shop: IShop) {
             dataItems.push({ name: itemName, dbName: itemDbName, price: itemPrice, image: itemIcon });
         }
     }
-    alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, dataItems, shop.shopType);
+    alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, dataItems, shop.ShopType);
 }

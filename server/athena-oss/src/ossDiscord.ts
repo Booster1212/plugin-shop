@@ -23,8 +23,8 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
         alt.setTimeout(() => {
             for (let x = 0; x < allShops.length; x++) {
                 if (allShops[x].data.items.length > 0) itemsInShops++;
-                if (allShops[x].shopType === 'buy') buyShopsFound++;
-                if (allShops[x].shopType === 'sell') sellShopsFound++;
+                if (allShops[x].ShopType === 'buy') buyShopsFound++;
+                if (allShops[x].ShopType === 'sell') sellShopsFound++;
                 ossEmbed = new MessageEmbed()
                     .setTitle('OSS - Discord Integration')
                     .setURL('https://github.com/Booster1212/')
