@@ -1,12 +1,12 @@
 import * as alt from 'alt-server';
 import { PluginSystem } from '../../server/systems/plugins';
-import Database from '@stuyk/ezmongodb';
 
 import './src/ossDiscord';
 import './src/items/shopItems';
 import './src/items/itemEvents';
 import './src/serverEvents';
 import './src/serverDatabase';
+import Database from '@stuyk/ezmongodb';
 
 export const OSS = {
     name: 'OSS',
