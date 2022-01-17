@@ -77,8 +77,8 @@ async function initShopCallback(player: alt.Player, shop: IShop) {
         if (!factoryItem) {
             alt.log(`~lr~${OSS.name} ${OSS.version}: Item ${item.dbName} is not in your ItemFactory!`);
         } else {
-            let itemIcon;
-            let itemName;
+            let itemIcon: string;
+            let itemName: string;
             let itemDbName = item.dbName;
             let itemPrice = item.price;
             if (!item.icon || !item.name) {

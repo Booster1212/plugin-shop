@@ -361,7 +361,7 @@ export default defineComponent({
     border: 1px solid rgb(20, 171, 218);
     border-left: 0px;
     border-right: 0px;
-    border-radius:50px;
+    border-radius: 50px;
 }
 
 .btn-grad:hover {

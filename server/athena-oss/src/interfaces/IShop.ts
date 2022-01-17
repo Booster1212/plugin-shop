@@ -1,4 +1,5 @@
 import IShopListItem from './IShopListItem';
+
 export default interface IShop {
     _id?: string;
     name: string;
