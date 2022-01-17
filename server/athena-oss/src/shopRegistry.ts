@@ -1,5 +1,5 @@
 import athenaVendingMachines from '../../../shared/information/vendingMachines';
-import IShop, { shopType } from './interfaces/IShop';
+import IShop, { ShopType } from './interfaces/IShop';
 import { ltdLocations } from './shopLists/ltd';
 import { robsLiquorLocations } from './shopLists/robsLiquor';
 import { vanillaUnicornLocations } from './shopLists/vanillaUnicorn';
@@ -12,7 +12,7 @@ import { juiceLocations } from './shopLists/juice';
 import { sellerExampleLocations } from './shopLists/sellerExample';
 import { coreShopLocations } from './shopLists/coreShops';
 
-export const ShopRegistry: Array<IShop> = [
+export const ShopRegistry: IShop[] = [
     /* {
         name: 'Vending machine',
         dbName: 'VendingMmachine',
@@ -45,7 +45,7 @@ export const ShopRegistry: Array<IShop> = [
     {
         name: 'Seller Example',
         dbName: 'SellerExample',
-        shopType: shopType.SELL,
+        shopType: ShopType.SELL,
         blipSprite: 52,
         blipColor: 1,
         blipScale: 1,

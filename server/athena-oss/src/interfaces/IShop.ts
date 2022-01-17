@@ -6,7 +6,7 @@ export default interface IShop {
     dbName: string;
     buyerIndex?: number; // Used to change price ingame instead of relaying on database/file action.
     sellerIndex?: number; // Used to change price ingame instead of relaying on database/file action.
-    shopType?: shopType; // BUY || SELL - Default BUY
+    shopType?: ShopType; // BUY || SELL - Default BUY
     shopImage?: string;
     blipShortRange?: boolean;
     blipSprite: number;
@@ -26,7 +26,7 @@ export interface IShopLocation {
     isBlip?: boolean; //Enable/Disable blip e.g. none for Vendors. Already defined from Athena in shared/information
 }
 
-export enum shopType {
+export enum ShopType {
     BUY = 'buy', //Players can buy stuff
     SELL = 'sell', //Players can sell stuff
 }
