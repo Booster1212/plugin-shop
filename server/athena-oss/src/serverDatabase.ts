@@ -1,6 +1,6 @@
 import * as alt from 'alt-server';
 import Database from '@stuyk/ezmongodb';
-import IShop, {IShopLocation, ShopType} from './interfaces/IShop';
+import IShop, {ShopType} from './interfaces/IShop';
 
 import {PedController} from "../../../server/streamers/ped";
 
@@ -48,26 +48,27 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
                     uid: `Shop-${dbShop.dbName}-${i}`,
                 });
             }
-            let pedModel = location.pedModel;
-            if (pedModel) {
+            let isPed = location.ped;
+            if (isPed) {
                 PedController.append({
-                    model: location.pedModel,
-                    pos: new alt.Vector3(location.x, location.y, location.z),
-                    heading: location.pedHeading,
+                    model: location.ped.model,
+                    pos: location.ped.pos,
+                    heading: location.ped.heading,
                     maxDistance: 100,
-                    animations: location.pedAnimations,
+                    animations: location.ped.animations,
                     dimension: 0,
                     uid: `PED-${dbShop.dbName}-${i}`
                 });
             }
             InteractionController.add({
-                position: getInteractionPosition(location),
+                position: new alt.Vector3(location.x, location.y, location.z),
                 description: OSS_TRANSLATIONS.openShop,
                 range: dbShop.interactionRange ? dbShop.interactionRange : OSS.interactionRange,
                 uid: `IC-${dbShop.dbName}-${i}`,
                 debug: false,
                 callback: (player: alt.Player) => initShopCallback(player, dbShop),
             });
+
         }
     });
 });
@@ -107,9 +108,4 @@ async function initShopCallback(player: alt.Player, shop: IShop) {
         }
     }
     alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, dataItems, shop.shopType);
-}
-
-function getInteractionPosition(location: IShopLocation): alt.Vector3 {
-    return new alt.Vector3(location.pedInteractionOffset * Math.sin(location.pedHeading) + location.x,
-        location.pedInteractionOffset * Math.cos(location.pedHeading) + location.y, location.z)
 }

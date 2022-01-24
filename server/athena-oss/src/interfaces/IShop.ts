@@ -1,5 +1,6 @@
 import IShopListItem from './IShopListItem';
 import { Animation } from '../../../../shared/interfaces/animation';
+import alt from "alt-server";
 
 export default interface IShop {
     _id?: string;
@@ -25,10 +26,12 @@ export interface IShopLocation {
     y: number;
     z: number;
     isBlip?: boolean; //Enable/Disable blip e.g. none for Vendors. Already defined from Athena in shared/information
-    pedModel?: string;
-    pedHeading?: number;
-    pedAnimations?: Animation[];
-    pedInteractionOffset?: number | 1; // moves the interaction-point in heading-direction from ped. Default is 1 when ped used
+    ped?: {
+        model: string;
+        heading: number;
+        pos: alt.Vector3;
+        animations?: Animation[];
+    }
 }
 
 export enum ShopType {
