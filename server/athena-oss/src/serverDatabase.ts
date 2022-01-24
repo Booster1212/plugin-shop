@@ -1,6 +1,15 @@
 import * as alt from 'alt-server';
 import Database from '@stuyk/ezmongodb';
-import IShop, { ShopType } from './interfaces/IShop';
+import IShop, {IShopLocation, shopType} from './interfaces/IShop';
+
+import {OSS, OSS_TRANSLATIONS} from '../index';
+import {InteractionController} from '../../../server/systems/interaction';
+import {ServerBlipController} from '../../../server/systems/blip';
+import {SYSTEM_EVENTS} from '../../../shared/enums/system';
+import {ItemFactory} from "../../../server/systems/item";
+import {ShopRegistry} from "./shopRegistry";
+import {deepCloneObject} from "../../../shared/utility/deepCopy";
+import {PedController} from "../../../server/streamers/ped";
 
 import { OSS, OSS_TRANSLATIONS } from '../index';
 import { InteractionController } from '../../../server/systems/interaction';
@@ -46,8 +55,20 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
                     uid: `Shop-${dbShop.dbName}-${i}`,
                 });
             }
+            let pedModel = location.pedModel;
+            if (pedModel) {
+                PedController.append({
+                    model: location.pedModel,
+                    pos: new alt.Vector3(location.x, location.y, location.z),
+                    heading: location.pedHeading,
+                    maxDistance: 100,
+                    animations: location.pedAnimations,
+                    dimension: 0,
+                    uid: `PED-${dbShop.dbName}-${i}`
+                });
+            }
             InteractionController.add({
-                position: new alt.Vector3(location.x, location.y, location.z),
+                position: getInteractionPosition(location),
                 description: OSS_TRANSLATIONS.openShop,
                 range: dbShop.interactionRange ? dbShop.interactionRange : OSS.interactionRange,
                 uid: `IC-${dbShop.dbName}-${i}`,
@@ -93,4 +114,9 @@ async function initShopCallback(player: alt.Player, shop: IShop) {
         }
     }
     alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, dataItems, shop.shopType);
+}
+
+function getInteractionPosition(location: IShopLocation): alt.Vector3 {
+    return new alt.Vector3(location.pedInteractionOffset * Math.sin(location.pedHeading) + location.x,
+        location.pedInteractionOffset * Math.cos(location.pedHeading) + location.y, location.z)
 }
