@@ -24,6 +24,10 @@ export interface IShopLocation {
     y: number;
     z: number;
     isBlip?: boolean; //Enable/Disable blip e.g. none for Vendors. Already defined from Athena in shared/information
+    pedModel?: string;
+    pedHeading?: number;
+    pedAnimations?: Animation[];
+    pedInteractionOffset?: number | 1; // moves the interaction-point in heading-direction from ped. Default is 1 when ped used
 }
 
 export enum ShopType {
