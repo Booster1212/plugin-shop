@@ -1,4 +1,5 @@
 import IShopListItem from './IShopListItem';
+import { Animation } from '../../../../shared/interfaces/animation';
 
 export default interface IShop {
     _id?: string;

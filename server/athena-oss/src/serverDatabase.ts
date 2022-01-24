@@ -1,14 +1,7 @@
 import * as alt from 'alt-server';
 import Database from '@stuyk/ezmongodb';
-import IShop, {IShopLocation, shopType} from './interfaces/IShop';
+import IShop, {IShopLocation, ShopType} from './interfaces/IShop';
 
-import {OSS, OSS_TRANSLATIONS} from '../index';
-import {InteractionController} from '../../../server/systems/interaction';
-import {ServerBlipController} from '../../../server/systems/blip';
-import {SYSTEM_EVENTS} from '../../../shared/enums/system';
-import {ItemFactory} from "../../../server/systems/item";
-import {ShopRegistry} from "./shopRegistry";
-import {deepCloneObject} from "../../../shared/utility/deepCopy";
 import {PedController} from "../../../server/streamers/ped";
 
 import { OSS, OSS_TRANSLATIONS } from '../index';
