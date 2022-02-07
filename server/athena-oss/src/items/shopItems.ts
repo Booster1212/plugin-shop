@@ -25,7 +25,7 @@ const water: Item = {
     name: 'Waterbottle',
     description: 'Feeling thirsty?',
     icon: 'crate',
-    quantity: 0,
+    quantity: 1,
     behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
     data: {
         value: 25,
@@ -42,7 +42,7 @@ const energyDrink: Item = {
     name: 'Energy Drink',
     description: 'Feeling thirsty?',
     icon: 'crate',
-    quantity: 0,
+    quantity: 1,
     behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
     data: {
         value: 10,
@@ -59,7 +59,7 @@ const cola: Item = {
     name: 'Cola',
     description: 'Feeling thirsty?',
     icon: 'crate',
-    quantity: 0,
+    quantity: 1,
     behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
     data: {
         value: 5,
