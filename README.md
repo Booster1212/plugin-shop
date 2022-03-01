@@ -89,4 +89,4 @@ export const ShopRegistry: IShop[] = [
 
 ![image](https://user-images.githubusercontent.com/82890183/148634183-00270cd2-ba69-4a46-94ba-58434967c890.png)
 
-Join the plugin Discord -> https://discord.gg/Pk6gQ2agbQ
+Join the plugin Discord -> https://discord.gg/UzyFp8SKKg
