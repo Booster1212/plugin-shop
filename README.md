@@ -66,3 +66,12 @@ This project is licensed under the [MIT] License - see the LICENSE.md file for d
 
 * [Athena Framework](https://athenaframework.com/)
 * [Lord-Development Discord Server](https://discord.gg/UzyFp8SKKg)
+
+## Support my work
+
+Programming plugins of course takes a lot of time, since I provide most of it as open source code for learning purposes, you have the opportunity to support me here, this is of course on a purely voluntary basis, thank you! <3
+<p align="left">
+ <a href="https://www.paypal.com/donate/?hosted_button_id=V7L7S57VACCQQ">
+ <img src="https://raw.githubusercontent.com/andreostrovsky/donate-with-paypal/master/PNG/blue.png" style="width:256px"/>
+ </a>
+</p>
