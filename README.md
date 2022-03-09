@@ -6,7 +6,6 @@ Herewith we bring a free store system for the Athena Framework which is under th
 
 ## Description
 The store system is completely adapted to the Athena Framework and only things that are already integrated into the Athena Framework (Core) are used.
-Here are some Features of the Framework:
 * Features
   * Athena Framework (3.0.4)
   * Database driven
