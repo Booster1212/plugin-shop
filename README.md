@@ -1,92 +1,77 @@
-# OpenSourceShop![Fichier 37mdpi](https://user-images.githubusercontent.com/82890183/148142146-ba173e98-4c11-47d9-95da-6d83de2608af.png)
+# Open Source Shop
+<p align="center">
+<img src="https://user-images.githubusercontent.com/82890183/157355387-465bf4ca-382c-4e90-85ea-3fb05fab5984.png" style="text-align:center; width:256px; height:256px;"/>
+</p>
+Herewith we bring a free store system for the Athena Framework which is under the MIT license and thus can be completely modified and re-released.
 
-Welcome to Athena Open Source Shop! 
-Bringing Shops to the Athena Framework as absolute free and open source solution licensed as MIT. 
+## Description
+The store system is completely adapted to the Athena Framework and only things that are already integrated into the Athena Framework (Core) are used.
+* Features
+  * Athena Framework (3.0.4)
+  * Database driven
+  * Vending Machines
+  * Custom Shops (Buy/Sell)
+  * Searchbar
+  * TypeScript / VueJS 3
 
-So feel free to do whatever you want!
+## Getting Started
 
-# Features
-- VueJS (3)
-- Based on Athena's ItemFactory - Full Database integration (MongoDB)
-- Build on the latest version of the Athena Framework
-- Build with ease of use in mind
-- Different Shops for different Items 
-- Each shop can hold individual items.
-- Create selling or buying shops i.e. Drugseller or 24/7 Shop
-- Synced Food / Water List (Custom Item List for OSS / Custom Events)
-- 34 Default Shops
-- Minimalistic Frontend
+### Dependencies
 
-# Setup (Plugin)
+* Basic Knowledge of the Athena Framework, TypeScript and VueJS.
 
-- Drop ShopUI into a folder called "shopUI" inside of src-webviews/pages
-- Drop server/client files into athena-oss -> src/core/client-plugins, client stuff here -> src/core/server-plugins -> server stuff here.
+### Installing
 
+* Clone Repository (https://github.com/Booster1212/OpenSourceShop.git)
+* Copy the athena-oss folder from server/ directory into your src/core/server-plugins folder
+* Copy the athena-oss folder from client/ directory into your src/core/client-plugins folder
+* Copy the shopUI folder from pages/ directory into your src-webviews/pages folder
+* Add the imports listed below
 ```typescript
-- Imports (Client) ->
-- import './athena-oss/view';
-- import './athena-oss/src/client-events';
+// Server - imports.ts (TypeScript) => 
+import './athena-oss/index';
 
-Imports (Server) ->
-- import './OSS/index';
+// Client - impports.ts (TypeScript)
+import './athena-oss/view';
+import './athena-oss/src/client-events';
 
-src-webviews/pages/components.ts ->
-- import ShopUI from './shopUI/ShopUI.vue';
-- ShopUI: shallowRef(ShopUI)
+// VueJS - components.ts (Vue) =>
+import ShopUI from './shopUI/ShopUI.vue';
+const componentList = {
+    ShopUI: shallowRef(ShopUI),
+}
 ```
 
-# Setup (Shops / TYPE)
-```typescript
-// IShopLocation & IShop can be imported from "server/athena-oss/src/interfaces"
-export const coreShopLocations: IShopLocation[] = [
-    { x: 25.980966567993164, y: -1345.6417236328125, z: 28.497024536132812, isBlip: true } as IShopLocation, 
-    { x: 374.3475341796875, y: 328.112060546875, z: 102.56637573242188, isBlip: true } as IShopLocation, 
-    { x: -3041.32763671875, y: 585.155029296875, z: 6.908928871154785, isBlip: true } as IShopLocation, 
-    { x: -3243.743408203125, y: 1001.3903198242188, z: 11.830706596374512, isBlip: true } as IShopLocation, 
-    { x: 548.0447387695312, y: 2669.48876953125, z: 41.156490325927734, isBlip: true } as IShopLocation, 
-    { x: 1960.2322998046875, y: 3742.317138671875, z: 31.343746185302734, isBlip: true } as IShopLocation, 
-    { x: 1730.01171875, y: 6416.22021484375, z: 34.03722381591797, isBlip: true } as IShopLocation, 
-    { x: 2555.4609375, y: 382.1643371582031, z: 107.62295532226562, isBlip: true } as IShopLocation, 
-];
+## Help
 
-export const ShopRegistry: IShop[] = [
-    // BUY SHOP
-    {
-        name: '24/7 Shop',
-        dbName: '24-7-Shop',
-        blipSprite: 59,
-        blipColor: 2,
-        blipScale: 1,
-        data: {
-            items: [
-                { dbName: 'bread', price: 75 },
-                { dbName: 'Shophotdog', price: 375 },
-                { dbName: 'Shopwater', price: 250 },
-                { dbName: 'Shopcola', price: 250 },
-                { dbName: 'Shopenergy', price: 300 },
-            ],
-        },
-        locations: coreShopLocations,
-    },
-    // SELL SHOP
-    {
-        name: 'Seller Example',
-        dbName: 'SellerExample',
-        shopType: shopType.SELL,
-        blipSprite: 52,
-        blipColor: 1,
-        blipScale: 1,
-        data: {
-            items: [{ dbName: 'burger', price: 330 }],
-        },
-        locations: sellerExampleLocations,
-    },
-];
-```
+In case of any unforeseen problems with the store system, please feel free to contact us in our Discord server, we will try to help you as soon as possible.
 
-# Images
-![unknown](https://user-images.githubusercontent.com/82890183/148910952-470985fe-5fed-41ed-8b87-08c9977f71c2.png)
+## Contribute to this plugin
 
-![image](https://user-images.githubusercontent.com/82890183/148634183-00270cd2-ba69-4a46-94ba-58434967c890.png)
+If you want to contribute something to our open source store system, you are very welcome to do so by creating a pull request, you can of course also submit bugs or feature requests via the GitHub issue system!
 
-Join the plugin Discord -> https://discord.gg/UzyFp8SKKg
+## Authors & Contributors
+* Author
+  * Der Lord!
+* Contributors
+  * deeMace (Special Thanks)
+  * jonesXYZ (Some Frontend)
+  * CANAKIL
+
+## License
+
+This project is licensed under the [MIT] License - see the LICENSE.md file for details
+
+## Links
+
+* [Athena Framework](https://athenaframework.com/)
+* [Lord-Development Discord Server](https://discord.gg/UzyFp8SKKg)
+
+## Support my work
+
+Programming plugins of course takes a lot of time, since I provide most of it as open source code for learning purposes, you have the opportunity to support me here, this is of course on a purely voluntary basis, thank you! <3
+<p align="left">
+ <a href="https://www.paypal.com/donate/?hosted_button_id=V7L7S57VACCQQ">
+ <img src="https://raw.githubusercontent.com/andreostrovsky/donate-with-paypal/master/PNG/blue.png" style="width:256px"/>
+ </a>
+</p>
