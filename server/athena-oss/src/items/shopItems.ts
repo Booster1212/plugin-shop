@@ -1,4 +1,5 @@
 import { ItemFactory } from '../../../../server/systems/item';
+import effects from '../../../../shared/enums/effects';
 import { ITEM_TYPE } from '../../../../shared/enums/itemTypes';
 import { Item } from '../../../../shared/interfaces/item';
 
@@ -11,7 +12,7 @@ const hotdog: Item = {
     behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
     data: {
         value: 25,
-        event: 'OSS:Server:SetFood',
+        event: effects.EFFECT_FOOD,
         sound: 'item_eat',
     },
     dbName: 'Shophotdog',
@@ -29,7 +30,7 @@ const water: Item = {
     behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
     data: {
         value: 25,
-        event: 'OSS:Server:SetWater',
+        event: effects.EFFECT_WATER,
         sound: 'item_eat',
     },
     dbName: 'Shopwater',
@@ -46,7 +47,7 @@ const energyDrink: Item = {
     behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
     data: {
         value: 10,
-        event: 'OSS:Server:SetWater',
+        event: effects.EFFECT_WATER,
         sound: 'item_eat',
     },
     dbName: 'Shopenergy',
@@ -63,7 +64,7 @@ const cola: Item = {
     behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
     data: {
         value: 5,
-        event: 'OSS:Server:SetWater',
+        event: effects.EFFECT_WATER,
         sound: 'item_eat',
     },
     dbName: 'Shopcola',
