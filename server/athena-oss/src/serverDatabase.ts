@@ -14,6 +14,7 @@ const PAGENAME = 'ShopUI';
 
 alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
     ShopRegistry.forEach(async (shop, index) => {
+        const fetchedShop = await Database.fetchData<IShop>('dbName', shop.dbName, OSS.collection);
         let dbShop: IShop = await Database.fetchAllByField<IShop>('dbName', shop.dbName, OSS.collection)[0];
         if (!dbShop) {
             dbShop = deepCloneObject(shop);
@@ -28,11 +29,13 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
                 item.price = getRandomInt(1, registryPrice);
             });
         }
-        if (!dbShop._id) {
+
+        if (fetchedShop !== null && fetchedShop !== undefined) {
+            await Database.updatePartialData(fetchedShop._id, dbShop, OSS.collection);
+        } else if (!fetchedShop) {
             await Database.insertData(dbShop, OSS.collection, false);
-        } else {
-            await Database.updatePartialData(dbShop._id, dbShop, OSS.collection);
         }
+
         for (let i = 0; i < dbShop.locations.length; i++) {
             let location = dbShop.locations[i];
             if (location.isBlip) {
