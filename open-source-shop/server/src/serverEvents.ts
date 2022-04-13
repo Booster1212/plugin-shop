@@ -2,12 +2,14 @@ import * as alt from 'alt-server';
 import { playerFuncs } from '../../../../server/extensions/extPlayer';
 import { ItemFactory } from '../../../../server/systems/item';
 import { CurrencyTypes } from '../../../../shared/enums/currency';
+import { iShopItem } from '../../shared/interfaces/IShopItem';
 import { OSS_TRANSLATIONS } from '../index';
 
 const PAGENAME = 'ShopUI';
 alt.onClient(
     `${PAGENAME}:Server:HandleShop`,
-    async (player: alt.Player, shopItem: any, amount: number, type: string) => {
+    async (player: alt.Player, shopItem: iShopItem, amount: number, type: string) => {
+        alt.logError(JSON.stringify(shopItem));
         const itemToAdd = await ItemFactory.get(shopItem.dbName);
         if (!itemToAdd) return;
         if (amount < 1) {
