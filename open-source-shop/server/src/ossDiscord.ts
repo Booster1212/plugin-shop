@@ -4,9 +4,10 @@ import * as alt from 'alt-server';
 import Database from '@stuyk/ezmongodb';
 import { MessageEmbed } from 'discord.js';
 import { OSS } from '../index';
-import { DiscordController } from '../../../server/systems/discord';
-import { SYSTEM_EVENTS } from '../../../shared/enums/system';
+
 import IShop from './interfaces/IShop';
+import { DiscordController } from '../../../../server/systems/discord';
+import { SYSTEM_EVENTS } from '../../../../shared/enums/system';
 
 const OSS_DISCORD = {
     enableDiscordIntegration: false,
@@ -23,8 +24,8 @@ alt.on(SYSTEM_EVENTS.BOOTUP_ENABLE_ENTRY, async () => {
         alt.setTimeout(() => {
             for (let x = 0; x < allShops.length; x++) {
                 if (allShops[x].data.items.length > 0) itemsInShops++;
-                if (allShops[x].shopType === 'buy') buyShopsFound++;
-                if (allShops[x].shopType === 'sell') sellShopsFound++;
+                if (allShops[x].ShopType === 'buy') buyShopsFound++;
+                if (allShops[x].ShopType === 'sell') sellShopsFound++;
                 ossEmbed = new MessageEmbed()
                     .setTitle('OSS - Discord Integration')
                     .setURL('https://github.com/Booster1212/')

@@ -1,4 +1,3 @@
-import athenaVendingMachines from '../../../shared/information/vendingMachines';
 import IShop, { ShopType } from './interfaces/IShop';
 import { ltdLocations } from './shopLists/ltd';
 import { robsLiquorLocations } from './shopLists/robsLiquor';
@@ -45,7 +44,7 @@ export const ShopRegistry: IShop[] = [
     {
         name: 'Seller Example',
         dbName: 'SellerExample',
-        shopType: ShopType.SELL,
+        ShopType: ShopType.SELL,
         blipSprite: 52,
         blipColor: 1,
         blipScale: 1,

@@ -46,15 +46,15 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Button from '../../components/Button.vue';
-import Frame from '../../components/Frame.vue';
-import Icon from '../../components/Icon.vue';
-import Input from '../../components/Input.vue';
-import Modal from '../../components/Modal.vue';
-import Module from '../../components/Module.vue';
-import RangeInput from '../../components/RangeInput.vue';
-import Toolbar from '../../components/Toolbar.vue';
-import ResolvePath from '../../utility/pathResolver';
+import Button from '@components/Button.vue';
+import Frame from '@components/Frame.vue';
+import Icon from '@components/Icon.vue';
+import Input from '@components/Input.vue';
+import Modal from '@components/Modal.vue';
+import Module from '@components/Module.vue';
+import RangeInput from '@components/RangeInput.vue';
+import Toolbar from '@components/Toolbar.vue';
+import ResolvePath from '@utility/pathResolver';
 // DEBUGGING
 /*
 const SHOP = [
@@ -129,7 +129,7 @@ export default defineComponent({
     },
     computed: {
         filteredItems() {
-            return this.ShopSystem.ShopItems.filter((ShopItem) =>
+            return this.ShopSystem.ShopItems.filter((ShopItem: { name: string }, index: number) =>
                 ShopItem.name.toLowerCase().includes(this.search.toLowerCase()),
             );
         },
@@ -185,11 +185,9 @@ export default defineComponent({
                 this.selectedAmount[index] < 1
             )
                 this.selectedAmount[index] = 1;
-            console.log(JSON.stringify(shopSystem.ShopItems[0]));
-            console.log(index, this.selectedAmount[index]);
             alt.emit(
                 `${ComponentName}:Client:HandleShop`,
-                shopSystem.ShopItems[index],
+                this.filteredItems[index],
                 this.selectedAmount[index],
                 this.shopType,
             );
