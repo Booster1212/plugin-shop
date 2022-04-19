@@ -1,14 +1,14 @@
-import * as alt from 'alt-server';
 import Database from '@stuyk/ezmongodb';
-import IShop, { ShopType } from './interfaces/IShop';
-
+import * as alt from 'alt-server';
+import { ServerBlipController } from '../../../../../server/systems/blip';
+import { InteractionController } from '../../../../../server/systems/interaction';
+import { ItemFactory } from '../../../../../server/systems/item';
+import { SYSTEM_EVENTS } from '../../../../../shared/enums/system';
+import { deepCloneObject } from '../../../../../shared/utility/deepCopy';
 import { OSS, OSS_TRANSLATIONS } from '../index';
-import { InteractionController } from '../../../server/systems/interaction';
-import { ServerBlipController } from '../../../server/systems/blip';
-import { SYSTEM_EVENTS } from '../../../shared/enums/system';
-import { ItemFactory } from '../../../server/systems/item';
+import IShop, { ShopType } from './interfaces/IShop';
 import { ShopRegistry } from './shopRegistry';
-import { deepCloneObject } from '../../../shared/utility/deepCopy';
+
 
 const PAGENAME = 'ShopUI';
 

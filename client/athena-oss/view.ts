@@ -1,7 +1,7 @@
 import * as alt from 'alt-client';
-import { WebViewController } from '../../client/extensions/view2';
-import ViewModel from '../../client/models/viewModel';
-import { isAnyMenuOpen } from '../../client/utility/menus';
+import { WebViewController } from '../../../../client/extensions/view2';
+import ViewModel from '../../../../client/models/viewModel';
+import { isAnyMenuOpen } from '../../../../client/utility/menus';
 
 // You should change this to match your Vue Template's ComponentName.
 const PAGE_NAME = 'ShopUI';

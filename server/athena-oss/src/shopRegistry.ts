@@ -1,16 +1,15 @@
-import athenaVendingMachines from '../../../shared/information/vendingMachines';
 import IShop, { ShopType } from './interfaces/IShop';
+import { ammunationLocations } from './shopLists/ammunation';
+import { bahamaMamasLocations } from './shopLists/bahamaMamas';
+import { coreShopLocations } from './shopLists/coreShops';
+import { juiceLocations } from './shopLists/juice';
+import { liquorAceLocations } from './shopLists/liquorAce';
 import { ltdLocations } from './shopLists/ltd';
 import { robsLiquorLocations } from './shopLists/robsLiquor';
-import { vanillaUnicornLocations } from './shopLists/vanillaUnicorn';
-import { bahamaMamasLocations } from './shopLists/bahamaMamas';
-import { tequiLaLaLocations } from './shopLists/tequiLaLa';
-import { ammunationLocations } from './shopLists/ammunation';
-import { toolShopLocations } from './shopLists/toolShop';
-import { liquorAceLocations } from './shopLists/liquorAce';
-import { juiceLocations } from './shopLists/juice';
 import { sellerExampleLocations } from './shopLists/sellerExample';
-import { coreShopLocations } from './shopLists/coreShops';
+import { tequiLaLaLocations } from './shopLists/tequiLaLa';
+import { toolShopLocations } from './shopLists/toolShop';
+import { vanillaUnicornLocations } from './shopLists/vanillaUnicorn';
 
 export const ShopRegistry: IShop[] = [
     /* {

@@ -1,8 +1,8 @@
 import * as alt from 'alt-server';
+import { playerFuncs } from '../../../../../server/extensions/extPlayer';
+import { ItemFactory } from '../../../../../server/systems/item';
+import { CurrencyTypes } from '../../../../../shared/enums/currency';
 import { OSS_TRANSLATIONS } from '../index';
-import { playerFuncs } from '../../../server/extensions/extPlayer';
-import { ItemFactory } from '../../../server/systems/item';
-import { CurrencyTypes } from '../../../shared/enums/currency';
 
 const PAGENAME = 'ShopUI';
 alt.onClient(
