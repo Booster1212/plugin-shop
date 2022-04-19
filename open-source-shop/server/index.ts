@@ -1,11 +1,9 @@
-import * as alt from 'alt-server';
-
-import './src/ossDiscord';
-import './src/items/shopItems';
-import './src/serverEvents';
-import './src/serverDatabase';
 import Database from '@stuyk/ezmongodb';
-import { PluginSystem } from '../../../server/systems/plugins';
+import * as alt from 'alt-server';
+import { PluginSystem } from '../../../../server/systems/plugins';
+import './src/items/shopItems';
+import './src/serverDatabase';
+import './src/serverEvents';
 
 export const OSS = {
     name: 'OSS',

@@ -1,9 +1,9 @@
 import * as alt from 'alt-client';
-import './src/client-events';
-import { WebViewController } from '../../../client/extensions/view2';
-import ViewModel from '../../../client/models/viewModel';
-import { isAnyMenuOpen } from '../../../client/utility/menus';
+import { WebViewController } from '../../../../client/extensions/view2';
+import ViewModel from '../../../../client/models/viewModel';
+import { isAnyMenuOpen } from '../../../../client/utility/menus';
 import { iShopItem } from '../shared/interfaces/IShopItem';
+import './src/client-events';
 
 // You should change this to match your Vue Template's ComponentName.
 const PAGE_NAME = 'ShopUI';

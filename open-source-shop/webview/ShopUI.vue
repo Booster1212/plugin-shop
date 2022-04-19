@@ -5,7 +5,7 @@
                 <div class="shopItem" v-for="(shopItem, index) in filteredItems" :key="index">
                     <div class="item" v-if="ShopSystem.ShopItems">
                         <div class="image">
-                            <img :src="ResolvePath(`../../assets/icons/${shopItem.image}.png`)" id="Images" />
+                            <!-- <img :src="ResolvePath(`../../assets/icons/${shopItem.image}.png`)" id="Images" /> -->
                         </div>
                         <div class="descriptions">
                             <span>{{ shopItem.name }}</span
@@ -54,7 +54,7 @@ import Modal from '@components/Modal.vue';
 import Module from '@components/Module.vue';
 import RangeInput from '@components/RangeInput.vue';
 import Toolbar from '@components/Toolbar.vue';
-import ResolvePath from '@utility/pathResolver';
+// import ResolvePath from '@utility/pathResolver';
 // DEBUGGING
 /*
 const SHOP = [
@@ -198,7 +198,7 @@ export default defineComponent({
                 alt.emit(`${ComponentName}:Vue:CloseShop`);
             }
         },
-        ResolvePath,
+        // ResolvePath,
     },
 });
 </script>
