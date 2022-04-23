@@ -9,7 +9,7 @@
                         </div>
                         <div class="descriptions">
                             <span>{{ shopItem.name }}</span
-                            ><br /><br /><br />
+                            ><br /><br />
                         </div>
                         <div class="inputButtons">
                             <span>{{ addCommas(shopItem.price) }}$</span><br /><br />
@@ -21,7 +21,7 @@
                                 maxlength="3"
                             />
                             <Button
-                                class="btn-grad"
+                                class="buyButton"
                                 :color="buttonColor"
                                 :flatten="false"
                                 :padding="2"
@@ -46,15 +46,15 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Button from '../../components/Button.vue';
-import Frame from '../../components/Frame.vue';
-import Icon from '../../components/Icon.vue';
-import Input from '../../components/Input.vue';
-import Modal from '../../components/Modal.vue';
-import Module from '../../components/Module.vue';
-import RangeInput from '../../components/RangeInput.vue';
-import Toolbar from '../../components/Toolbar.vue';
-import ResolvePath from '../../utility/pathResolver';
+import Button from '@components/Button.vue';
+import Frame from '@components/Frame.vue';
+import Icon from '@components/Icon.vue';
+import Input from '@components/Input.vue';
+import Modal from '@components/Modal.vue';
+import Module from '@components/Module.vue';
+import RangeInput from '@components/RangeInput.vue';
+import Toolbar from '@components/Toolbar.vue';
+import ResolvePath from '@utility/pathResolver';
 // DEBUGGING
 /*
 const SHOP = [
@@ -205,6 +205,7 @@ export default defineComponent({
 
 <style scoped>
 /* SHOPWRAPPER - DO NOT MODIFY */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 .shopWrapper {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -227,15 +228,12 @@ export default defineComponent({
 
 .shopItem .item {
     color: white;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
-        'Helvetica Neue', sans-serif;
+    font-family: 'Poppins';
     font-weight: 700;
     font-weight: none;
     font-size: 1em;
     background: rgb(0, 0, 0);
-    border: 2px outset rgb(65, 154, 196);
-    border-top-left-radius: 10%;
-    border-bottom-right-radius: 10%;
+    border: 1px solid rgb(65, 154, 196, 0.5);
     padding-bottom: 10%;
     margin-top: 10%;
     margin-left: 10%;
@@ -327,8 +325,7 @@ export default defineComponent({
     border: 0px;
     border-radius: 5px;
     border-color: white;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
-        'Helvetica Neue', sans-serif;
+    font-family: 'Poppins';
     font-size: 1.1em;
     font-weight: bolder;
     margin-bottom: 1vh;
@@ -339,9 +336,9 @@ export default defineComponent({
     align-items: center;
 }
 .buyButton {
-    border-radius: 5px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,
-        'Helvetica Neue', sans-serif;
+    border-radius: 0px;
+    border: 0px;
+    font-family: 'Poppins';
 }
 
 .btn-grad {

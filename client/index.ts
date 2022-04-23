@@ -1,13 +1,15 @@
 import * as alt from 'alt-client';
-import { WebViewController } from '../../../../client/extensions/view2';
-import ViewModel from '../../../../client/models/viewModel';
-import { isAnyMenuOpen } from '../../../../client/utility/menus';
+import { WebViewController } from '../../../client/extensions/view2';
+import ViewModel from '../../../client/models/viewModel';
+import { isAnyMenuOpen } from '../../../client/utility/menus';
+import { iShopItem } from '../shared/interfaces/IShopItem';
+import './src/client-events';
 
 // You should change this to match your Vue Template's ComponentName.
 const PAGE_NAME = 'ShopUI';
 const shopView = await WebViewController.get();
-let items = [];
-let xType = '';
+let items: Array<iShopItem> = [];
+let action: string;
 class InternalFunctions implements ViewModel {
     static async open() {
         // Check if any other menu is open before opening this.
@@ -71,13 +73,13 @@ class InternalFunctions implements ViewModel {
      * @memberof InternalFunctions
      */
     static async ready() {
-        shopView.emit(`${PAGE_NAME}:Vue:SetItems`, items, xType);
+        shopView.emit(`${PAGE_NAME}:Vue:SetItems`, items, action);
     }
 }
 
-alt.on(`${PAGE_NAME}:Vue:Open`, (shopItems, type: string) => {
+alt.on(`${PAGE_NAME}:Vue:Open`, (shopItems: Array<iShopItem>, type: string) => {
     items = shopItems;
-    xType = type;
+    action = type;
     InternalFunctions.open();
     return;
 });
