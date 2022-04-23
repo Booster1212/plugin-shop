@@ -10,7 +10,6 @@ const PAGENAME = 'ShopUI';
 alt.onClient(
     `${PAGENAME}:Server:HandleShop`,
     async (player: alt.Player, shopItem: iShopItem, amount: number, type: string) => {
-        alt.logError(JSON.stringify(shopItem));
         const itemToAdd = await ItemFactory.get(shopItem.dbName);
         if (!itemToAdd) return;
         if (amount < 1) {

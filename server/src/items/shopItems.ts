@@ -11,12 +11,12 @@ const hotdog: Item = {
     quantity: 1,
     behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
     data: {
-        value: 25,
+        amount: 25,
         event: effects.EFFECT_FOOD,
         sound: 'item_eat',
     },
     dbName: 'Shophotdog',
-    version: 1,
+    version: 2,
 };
 await ItemFactory.add(hotdog);
 await ItemFactory.update(hotdog.dbName, hotdog);
@@ -29,12 +29,12 @@ const water: Item = {
     quantity: 0,
     behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
     data: {
-        value: 25,
+        amount: 25,
         event: effects.EFFECT_WATER,
         sound: 'item_eat',
     },
     dbName: 'Shopwater',
-    version: 1,
+    version: 2,
 };
 await ItemFactory.add(water);
 await ItemFactory.update(water.dbName, water);
@@ -46,12 +46,12 @@ const energyDrink: Item = {
     quantity: 0,
     behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
     data: {
-        value: 10,
+        amount: 10,
         event: effects.EFFECT_WATER,
         sound: 'item_eat',
     },
     dbName: 'Shopenergy',
-    version: 1,
+    version: 2,
 };
 await ItemFactory.add(energyDrink);
 await ItemFactory.update(energyDrink.dbName, energyDrink);
@@ -63,12 +63,12 @@ const cola: Item = {
     quantity: 0,
     behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
     data: {
-        value: 5,
+        amount: 5,
         event: effects.EFFECT_WATER,
         sound: 'item_eat',
     },
     dbName: 'Shopcola',
-    version: 1,
+    version: 2,
 };
 await ItemFactory.add(cola);
 await ItemFactory.update(cola.dbName, cola);
