@@ -5,7 +5,7 @@
                 <div class="shopItem" v-for="(shopItem, index) in filteredItems" :key="index">
                     <div class="item" v-if="ShopSystem.ShopItems">
                         <div class="image">
-                            <!-- <img :src="ResolvePath(`../../assets/icons/${shopItem.image}.png`)" id="Images" /> -->
+                            <img :src="ResolvePath(`../../assets/icons/${shopItem.image}.png`)" id="Images" />
                         </div>
                         <div class="descriptions">
                             <span>{{ shopItem.name }}</span
@@ -54,7 +54,7 @@ import Modal from '@components/Modal.vue';
 import Module from '@components/Module.vue';
 import RangeInput from '@components/RangeInput.vue';
 import Toolbar from '@components/Toolbar.vue';
-// import ResolvePath from '@utility/pathResolver';
+import ResolvePath from '@utility/pathResolver';
 // DEBUGGING
 /*
 const SHOP = [
@@ -198,13 +198,14 @@ export default defineComponent({
                 alt.emit(`${ComponentName}:Vue:CloseShop`);
             }
         },
-        // ResolvePath,
+        ResolvePath,
     },
 });
 </script>
 
 <style scoped>
-/* SHOPWRAPPER - DO NOT MODIFY */@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* SHOPWRAPPER - DO NOT MODIFY */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 .shopWrapper {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

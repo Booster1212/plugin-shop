@@ -1,7 +1,8 @@
 import * as alt from 'alt-server';
-import { playerFuncs } from '../../../../../server/extensions/extPlayer';
-import { ItemFactory } from '../../../../../server/systems/item';
-import { CurrencyTypes } from '../../../../../shared/enums/currency';
+import { playerFuncs } from '../../../../server/extensions/extPlayer';
+import { ItemFactory } from '../../../../server/systems/item';
+import { CurrencyTypes } from '../../../../shared/enums/currency';
+
 import { iShopItem } from '../../shared/interfaces/IShopItem';
 import { OSS_TRANSLATIONS } from '../index';
 

@@ -1,7 +1,7 @@
-import { ItemFactory } from "../../../../../../server/systems/item";
-import effects from "../../../../../../shared/enums/effects";
-import { ITEM_TYPE } from "../../../../../../shared/enums/itemTypes";
-import { Item } from "../../../../../../shared/interfaces/item";
+import { ItemFactory } from "../../../../../server/systems/item";
+import effects from "../../../../../shared/enums/effects";
+import { ITEM_TYPE } from "../../../../../shared/enums/itemTypes";
+import { Item } from "../../../../../shared/interfaces/item";
 
 // Stuff to eat
 const hotdog: Item = {

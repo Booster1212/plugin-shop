@@ -1,6 +1,7 @@
 import Database from '@stuyk/ezmongodb';
 import * as alt from 'alt-server';
-import { PluginSystem } from '../../../../server/systems/plugins';
+import { PluginSystem } from '../../../server/systems/plugins';
+
 import './src/items/shopItems';
 import './src/serverDatabase';
 import './src/serverEvents';
