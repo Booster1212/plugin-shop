@@ -1,4 +1,4 @@
-import {PedController} from "../../../../server/streamers/ped";
+import { PedController } from '../../../../server/streamers/ped';
 import * as alt from 'alt-server';
 
 import { ServerBlipController } from '../../../../server/systems/blip';
@@ -8,14 +8,11 @@ import { OSS, OSS_TRANSLATIONS } from '../index';
 import IShop, { ShopType } from './interfaces/IShop';
 import { ShopRegistry } from './shopRegistry';
 
-
 const PAGENAME = 'ShopUI';
 
 export class ShopInitializer {
-
     static async startupShop() {
         ShopRegistry.forEach(async (shop) => {
-
             if (
                 (OSS.randomizeSellers && shop.shopType === ShopType.SELL) ||
                 (OSS.randomizeBuyers && (!shop.shopType || shop.shopType === ShopType.BUY))
@@ -47,7 +44,7 @@ export class ShopInitializer {
                         maxDistance: 100,
                         animations: location.ped.animations,
                         dimension: 0,
-                        uid: `PED-${shop.dbName}-${i}`
+                        uid: `PED-${shop.dbName}-${i}`,
                     });
                 }
                 InteractionController.add({
@@ -60,13 +57,6 @@ export class ShopInitializer {
                 });
             }
         });
-    }
-
-    // Thanks to developer docs of mozilla.
-    static getRandomInt(min: number, max: number) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min;
     }
 
     static async initShopCallback(player: alt.Player, shop: IShop) {
@@ -92,5 +82,12 @@ export class ShopInitializer {
             }
         }
         alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, dataItems, shop.shopType);
+    }
+
+    // Thanks to developer docs of mozilla.
+    static getRandomInt(min: number, max: number) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
     }
 }
