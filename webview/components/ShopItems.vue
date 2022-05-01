@@ -1,6 +1,6 @@
 <template>
     <div class="item-wrapper">
-        <div class="item" v-for="(item, index) in debugItems" :key="index">
+        <div class="item" v-for="(item, index) in serverItems" :key="index">
             <div class="img-wrapper">
                 <p>{{ item.name }}</p>
                 <img src="../../../../../../src-webviews/public/assets/icons/burger.png" id="image" />
@@ -22,10 +22,14 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent } from 'vue';
+import { defineAsyncComponent, onMounted } from 'vue';
+import { ShopEvents } from '../../shared/events/index';
 const Icon = defineAsyncComponent({
     loader: () => import('@components/Icon.vue'),
 });
+
+let serverItems: any = [];
+
 const debugItems = [
     { name: 'Burger', price: 250 },
     { name: 'Burger', price: 250 },
@@ -34,6 +38,18 @@ const debugItems = [
     { name: 'Burger', price: 250 },
     { name: 'Burger', price: 250 },
 ];
+
+onMounted(() => {
+    if('alt' in window) {
+        alt.on(ShopEvents.fillVueArray, handleSetItems);
+        console.log('ShopItems.vue: mounted');
+    }
+});
+
+function handleSetItems(currentShopItems: Array<any>, action: string) {
+    serverItems = currentShopItems;
+    console.log('ShopItems.vue: handleSetItems ' + currentShopItems);
+}
 </script>
 
 <style scoped>
