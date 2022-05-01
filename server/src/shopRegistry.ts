@@ -32,7 +32,7 @@ export const ShopRegistry: IShop[] = [
     {
         name: 'Seller Example',
         dbName: 'SellerExample',
-        ShopType: ShopType.SELL,
+        shopType: ShopType.SELL,
         blipSprite: 52,
         blipColor: 1,
         blipScale: 1,
