@@ -59,8 +59,7 @@ alt.on(`${PAGE_NAME}:Vue:Open`, (shopItems: Array<iShopItem>, type: string) => {
     return;
 });
 
-alt.onServer(`${PAGE_NAME}:Client:OpenShop`, (shopItems: Array<iShopItem>, type: string, shopImg: string) => {
-    // alt.emit(`${PAGE_NAME}:Vue:Open`, shopItems, type, shopImg);
+alt.onServer(`${PAGE_NAME}:Client:OpenShop`, (shopItems: Array<iShopItem>, type: string) => {
     items = shopItems;
     action = type;
     InternalFunctions.open();

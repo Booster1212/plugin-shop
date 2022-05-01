@@ -12,18 +12,6 @@ import { toolShopLocations } from './shopLists/toolShop';
 import { vanillaUnicornLocations } from './shopLists/vanillaUnicorn';
 
 export const ShopRegistry: IShop[] = [
-    /* {
-        name: 'Vending machine',
-        dbName: 'VendingMmachine',
-        blipSprite: 59,
-        blipColor: 2,
-        blipScale: 1,
-        interactionRange: 1,
-        data: {
-            items: [{ dbName: 'burger', price: 50 }],
-        },
-        locations: athenaVendingMachines,
-    }, */
     {
         name: '24/7 Shop',
         dbName: '24-7-Shop',
