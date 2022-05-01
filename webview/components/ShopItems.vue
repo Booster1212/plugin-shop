@@ -22,13 +22,13 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, onMounted } from 'vue';
+import { defineAsyncComponent, onMounted, ref } from 'vue';
 import { ShopEvents } from '../../shared/events/index';
 const Icon = defineAsyncComponent({
     loader: () => import('@components/Icon.vue'),
 });
 
-let serverItems: any = [];
+let serverItems = ref([]);
 
 const debugItems = [
     { name: 'Burger', price: 250 },
@@ -41,13 +41,14 @@ const debugItems = [
 
 onMounted(() => {
     if('alt' in window) {
+        alt.emit('ShopUI:Ready');
         alt.on(ShopEvents.fillVueArray, handleSetItems);
         console.log('ShopItems.vue: mounted');
     }
 });
 
 function handleSetItems(currentShopItems: Array<any>, action: string) {
-    serverItems = currentShopItems;
+    serverItems.value = currentShopItems;
     console.log('ShopItems.vue: handleSetItems ' + currentShopItems);
 }
 </script>

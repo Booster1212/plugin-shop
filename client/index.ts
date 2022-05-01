@@ -4,7 +4,6 @@ import ViewModel from '../../../client/models/viewModel';
 import { isAnyMenuOpen } from '../../../client/utility/menus';
 import { ShopEvents } from '../shared/events';
 import { iShopItem } from '../shared/interfaces/IShopItem';
-import './src/client-events';
 
 const PAGE_NAME = 'ShopUI';
 const shopView = await WebViewController.get();
@@ -50,6 +49,7 @@ class InternalFunctions implements ViewModel {
 
     static async ready() {
         shopView.emit(ShopEvents.fillVueArray, items, action);
+        alt.log("Emitting...")
     }
 }
 
@@ -60,8 +60,12 @@ alt.on(`${PAGE_NAME}:Vue:Open`, (shopItems: Array<iShopItem>, type: string) => {
     return;
 });
 
-shopView.on(`${PAGE_NAME}:Vue:CloseShop`, () => {
-    InternalFunctions.close();
+alt.onServer(`${PAGE_NAME}:Client:OpenShop`, (shopItems: Array<iShopItem>, type: string, shopImg: string) => {
+    // alt.emit(`${PAGE_NAME}:Vue:Open`, shopItems, type, shopImg);
+    items = shopItems;
+    action = type;
+    InternalFunctions.open();
+    return;
 });
 
 shopView.on(`${PAGE_NAME}:Client:HandleShop`, (shopItem: {}[], amount: number, type: string) => {
