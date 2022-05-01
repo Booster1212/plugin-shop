@@ -49,7 +49,6 @@ class InternalFunctions implements ViewModel {
 
     static async ready() {
         shopView.emit(ShopEvents.fillVueArray, items, action);
-        alt.log("Emitting...")
     }
 }
 

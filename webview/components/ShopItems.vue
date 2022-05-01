@@ -43,13 +43,11 @@ onMounted(() => {
     if('alt' in window) {
         alt.emit('ShopUI:Ready');
         alt.on(ShopEvents.fillVueArray, handleSetItems);
-        console.log('ShopItems.vue: mounted');
     }
 });
 
 function handleSetItems(currentShopItems: Array<any>, action: string) {
     serverItems.value = currentShopItems;
-    console.log('ShopItems.vue: handleSetItems ' + currentShopItems);
 }
 </script>
 
