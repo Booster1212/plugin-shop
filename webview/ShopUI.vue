@@ -6,7 +6,10 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent } from '@vue/runtime-core';
+import { defineAsyncComponent, defineComponent } from '@vue/runtime-core';
+defineComponent({
+    name: 'ShopUI'
+});
 const ShopContent = defineAsyncComponent({
     loader: () => import('./components/ShopContent.vue'),
 });
