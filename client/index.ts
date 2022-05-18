@@ -48,25 +48,16 @@ class InternalFunctions implements ViewModel {
     }
 
     static async ready() {
-        shopView.emit(ShopEvents.fillVueArray, items, action);
+        shopView.emit(ShopEvents.fillShop, items, action);
     }
 }
 
-alt.on(`${PAGE_NAME}:Vue:Open`, (shopItems: Array<iShopItem>, type: string) => {
+alt.onServer(ShopEvents.openShop, (shopItems: Array<iShopItem>, shopAction: string) => {
     items = shopItems;
-    action = type;
+    action = shopAction;
     InternalFunctions.open();
-    return;
 });
 
-alt.onServer(`${PAGE_NAME}:Client:OpenShop`, (shopItems: Array<iShopItem>, type: string) => {
-    items = shopItems;
-    action = type;
-    InternalFunctions.open();
-    return;
-});
-
-shopView.on(`${PAGE_NAME}:Client:HandleShop`, (shopItem: {}[], amount: number, type: string) => {
-    alt.emitServer(`${PAGE_NAME}:Server:HandleShop`, shopItem, amount, type);
-    return;
+shopView.on(ShopEvents.buyShopItem, (shopItem: Array<iShopItem>, amount: number, type: string) => {
+    alt.emitServer(ShopEvents.handleShop, shopItem, amount, type);
 });

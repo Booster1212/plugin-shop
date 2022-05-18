@@ -1,3 +1,6 @@
 export const enum ShopEvents {
-    fillVueArray = 'ShopUI:fillVueArray',
+    buyShopItem = 'ShopUI:buyShopItem',
+    fillShop = 'ShopUI:fillShop',
+    handleShop = 'ShopUI:handleShop',
+    openShop = 'OpenShop',
 }
