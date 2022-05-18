@@ -87,6 +87,8 @@ function close() {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;600;700;800;900&display=swap');
 .wrapper {
+    position: absolute;
+    left: 5%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -184,12 +186,8 @@ function close() {
     color: rgb(150, 143, 143);
 }
 .modal-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     position: fixed;
-    left: 66%;
+    left: 36%;
 }
 /* Global Selector */
 * {
