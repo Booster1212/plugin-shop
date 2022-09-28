@@ -37,7 +37,7 @@ alt.onClient(
                     player,
                     `You've bought ${itemToAdd.name} x${amount - itemsLeftToStoreInInventory} for ${totalPrice}$!`,
                 );
-                Athena.player.save.field(player, 'inventory', player.data.inventory);
+                Athena.player.save.save(player, 'inventory', player.data.inventory);
                 Athena.player.sync.inventory(player);
                 return;
             }
@@ -51,7 +51,7 @@ alt.onClient(
                 Athena.player.emit.notification(player, `You dont have any of this item!`);
             } else {
                 let totalPrice = (amount - amountLeft) * shopItem.price;
-                Athena.player.save.field(player, 'inventory', player.data.inventory);
+                Athena.player.save.save(player, 'inventory', player.data.inventory);
                 Athena.player.sync.inventory(player);
                 Athena.player.currency.add(player, CurrencyTypes.CASH, totalPrice);
                 Athena.player.emit.notification(
