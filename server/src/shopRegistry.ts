@@ -1,4 +1,5 @@
-import IShop, { ShopType } from './interfaces/IShop';
+import { IShop } from '../../shared/interfaces';
+import { ShopType } from '../../shared/enums';
 import { ammunationLocations } from './shopLists/ammunation';
 import { bahamaMamasLocations } from './shopLists/bahamaMamas';
 import { coreShopLocations } from './shopLists/coreShops';
@@ -49,8 +50,8 @@ export const ShopRegistry: IShop[] = [
         blipScale: 1,
         data: {
             items: [
-                // {dbName: 'burger', price: 20},
-                // {dbName: 'bread', price: 20},
+                { dbName: 'burger', price: 20 },
+                { dbName: 'bread', price: 20 },
                 // {dbName: 'repair-kit', price: 20}
             ],
         },

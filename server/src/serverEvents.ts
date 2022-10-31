@@ -1,10 +1,10 @@
 import * as alt from 'alt-server';
-import { OSS_TRANSLATIONS } from '..';
+import { OSS_TRANSLATIONS } from '../../shared/enums';
 import { Athena } from '../../../../server/api/athena';
 import { ItemFactory } from '../../../../server/systems/item';
 import { CurrencyTypes } from '../../../../shared/enums/currency';
 
-const PAGENAME = 'ShopUI';
+const PAGENAME = 'OSS_ShopUI';
 
 alt.onClient(
     `${PAGENAME}:Server:HandleShop`,

@@ -1,4 +1,4 @@
-import { IShopLocation } from '../interfaces/IShop';
+import { IShopLocation } from '../../../shared/interfaces';
 
 export const bahamaMamasLocations: IShopLocation[] = [
     { x: -1394.1494140625, y: -603.96923828125, z: 30.3077392578125, isBlip: true },

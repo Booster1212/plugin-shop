@@ -2,14 +2,16 @@ import * as alt from 'alt-client';
 import { WebViewController } from '../../../client/extensions/view2';
 import ViewModel from '../../../client/models/viewModel';
 import { isAnyMenuOpen } from '../../../client/utility/menus';
-import { iShopItem } from '../shared/interfaces/IShopItem';
+import { iShopItem } from '../shared/interfaces';
 import './src/client-events';
 
 // You should change this to match your Vue Template's ComponentName.
-const PAGE_NAME = 'ShopUI';
+const PAGE_NAME = 'OSS_ShopUI';
 const shopView = await WebViewController.get();
+
 let items: Array<iShopItem> = [];
 let action: string;
+
 class InternalFunctions implements ViewModel {
     static async open() {
         // Check if any other menu is open before opening this.
