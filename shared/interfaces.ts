@@ -1,8 +1,15 @@
-import IShopListItem from './IShopListItem';
-import { Animation } from '../../../../../shared/interfaces/animation';
-import alt from "alt-server";
+import { ShopType } from './enums';
+import * as alt from 'alt-shared';
+import { Animation } from '../../../shared/interfaces/animation';
 
-export default interface IShop {
+export interface iShopItem {
+    dbName: string;
+    price: number;
+    image: string;
+    name: string;
+}
+
+export interface IShop {
     _id?: string;
     name: string;
     dbName: string;
@@ -31,10 +38,12 @@ export interface IShopLocation {
         heading: number;
         pos: alt.Vector3;
         animations?: Animation[];
-    }
+    };
 }
 
-export enum ShopType {
-    BUY = 'buy', //Players can buy stuff
-    SELL = 'sell', //Players can sell stuff
+export interface IShopListItem {
+    dbName: string; // the dbName of the item, must be in ItemFactory
+    price: number; // the price of the item, must be in ItemFactory
+    name?: string; //Optional: The name of the Item. Default is name from Item-Factory
+    icon?: string; //Optional: The icon of the Item. Default is icon from Item-Factory
 }
