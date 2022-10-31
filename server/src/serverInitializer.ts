@@ -1,14 +1,14 @@
-import { PedController } from '../../../../server/streamers/ped';
 import * as alt from 'alt-server';
 
-import { ServerBlipController } from '../../../../server/systems/blip';
-import { InteractionController } from '../../../../server/systems/interaction';
 import { ItemFactory } from '../../../../server/systems/item';
-import { OSS, OSS_TRANSLATIONS } from '../index';
-import IShop, { ShopType } from './interfaces/IShop';
+import { OSS } from '../index';
+import { OSS_TRANSLATIONS } from '../../shared/enums';
+import { IShop } from '../../shared/interfaces';
+import { ShopType } from '../../shared/enums';
 import { ShopRegistry } from './shopRegistry';
+import { Athena } from '../../../../server/api/athena';
 
-const PAGENAME = 'ShopUI';
+const PAGENAME = 'OSS_ShopUI';
 
 export class ShopInitializer {
     static async startupShop() {
@@ -25,33 +25,33 @@ export class ShopInitializer {
             for (let i = 0; i < shop.locations.length; i++) {
                 let location = shop.locations[i];
                 if (location.isBlip) {
-                    ServerBlipController.append({
+                    Athena.controllers.blip.append({
                         pos: new alt.Vector3(location.x, location.y, location.z),
                         shortRange: true,
                         sprite: shop.blipSprite,
                         color: shop.blipColor,
                         text: shop.name,
                         scale: shop.blipScale,
-                        uid: `Shop-${shop.dbName}-${i}`,
+                        uid: `OSS-Shop-${shop.dbName}-${i}`,
                     });
                 }
                 let isPed = location.ped;
                 if (isPed) {
-                    PedController.append({
+                    Athena.controllers.ped.append({
                         model: location.ped.model,
                         pos: location.ped.pos,
                         heading: location.ped.heading,
                         maxDistance: 100,
                         animations: location.ped.animations,
                         dimension: 0,
-                        uid: `PED-${shop.dbName}-${i}`,
+                        uid: `OSS-PED-${shop.dbName}-${i}`,
                     });
                 }
-                InteractionController.add({
+                Athena.controllers.interaction.add({
                     position: new alt.Vector3(location.x, location.y, location.z),
                     description: OSS_TRANSLATIONS.openShop,
                     range: shop.interactionRange ? shop.interactionRange : OSS.interactionRange,
-                    uid: `IC-${shop.dbName}-${i}`,
+                    uid: `OSS-IC-${shop.dbName}-${i}`,
                     debug: false,
                     callback: (player: alt.Player) => ShopInitializer.initShopCallback(player, shop),
                 });
