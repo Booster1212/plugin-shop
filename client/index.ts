@@ -11,6 +11,8 @@ const shopView = await WebViewController.get();
 
 let items: Array<iShopItem> = [];
 let action: string;
+let shopName: string;
+let cardAccepted: boolean;
 
 class InternalFunctions implements ViewModel {
     static async open() {
@@ -75,22 +77,27 @@ class InternalFunctions implements ViewModel {
      * @memberof InternalFunctions
      */
     static async ready() {
-        shopView.emit(`${PAGE_NAME}:Vue:SetItems`, items, action);
+        shopView.emit(`${PAGE_NAME}:Vue:SetItems`, items, action, shopName, cardAccepted);
     }
 }
 
-alt.on(`${PAGE_NAME}:Vue:Open`, (shopItems: Array<iShopItem>, type: string) => {
-    items = shopItems;
-    action = type;
-    InternalFunctions.open();
-    return;
-});
+alt.onServer(
+    `${PAGE_NAME}:Client:OpenShop`,
+    (shopItems: Array<iShopItem>, type: string, name: string, acceptsCard: boolean) => {
+        items = shopItems;
+        action = type;
+        shopName = name;
+        cardAccepted = acceptsCard;
+        InternalFunctions.open();
+        return;
+    },
+);
 
 shopView.on(`${PAGE_NAME}:Vue:CloseShop`, () => {
     InternalFunctions.close();
 });
 
-shopView.on(`${PAGE_NAME}:Client:HandleShop`, (shopItem: {}[], amount: number, type: string) => {
-    alt.emitServer(`${PAGE_NAME}:Server:HandleShop`, shopItem, amount, type);
+shopView.on(`${PAGE_NAME}:Client:HandleShop`, (shopItem: {}[], amount: number, type: string, usingCash: boolean) => {
+    alt.emitServer(`${PAGE_NAME}:Server:HandleShop`, shopItem, amount, type, usingCash);
     return;
 });

@@ -20,6 +20,16 @@
                                 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value < 0) this.value = 1;"
                                 maxlength="3"
                             />
+                            <template v-if="shopAcceptsCard">
+                                <Button class="buyButton" :color="buttonColor" @click="changeMoneyType">
+                                    <Icon :size="16" :icon="moneyButton" />
+                                </Button>
+                            </template>
+                            <template v-else>
+                                <Button class="buyButton" color="grey" :disable="true">
+                                    <Icon :size="16" icon="icon-money1" />
+                                </Button>
+                            </template>
                             <Button
                                 class="buyButton"
                                 :color="buttonColor"
@@ -35,6 +45,9 @@
         </div>
         <div class="decoration" style="position: relative">
             <div class="logo"></div>
+            <div class="descriptions">
+                <span>{{ this.shopName }}</span>
+            </div>
             <div class="search-bar">
                 <input type="text" v-model="search" placeholder="" required />
                 <div class="search-icon"></div>
@@ -56,7 +69,7 @@ import RangeInput from '@components/RangeInput.vue';
 import Toolbar from '@components/Toolbar.vue';
 import ResolvePath from '@utility/pathResolver';
 // DEBUGGING
-/*
+
 const SHOP = [
     { name: 'Northern Haze Seeds', dbName: 'Northern Haze Seeds', price: 250, image: 'burger' },
     { name: 'Bread', dbName: 'Bread', price: 350, image: 'bread' },
@@ -71,7 +84,7 @@ const SHOP = [
     { name: 'Bread', price: 750, image: 'bread' },
     { name: 'Bread', price: 750, image: 'bread' },
 ];
-*/
+
 // Very Important! The name of the component must match the file name.
 // Don't forget to do this. This is a note so you don't forget.
 const ComponentName = 'OSS_ShopUI';
@@ -98,6 +111,10 @@ export default defineComponent({
             selectedAmount: [],
             keyword: '',
             shopLogo: './osslogo.png',
+            shopName: '',
+            shopAcceptsCard: false,
+            usingCash: true,
+            moneyButton: 'icon-money1',
             ShopSystem: {
                 ShopItems: [],
             },
@@ -110,6 +127,8 @@ export default defineComponent({
         if ('alt' in window) {
             alt.emit(`${ComponentName}:Ready`);
             alt.on(`${ComponentName}:Vue:SetItems`, this.fillShopItems);
+        } else {
+            this.fillShopItems(SHOP, 'buy', 'Test', true);
         }
         // Add Keybinds for In-Menu
         document.addEventListener('keyup', this.handleKeyPress);
@@ -159,11 +178,14 @@ export default defineComponent({
                 alt.emit(`${ComponentName}:Close`);
             }
         },
-        fillShopItems(shopItems: Array<String | number>[], type: string) {
+        fillShopItems(shopItems: Array<String | number>[], type: string, shopName: string, acceptsCard: boolean) {
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
             //shopSystem.ShopItems = SHOP; // Debugging Purpose
             shopSystem.ShopItems = shopItems;
+            this.shopName = shopName;
+            this.shopAcceptsCard = acceptsCard;
+
             if (type === 'sell') {
                 this.buttonText = 'Sell';
                 this.buttonColor = 'red';
@@ -190,8 +212,18 @@ export default defineComponent({
                 this.filteredItems[index],
                 this.selectedAmount[index],
                 this.shopType,
+                this.usingCash,
             );
             return;
+        },
+        changeMoneyType() {
+            if (this.usingCash && this.shopAcceptsCard) {
+                this.moneyButton = 'icon-bank';
+                this.usingCash = false;
+            } else if (!this.usingCash && this.shopAcceptsCard) {
+                this.moneyButton = 'icon-money1';
+                this.usingCash = true;
+            }
         },
         closePage() {
             if ('alt' in window) {

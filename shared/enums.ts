@@ -1,7 +1,7 @@
 export enum OSS_TRANSLATIONS {
     openShop = 'Open Shop',
     openSellingShop = 'Open Shop',
-    notEnoughCash = 'Not enough cash!',
+    notEnoughFunds = 'Not enough funds!',
 }
 
 export enum ShopType {

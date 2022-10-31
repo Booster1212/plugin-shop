@@ -3,7 +3,7 @@ import * as alt from 'alt-server';
 import { ItemFactory } from '../../../../server/systems/item';
 import { OSS } from '../index';
 import { OSS_TRANSLATIONS } from '../../shared/enums';
-import { IShop } from '../../shared/interfaces';
+import { IShop, IShopLocation } from '../../shared/interfaces';
 import { ShopType } from '../../shared/enums';
 import { ShopRegistry } from './shopRegistry';
 import { Athena } from '../../../../server/api/athena';
@@ -23,7 +23,7 @@ export class ShopInitializer {
                 });
             }
             for (let i = 0; i < shop.locations.length; i++) {
-                let location = shop.locations[i];
+                let location: IShopLocation = shop.locations[i];
                 if (location.isBlip) {
                     Athena.controllers.blip.append({
                         pos: new alt.Vector3(location.x, location.y, location.z),
@@ -53,15 +53,17 @@ export class ShopInitializer {
                     range: shop.interactionRange ? shop.interactionRange : OSS.interactionRange,
                     uid: `OSS-IC-${shop.dbName}-${i}`,
                     debug: false,
-                    callback: (player: alt.Player) => ShopInitializer.initShopCallback(player, shop),
+                    callback: (player: alt.Player) => ShopInitializer.initShopCallback(player, shop, location),
                 });
             }
         });
     }
 
-    static async initShopCallback(player: alt.Player, shop: IShop) {
+    static async initShopCallback(player: alt.Player, shop: IShop, location: IShopLocation) {
         let currentShop = shop;
         let dataItems = [];
+        let acceptsCard: boolean = location.shopAcceptsCard ? location.shopAcceptsCard : false;
+
         for (const item of currentShop.data.items) {
             let factoryItem = await ItemFactory.get(item.dbName);
             if (!factoryItem) {
@@ -81,7 +83,7 @@ export class ShopInitializer {
                 dataItems.push({ name: itemName, dbName: itemDbName, price: itemPrice, image: itemIcon });
             }
         }
-        alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, dataItems, shop.shopType);
+        alt.emitClient(player, `${PAGENAME}:Client:OpenShop`, dataItems, shop.shopType, shop.name, acceptsCard);
     }
 
     // Thanks to developer docs of mozilla.

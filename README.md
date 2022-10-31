@@ -15,6 +15,7 @@ The store system is completely adapted to the Athena Framework and only things t
     -   Vending Machines
     -   Custom Shops (Buy/Sell)
     -   Searchbar
+    -   Choose between cash-only or cash and bank
     -   TypeScript / VueJS 3
 
 ## Getting Started
