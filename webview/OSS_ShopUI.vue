@@ -74,7 +74,7 @@ const SHOP = [
 */
 // Very Important! The name of the component must match the file name.
 // Don't forget to do this. This is a note so you don't forget.
-const ComponentName = 'ShopUI';
+const ComponentName = 'OSS_ShopUI';
 export default defineComponent({
     name: ComponentName,
     // Used to add Custom Components
@@ -284,7 +284,7 @@ export default defineComponent({
     width: 15vw;
     height: 75vh;
     background: linear-gradient(180deg, rgba(35, 39, 42, 1) 0%, rgba(44, 47, 51, 0.7511379551820728) 100%),
-        url('shopUI.jpg');
+        url('OSS_shopUI.jpg');
     float: right;
     background-size: cover;
     background-position: center;
