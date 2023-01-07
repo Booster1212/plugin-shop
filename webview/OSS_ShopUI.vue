@@ -5,7 +5,11 @@
                 <div class="shopItem" v-for="(shopItem, index) in filteredItems" :key="index">
                     <div class="item" v-if="ShopSystem.ShopItems">
                         <div class="image">
-                            <img :src="ResolvePath(`../../assets/icons/${shopItem.image}.png`)" id="Images" />
+                            <img
+                                :src="ResolvePath(`../../assets/icons/${shopItem.image}.png`)"
+                                id="Images"
+                                alt="shopBg"
+                            />
                         </div>
                         <div class="descriptions">
                             <span>{{ shopItem.name }}</span
@@ -17,7 +21,7 @@
                                 type="number"
                                 placeholder="1"
                                 v-model="selectedAmount[index]"
-                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value < 0) this.value = 1;"
+                                @change="updateInput(this)"
                                 maxlength="3"
                             />
                             <template v-if="shopAcceptsCard">
@@ -46,18 +50,19 @@
         <div class="decoration" style="position: relative">
             <div class="logo"></div>
             <div class="descriptions">
-                <span>{{ this.shopName }}</span>
+                <span>{{ shopName }}</span>
             </div>
             <div class="search-bar">
                 <input type="text" v-model="search" placeholder="" required />
                 <div class="search-icon"></div>
             </div>
-            <Button color="red" class="btn-close" @click="closePage()">Close</Button>
+            <Button color="red" class="btn-close" @click="closePage()"> Close </Button>
         </div>
     </div>
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent } from 'vue';
 import Button from '@components/Button.vue';
 import Frame from '@components/Frame.vue';
@@ -68,8 +73,10 @@ import Module from '@components/Module.vue';
 import RangeInput from '@components/RangeInput.vue';
 import Toolbar from '@components/Toolbar.vue';
 import ResolvePath from '@utility/pathResolver';
-// DEBUGGING
+import WebViewEvents from '../../../../../src-webviews/src/utility/webViewEvents';
+import { ShopEvents } from '../shared/enums/ShopEvents';
 
+// DEBUGGING
 const SHOP = [
     { name: 'Northern Haze Seeds', dbName: 'Northern Haze Seeds', price: 250, image: 'burger' },
     { name: 'Bread', dbName: 'Bread', price: 350, image: 'bread' },
@@ -85,8 +92,6 @@ const SHOP = [
     { name: 'Bread', price: 750, image: 'bread' },
 ];
 
-// Very Important! The name of the component must match the file name.
-// Don't forget to do this. This is a note so you don't forget.
 const ComponentName = 'OSS_ShopUI';
 export default defineComponent({
     name: ComponentName,
@@ -120,31 +125,13 @@ export default defineComponent({
             },
         };
     },
-    // Called when the page is loaded.
     mounted() {
-        // Bind Events to Methods
-        // this.fillShopItems(SHOP); // Debugging Purpose
         if ('alt' in window) {
-            alt.emit(`${ComponentName}:Ready`);
-            alt.on(`${ComponentName}:Vue:SetItems`, this.fillShopItems);
+            WebViewEvents.emitClient(`${ComponentName}:Ready`);
+            WebViewEvents.on(ShopEvents.SET_ITEMS, this.fillShopItems);
         } else {
             this.fillShopItems(SHOP, 'buy', 'Test', true);
         }
-        // Add Keybinds for In-Menu
-        document.addEventListener('keyup', this.handleKeyPress);
-    },
-    // Called when the page is unloaded.
-    unmounted() {
-        // Make sure to turn off any document events as well.
-        // Only if they are present of course.
-        // Example:
-        // document.removeEventListener('mousemove', this.someFunction)
-        if ('alt' in window) {
-            alt.off(`${ComponentName}:Close`, this.close);
-            alt.off(`${ComponentName}:Vue:SetItems`, this.fillShopItems);
-        }
-        // Remove Keybinds for In-Menu
-        document.removeEventListener('keyup', this.handleKeyPress);
     },
     computed: {
         filteredItems() {
@@ -154,34 +141,35 @@ export default defineComponent({
         },
         cssVars() {
             return {
-                /* variables you want to pass to css */
                 '--img': this.shopLogo,
             };
         },
     },
-    // Used to define functions you can call with 'this.x'
     methods: {
+        updateInput(input) {
+            if (input.value.length > input.maxLength) {
+                input.value = input.value.slice(0, input.maxLength);
+            }
+            if (input.value < 0) {
+                input.value = 1;
+            }
+        },
+
         addCommas(nStr: string) {
             nStr += '';
-            var x = nStr.split('.');
-            var x1 = x[0];
-            var x2 = x.length > 1 ? '.' + x[1] : '';
-            var rgx = /(\d+)(\d{3})/;
+            let x = nStr.split('.');
+            let x1 = x[0];
+            let x2 = x.length > 1 ? '.' + x[1] : '';
+            let rgx = /(\d+)(\d{3})/;
             while (rgx.test(x1)) {
                 x1 = x1.replace(rgx, '$1' + '.' + '$2');
             }
             return x1 + x2;
         },
-        handleKeyPress(e) {
-            // Escape Key
-            if (e.keyCode === 27 && 'alt' in window) {
-                alt.emit(`${ComponentName}:Close`);
-            }
-        },
-        fillShopItems(shopItems: Array<String | number>[], type: string, shopName: string, acceptsCard: boolean) {
+
+        fillShopItems(shopItems: Array<string | number>[], type: string, shopName: string, acceptsCard: boolean) {
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
-            //shopSystem.ShopItems = SHOP; // Debugging Purpose
             shopSystem.ShopItems = shopItems;
             this.shopName = shopName;
             this.shopAcceptsCard = acceptsCard;
@@ -190,44 +178,37 @@ export default defineComponent({
                 this.buttonText = 'Sell';
                 this.buttonColor = 'red';
                 this.shopType = 'sell';
-            } else if (type === 'buy') {
+            } else {
                 this.buttonText = 'Buy me!';
                 this.buttonColor = 'green';
                 this.shopType = 'buy';
             }
-            return;
         },
-        // ShopItem
+
         buyShopItem(index: number) {
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
-            if (
-                this.selectedAmount[index] === null ||
-                this.selectedAmount[index] === undefined ||
-                this.selectedAmount[index] < 1
-            )
-                this.selectedAmount[index] = 1;
-            alt.emit(
-                `${ComponentName}:Client:HandleShop`,
+            const selectedAmount = this.selectedAmount[index] || 1;
+
+            WebViewEvents.emitServer(
+                ShopEvents.HANDLE_SHOP,
                 this.filteredItems[index],
-                this.selectedAmount[index],
+                selectedAmount,
                 this.shopType,
                 this.usingCash,
             );
-            return;
         },
+
         changeMoneyType() {
-            if (this.usingCash && this.shopAcceptsCard) {
-                this.moneyButton = 'icon-bank';
-                this.usingCash = false;
-            } else if (!this.usingCash && this.shopAcceptsCard) {
-                this.moneyButton = 'icon-money1';
-                this.usingCash = true;
+            if (this.shopAcceptsCard) {
+                this.usingCash = !this.usingCash;
+                this.moneyButton = this.usingCash ? 'icon-money1' : 'icon-bank';
             }
         },
+
         closePage() {
             if ('alt' in window) {
-                alt.emit(`${ComponentName}:Vue:CloseShop`);
+                WebViewEvents.emitClient(ShopEvents.CLOSE_SHOP);
             }
         },
         ResolvePath,
@@ -260,7 +241,8 @@ export default defineComponent({
 
 .shopItem .item {
     color: white;
-    font-family: 'Poppins';
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+        'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 700;
     font-weight: none;
     font-size: 1em;
@@ -287,6 +269,8 @@ export default defineComponent({
     text-align: center;
     padding-left: 5%;
     padding-right: 5%;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+        'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .shopBackground {
@@ -357,7 +341,8 @@ export default defineComponent({
     border: 0px;
     border-radius: 5px;
     border-color: white;
-    font-family: 'Poppins';
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+        'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 1.1em;
     font-weight: bolder;
     margin-bottom: 1vh;
@@ -370,21 +355,20 @@ export default defineComponent({
 .buyButton {
     border-radius: 0px;
     border: 0px;
-    font-family: 'Poppins';
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+        'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .btn-grad {
     width: 75%;
     left: 12.5%;
-}
-.btn-grad {
     margin-top: 5%;
     padding: 25px 45px;
     text-align: center;
     text-transform: uppercase;
     transition: 0.5s;
-    background-size: 100% auto;
     background: rgb(0, 0, 0);
+    background-size: 100% auto;
     border: 1px solid rgb(20, 171, 218);
     border-left: 0px;
     border-right: 0px;

@@ -1,4 +1,4 @@
-import { IShopLocation } from '../../../shared/interfaces';
+import { IShopLocation } from '@AthenaPlugins/open-source-shop/shared/interfaces/IShopLocation';
 
 export const coreShopLocations: IShopLocation[] = [
     { x: 25.980966567993164, y: -1345.6417236328125, z: 28.497024536132812, isBlip: true, shopAcceptsCard: true },

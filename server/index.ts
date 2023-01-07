@@ -1,8 +1,8 @@
 import * as alt from 'alt-server';
 import { PluginSystem } from '../../../server/systems/plugins';
-import { ShopInitializer } from './src/serverInitializer';
+import { ShopInitializer } from './src/shopInitializer';
 
-import './src/items/shopItems';
+import './src/items/main';
 import './src/serverEvents';
 
 export const OSS = {

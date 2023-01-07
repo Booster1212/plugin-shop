@@ -1,44 +1,38 @@
 import * as alt from 'alt-client';
+
+import { AthenaClient } from '@AthenaClient/api/athena';
 import { WebViewController } from '../../../client/extensions/view2';
 import ViewModel from '../../../client/models/viewModel';
 import { isAnyMenuOpen } from '../../../client/utility/menus';
-import { iShopItem } from '../shared/interfaces';
-import './src/client-events';
+import { ShopEvents } from '../shared/enums/ShopEvents';
+import { IShopItem } from '../shared/interfaces/IShopItem';
+import { Athena } from '@AthenaServer/api/athena';
 
-// You should change this to match your Vue Template's ComponentName.
 const PAGE_NAME = 'OSS_ShopUI';
-const shopView = await WebViewController.get();
 
-let items: Array<iShopItem> = [];
-let action: string;
-let shopName: string;
-let cardAccepted: boolean;
-
+const state = {
+    items: [] as Array<IShopItem>,
+    action: '',
+    shopName: '',
+    cardAccepted: false,
+};
 class InternalFunctions implements ViewModel {
     static async open() {
-        // Check if any other menu is open before opening this.
         if (isAnyMenuOpen()) {
             return;
         }
 
-        // Must always be called first if you want to hide HUD.
         await WebViewController.setOverlaysVisible(false);
 
-        // This is where we bind our received events from the WebView to
-        // the functions in our WebView.
-        const view = await WebViewController.get();
-        view.on(`${PAGE_NAME}:Ready`, InternalFunctions.ready);
-        view.on(`${PAGE_NAME}:Close`, InternalFunctions.close);
+        AthenaClient.webview.on(`${PAGE_NAME}:Ready`, InternalFunctions.ready);
+        AthenaClient.webview.open([PAGE_NAME], true, InternalFunctions.close);
 
-        // This is where we open the page and show the cursor.
         WebViewController.openPages([PAGE_NAME]);
         WebViewController.focus();
         WebViewController.showCursor(true);
 
-        // Turn off game controls, hide the hud.
         alt.toggleGameControls(false);
 
-        // Let the rest of the script know this menu is open.
         alt.Player.local.isMenuOpen = true;
     }
 
@@ -46,58 +40,26 @@ class InternalFunctions implements ViewModel {
         alt.toggleGameControls(true);
         WebViewController.setOverlaysVisible(true);
 
-        // Turn off bound events.
-        // If we do not turn them off we get duplicate event behavior.
-        // Also will cause a memory leak if you do not turn them off.
-        const view = await WebViewController.get();
-        view.off(`${PAGE_NAME}:Ready`, InternalFunctions.ready);
-        view.off(`${PAGE_NAME}:Close`, InternalFunctions.close);
-
-        // Close the page.
         WebViewController.closePages([PAGE_NAME]);
-
-        // Turn on game controls, show the hud.
         WebViewController.unfocus();
         WebViewController.showCursor(false);
 
-        // Let the rest of the script know this menu is closed.
         alt.Player.local.isMenuOpen = false;
     }
 
-    /**
-     * You should call this from the WebView.
-     * What this will let you do is define local data in the client.
-     *
-     * Then when the WebView is ready to receieve that data we can send it.
-     * The flow is:
-     *
-     * Send From WebView -> Get the Data Here -> Send to the WebView
-     *
-     * @static
-     * @memberof InternalFunctions
-     */
     static async ready() {
-        shopView.emit(`${PAGE_NAME}:Vue:SetItems`, items, action, shopName, cardAccepted);
+        AthenaClient.webview.emit(ShopEvents.SET_ITEMS, state.items, state.action, state.shopName, state.cardAccepted);
     }
 }
 
-alt.onServer(
-    `${PAGE_NAME}:Client:OpenShop`,
-    (shopItems: Array<iShopItem>, type: string, name: string, acceptsCard: boolean) => {
-        items = shopItems;
-        action = type;
-        shopName = name;
-        cardAccepted = acceptsCard;
-        InternalFunctions.open();
-        return;
-    },
-);
-
-shopView.on(`${PAGE_NAME}:Vue:CloseShop`, () => {
-    InternalFunctions.close();
+alt.onServer(ShopEvents.OPEN_SHOP, (shopItems, type, name, acceptsCard) => {
+    state.items = shopItems;
+    state.action = type;
+    state.shopName = name;
+    state.cardAccepted = acceptsCard;
+    InternalFunctions.open();
 });
 
-shopView.on(`${PAGE_NAME}:Client:HandleShop`, (shopItem: {}[], amount: number, type: string, usingCash: boolean) => {
-    alt.emitServer(`${PAGE_NAME}:Server:HandleShop`, shopItem, amount, type, usingCash);
-    return;
+AthenaClient.webview.on(ShopEvents.CLOSE_SHOP, () => {
+    InternalFunctions.close();
 });

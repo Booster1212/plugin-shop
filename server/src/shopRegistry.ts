@@ -1,5 +1,5 @@
-import { IShop } from '../../shared/interfaces';
-import { ShopType } from '../../shared/enums';
+import { ShopType } from '@AthenaPlugins/open-source-shop/shared/enums/ShopType';
+import { IShop } from '@AthenaPlugins/open-source-shop/shared/interfaces/IShop';
 import { ammunationLocations } from './shopLists/ammunation';
 import { bahamaMamasLocations } from './shopLists/bahamaMamas';
 import { coreShopLocations } from './shopLists/coreShops';

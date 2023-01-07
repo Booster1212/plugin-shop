@@ -1,4 +1,4 @@
-import { IShopLocation } from '../../../shared/interfaces';
+import { IShopLocation } from "@AthenaPlugins/open-source-shop/shared/interfaces/IShopLocation";
 
 export const robsLiquorLocations: IShopLocation[] = [
     { x: 1135.9544677734375, y: -981.8599853515625, z: 45.41580581665039, isBlip: true },
