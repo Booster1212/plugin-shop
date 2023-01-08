@@ -1,18 +1,16 @@
+import * as alt from 'alt-server';
 import { ItemFactory } from '@AthenaServer/systems/item';
-import { shopDrinks } from './shop_drinks';
+
 import { shopFood } from './shop_food';
+import { shopDrinks } from './shop_drinks';
 
-const addAllItems = async () => {
-    const shopItems = {
-        ...shopFood,
-        ...shopDrinks,
-    };
+const itemsToAdd = [...shopFood, ...shopDrinks];
 
-    for (const item in shopItems) {
-        const itemToAdd = shopItems[item];
-        await ItemFactory.add(itemToAdd);
-        await ItemFactory.update(itemToAdd.dbName, itemToAdd);
-    }
-};
+function addAllItems() {
+    itemsToAdd.forEach((item) => {
+        ItemFactory.add(item);
+        alt.log(`[OSS] Added ${item.name} Items to the ItemFactory`);
+    });
+}
 
 addAllItems();
