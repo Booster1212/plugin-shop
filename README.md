@@ -54,7 +54,7 @@ This project is licensed under the [MIT] License - see the LICENSE.md file for d
 ## Links
 
 -   [Athena Framework](https://athenaframework.com/)
--   [Lord-Development Discord Server](https://discord.gg/UzyFp8SKKg)
+-   [Hypedmedia.de - Discord Server](https://discord.gg/baHqqw7fbS)
 
 ## Support my work
 
