@@ -50,7 +50,7 @@
         <div class="decoration" style="position: relative">
             <div class="logo"></div>
             <div class="descriptions">
-                <span>{{ shopName }}</span>
+                <p style="text-align: center">{{ shopName }}</p>
             </div>
             <div class="search-bar">
                 <input type="text" v-model="search" placeholder="" required />
@@ -75,7 +75,6 @@ import Toolbar from '@components/Toolbar.vue';
 import ResolvePath from '@utility/pathResolver';
 import WebViewEvents from '../../../../../src-webviews/src/utility/webViewEvents';
 import { ShopEvents } from '../shared/enums/ShopEvents';
-
 // DEBUGGING
 const SHOP = [
     { name: 'Northern Haze Seeds', dbName: 'Northern Haze Seeds', price: 250, image: 'burger' },
@@ -154,7 +153,6 @@ export default defineComponent({
                 input.value = 1;
             }
         },
-
         addCommas(nStr: string) {
             nStr += '';
             let x = nStr.split('.');
@@ -166,14 +164,12 @@ export default defineComponent({
             }
             return x1 + x2;
         },
-
         fillShopItems(shopItems: Array<string | number>[], type: string, shopName: string, acceptsCard: boolean) {
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
             shopSystem.ShopItems = shopItems;
             this.shopName = shopName;
             this.shopAcceptsCard = acceptsCard;
-
             if (type === 'sell') {
                 this.buttonText = 'Sell';
                 this.buttonColor = 'red';
@@ -184,12 +180,10 @@ export default defineComponent({
                 this.shopType = 'buy';
             }
         },
-
         buyShopItem(index: number) {
             const shopSystem = { ...this.ShopSystem };
             this.ShopSystem = shopSystem;
             const selectedAmount = this.selectedAmount[index] || 1;
-
             WebViewEvents.emitServer(
                 ShopEvents.HANDLE_SHOP,
                 this.filteredItems[index],
@@ -198,14 +192,12 @@ export default defineComponent({
                 this.usingCash,
             );
         },
-
         changeMoneyType() {
             if (this.shopAcceptsCard) {
                 this.usingCash = !this.usingCash;
                 this.moneyButton = this.usingCash ? 'icon-money1' : 'icon-bank';
             }
         },
-
         closePage() {
             if ('alt' in window) {
                 WebViewEvents.emitClient(ShopEvents.CLOSE_SHOP);
@@ -224,13 +216,11 @@ export default defineComponent({
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
-
 .shopContainer {
     width: 60vw;
     padding: 0px;
     height: auto;
 }
-
 .shopItem {
     position: relative;
     color: white;
@@ -238,7 +228,6 @@ export default defineComponent({
     height: auto;
     margin-bottom: 10px;
 }
-
 .shopItem .item {
     color: white;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
@@ -247,17 +236,15 @@ export default defineComponent({
     font-weight: none;
     font-size: 1em;
     background: rgb(0, 0, 0);
-    border: 1px solid rgb(65, 154, 196, 0.5);
+    border: 1px solid rgba(29, 126, 171, 0.5);
     padding-bottom: 10%;
     margin-top: 10%;
     margin-left: 10%;
     margin-right: 10%;
 }
-
 .shopItem .image {
     max-height: 150px;
 }
-
 .shopItem .descriptions {
     position: relative;
     margin-top: 1.5vh;
@@ -272,7 +259,6 @@ export default defineComponent({
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
         'Open Sans', 'Helvetica Neue', sans-serif;
 }
-
 .shopBackground {
     position: absolute;
     background: rgba(0, 0, 0, 0.95);
@@ -288,14 +274,12 @@ export default defineComponent({
     overflow-y: scroll;
     overflow-x: hidden;
 }
-
 #Images {
     width: 64px;
     height: 64px;
     max-height: 128px;
     padding-top: 20px;
 }
-
 .decoration {
     width: 15vw;
     height: 75vh;
@@ -306,7 +290,6 @@ export default defineComponent({
     background-position: center;
     padding-top: 0;
 }
-
 .decoration input {
     width: 100%;
     height: 100%;
@@ -318,7 +301,6 @@ export default defineComponent({
     text-align: center;
     outline: none;
 }
-
 .logo {
     margin-left: 10%;
     width: 80%;
@@ -328,9 +310,8 @@ export default defineComponent({
     background-size: contain;
     margin-top: 10%;
 }
-
 .shopItem input {
-    background-color: rgba(0, 108, 180, 0.788);
+    background-color: rgba(43, 112, 158, 0.788);
     width: 80%;
     max-width: 80%;
     color: white;
@@ -358,7 +339,6 @@ export default defineComponent({
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
         'Open Sans', 'Helvetica Neue', sans-serif;
 }
-
 .btn-grad {
     width: 75%;
     left: 12.5%;
@@ -374,13 +354,11 @@ export default defineComponent({
     border-right: 0px;
     border-radius: 50px;
 }
-
 .btn-grad:hover {
     background-position: right center; /* change the direction of the change here */
     color: #fff;
     text-decoration: none;
 }
-
 .btn-close {
     max-width: 15vw;
     float: right;
@@ -391,23 +369,19 @@ export default defineComponent({
     border: 0px;
     width: 100%;
 }
-
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
     border-radius: 25px;
 }
-
 /* Track */
 ::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.35);
 }
-
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: rgba(255, 0, 0, 0.35);
 }
-
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 0, 0, 0.35);
@@ -487,7 +461,6 @@ export default defineComponent({
 .search-bar input:valid + .search-icon:after {
     background-color: #ccc;
 }
-
 .search-icon {
     display: inline-block;
     height: 20px;

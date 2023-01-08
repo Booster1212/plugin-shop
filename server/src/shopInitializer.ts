@@ -47,6 +47,7 @@ export class ShopInitializer {
                         uid: `OSS-PED-${shop.dbName}-${i}`,
                     });
                 }
+
                 Athena.controllers.interaction.add({
                     position: new alt.Vector3(location.x, location.y, location.z),
                     description: OSS_TRANSLATIONS.openShop,
@@ -65,18 +66,21 @@ export class ShopInitializer {
         let acceptsCard = location.shopAcceptsCard || false;
 
         for (const item of currentShop.data.items) {
-            let factoryItem = await ItemFactory.get(item.dbName);
+            let currentFactoryItems = ItemFactory.getAllItems();
+            const factoryItem = currentFactoryItems.find((x) => x.dbName === item.dbName);
             if (!factoryItem) {
                 alt.log(`${OSS.name} ${OSS.version}: Item ${item.dbName} is not in your ItemFactory!`);
                 continue;
             }
 
-            let itemIcon = item.icon || factoryItem.icon;
-            let itemName = item.name || factoryItem.name;
-            let itemDbName = item.dbName;
-            let itemPrice = item.price;
+            let states = {
+                icon: item.icon || 'crate',
+                name: item.name || factoryItem.name,
+                dbName: item.dbName,
+                price: item.price,
+            };
 
-            dataItems.push({ name: itemName, dbName: itemDbName, price: itemPrice, image: itemIcon });
+            dataItems.push({ name: states.name, dbName: states.dbName, price: states.price, image: states.icon });
         }
 
         alt.emitClient(player, ShopEvents.OPEN_SHOP, dataItems, shop.shopType, shop.name, acceptsCard);

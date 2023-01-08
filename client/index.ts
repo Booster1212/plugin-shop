@@ -6,7 +6,6 @@ import ViewModel from '../../../client/models/viewModel';
 import { isAnyMenuOpen } from '../../../client/utility/menus';
 import { ShopEvents } from '../shared/enums/ShopEvents';
 import { IShopItem } from '../shared/interfaces/IShopItem';
-import { Athena } from '@AthenaServer/api/athena';
 
 const PAGE_NAME = 'OSS_ShopUI';
 
@@ -16,6 +15,7 @@ const state = {
     shopName: '',
     cardAccepted: false,
 };
+
 class InternalFunctions implements ViewModel {
     static async open() {
         if (isAnyMenuOpen()) {
