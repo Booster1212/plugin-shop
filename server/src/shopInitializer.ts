@@ -64,9 +64,9 @@ export class ShopInitializer {
         let currentShop = shop;
         let dataItems = [];
         let acceptsCard = location.shopAcceptsCard || false;
+        let currentFactoryItems = ItemFactory.getAllItems();
 
         for (const item of currentShop.data.items) {
-            let currentFactoryItems = ItemFactory.getAllItems();
             const factoryItem = currentFactoryItems.find((x) => x.dbName === item.dbName);
             if (!factoryItem) {
                 alt.log(`${OSS.name} ${OSS.version}: Item ${item.dbName} is not in your ItemFactory!`);
