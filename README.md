@@ -10,13 +10,11 @@ Herewith we bring a free store system for the Athena Framework which is under th
 The store system is completely adapted to the Athena Framework and only things that are already integrated into the Athena Framework (Core) are used.
 
 -   Features
-    -   Athena Framework (3.9.0)
-    -   Database driven
-    -   Vending Machines
+    -   Athena Framework (4.0.2)
     -   Custom Shops (Buy/Sell)
     -   Searchbar
     -   Choose between cash-only or cash and bank
-    -   TypeScript / VueJS 3
+    -   TypeScript / VueJS
 
 ## Getting Started
 
@@ -44,8 +42,8 @@ If you want to contribute something to our open source store system, you are ver
 -   Contributors
     -   CANAKIL
     -   DavRenz
-    -   deeMace (Special Thanks)
-    -   jonesXYZ (Some Frontend)
+    -   deeMace
+    -   jonesXYZ
 
 ## License
 
