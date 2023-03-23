@@ -64,17 +64,13 @@
 <script lang="ts">
 // @ts-nocheck
 import { defineComponent } from 'vue';
+import { ShopEvents } from '../shared/enums/ShopEvents';
+
 import Button from '@components/Button.vue';
-import Frame from '@components/Frame.vue';
 import Icon from '@components/Icon.vue';
-import Input from '@components/Input.vue';
-import Modal from '@components/Modal.vue';
-import Module from '@components/Module.vue';
-import RangeInput from '@components/RangeInput.vue';
-import Toolbar from '@components/Toolbar.vue';
 import ResolvePath from '@utility/pathResolver';
 import WebViewEvents from '../../../../../src-webviews/src/utility/webViewEvents';
-import { ShopEvents } from '../shared/enums/ShopEvents';
+
 // DEBUGGING
 const SHOP = [
     { name: 'Northern Haze Seeds', dbName: 'Northern Haze Seeds', price: 250, image: 'burger' },
@@ -82,12 +78,6 @@ const SHOP = [
     { name: 'Burger', dbName: 'burger', price: 450, image: 'burger' },
     { name: 'Bread', price: 550, image: 'bread' },
     { name: 'Burger', price: 650, image: 'burger' },
-    { name: 'Bread', price: 750, image: 'bread' },
-    { name: 'Bread', price: 750, image: 'bread' },
-    { name: 'Bread', price: 750, image: 'bread' },
-    { name: 'Bread', price: 750, image: 'bread' },
-    { name: 'Bread', price: 750, image: 'bread' },
-    { name: 'Bread', price: 750, image: 'bread' },
     { name: 'Bread', price: 750, image: 'bread' },
 ];
 
@@ -97,13 +87,7 @@ export default defineComponent({
     // Used to add Custom Components
     components: {
         Button,
-        Frame,
         Icon,
-        Input,
-        Modal,
-        Module,
-        RangeInput,
-        Toolbar,
     },
     // Used to define state
     data() {
@@ -166,10 +150,13 @@ export default defineComponent({
         },
         fillShopItems(shopItems: Array<string | number>[], type: string, shopName: string, acceptsCard: boolean) {
             const shopSystem = { ...this.ShopSystem };
+
             this.ShopSystem = shopSystem;
-            shopSystem.ShopItems = shopItems;
             this.shopName = shopName;
             this.shopAcceptsCard = acceptsCard;
+
+            shopSystem.ShopItems = shopItems;
+
             if (type === 'sell') {
                 this.buttonText = 'Sell';
                 this.buttonColor = 'red';

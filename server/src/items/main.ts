@@ -1,16 +1,14 @@
-import * as alt from 'alt-server';
-import { ItemFactory } from '@AthenaServer/systems/item';
+import * as Athena from '@AthenaServer/api';
 
 import { shopFood } from './shop_food';
 import { shopDrinks } from './shop_drinks';
 
 const itemsToAdd = [...shopFood, ...shopDrinks];
 
-function addAllItems() {
-    itemsToAdd.forEach((item) => {
-        ItemFactory.add(item);
-        alt.log(`[OSS] Added ${item.name} Items to the ItemFactory`);
-    });
+async function registerShopItems() {
+    for (const item of itemsToAdd) {
+        await Athena.systems.inventory.factory.upsertAsync(item);
+    }
 }
 
-addAllItems();
+registerShopItems();

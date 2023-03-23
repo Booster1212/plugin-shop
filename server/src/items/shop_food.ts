@@ -1,20 +1,31 @@
 import effects from '@AthenaShared/enums/effects';
-import { ITEM_TYPE } from '@AthenaShared/enums/itemTypes';
-import { Item } from '@AthenaShared/interfaces/item';
+import { BaseItem } from '@AthenaShared/interfaces/item';
 
-export const shopFood: Array<Item> = [
+const foodBehavior = { canDrop: true, canStack: true, canTrade: true };
+
+export const shopFood: Array<BaseItem> = [
     {
-        name: 'Hotdog',
-        description: 'Feeling hungry?',
+        name: 'Bread',
+        weight: 0.25,
         icon: 'crate',
-        quantity: 1,
-        behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
+        behavior: foodBehavior,
         data: {
             amount: 25,
             event: effects.EFFECT_FOOD,
             sound: 'item_eat',
         },
-        dbName: 'Shophotdog',
-        version: 2,
+        dbName: 'shop-bread',
+    },
+    {
+        name: 'Hotdog',
+        weight: 1,
+        icon: 'crate',
+        behavior: foodBehavior,
+        data: {
+            amount: 25,
+            event: effects.EFFECT_FOOD,
+            sound: 'item_eat',
+        },
+        dbName: 'shop-hotdog',
     },
 ];

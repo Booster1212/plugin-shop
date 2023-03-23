@@ -1,48 +1,43 @@
 import effects from '@AthenaShared/enums/effects';
-import { ITEM_TYPE } from '@AthenaShared/enums/itemTypes';
-import { Item } from '@AthenaShared/interfaces/item';
+import { BaseItem } from '@AthenaShared/interfaces/item';
 
-export const shopDrinks: Array<Item> = [
+const drinkBehavior = { canDrop: true, canStack: true, canTrade: true };
+
+export const shopDrinks: Array<BaseItem> = [
     {
         name: 'Waterbottle',
-        description: 'Feeling thirsty?',
         icon: 'crate',
-        quantity: 0,
-        behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
+        behavior: drinkBehavior,
         data: {
             amount: 25,
             event: effects.EFFECT_WATER,
             sound: 'item_eat',
         },
-        dbName: 'Shopwater',
-        version: 2,
+        dbName: 'shop-water',
+        weight: 1,
     },
     {
         name: 'Energy Drink',
-        description: 'Feeling thirsty?',
         icon: 'crate',
-        quantity: 0,
-        behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
+        behavior: drinkBehavior,
         data: {
             amount: 10,
             event: effects.EFFECT_WATER,
             sound: 'item_eat',
         },
-        dbName: 'Shopenergy',
-        version: 2,
+        dbName: 'shop-energy',
+        weight: 0.25,
     },
     {
         name: 'Cola',
-        description: 'Feeling thirsty?',
         icon: 'crate',
-        quantity: 0,
-        behavior: ITEM_TYPE.CAN_TRADE | ITEM_TYPE.CAN_STACK | ITEM_TYPE.CAN_DROP | ITEM_TYPE.CONSUMABLE,
+        behavior: drinkBehavior,
         data: {
             amount: 5,
             event: effects.EFFECT_WATER,
             sound: 'item_eat',
         },
-        dbName: 'Shopcola',
-        version: 2,
+        dbName: 'shop-cola',
+        weight: 0.75,
     },
 ];

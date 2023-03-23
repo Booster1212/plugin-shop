@@ -21,11 +21,11 @@ export const ShopRegistry: IShop[] = [
         blipScale: 1,
         data: {
             items: [
-                { dbName: 'bread', price: 75 },
-                { dbName: 'Shophotdog', price: 375 },
-                { dbName: 'Shopwater', price: 250 },
-                { dbName: 'Shopcola', price: 250 },
-                { dbName: 'Shopenergy', price: 300 },
+                { dbName: 'shop-bread', price: 75 },
+                { dbName: 'shop-hotdog', price: 375 },
+                { dbName: 'shop-water', price: 250 },
+                { dbName: 'shop-cola', price: 250 },
+                { dbName: 'shop-energy', price: 300 },
             ],
         },
         locations: coreShopLocations,
