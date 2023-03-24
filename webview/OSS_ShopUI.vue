@@ -4,12 +4,15 @@
             <div class="shopWrapper">
                 <div class="shopItem" v-for="(shopItem, index) in filteredItems" :key="index">
                     <div class="item" v-if="ShopSystem.ShopItems">
-                        <div class="image">
+                        <div class="image" v-if="shopItem.image !== 'crate'">
                             <img
-                                :src="ResolvePath(`../../assets/icons/${shopItem.image}.png`)"
+                                :src="ResolvePath(`@AthenaPlugins/icons/open-source-shop/${shopItem.image}.png`)"
                                 id="Images"
                                 alt="shopBg"
                             />
+                        </div>
+                        <div class="image" v-else>
+                            <img :src="ResolvePath(`../../assets/icons/crate.png`)" id="Images" alt="shopBg" />
                         </div>
                         <div class="descriptions">
                             <span>{{ shopItem.name }}</span
@@ -84,12 +87,10 @@ const SHOP = [
 const ComponentName = 'OSS_ShopUI';
 export default defineComponent({
     name: ComponentName,
-    // Used to add Custom Components
     components: {
         Button,
         Icon,
     },
-    // Used to define state
     data() {
         return {
             shopType: 'buy',
@@ -169,8 +170,10 @@ export default defineComponent({
         },
         buyShopItem(index: number) {
             const shopSystem = { ...this.ShopSystem };
-            this.ShopSystem = shopSystem;
             const selectedAmount = this.selectedAmount[index] || 1;
+
+            this.ShopSystem = shopSystem;
+
             WebViewEvents.emitServer(
                 ShopEvents.HANDLE_SHOP,
                 this.filteredItems[index],

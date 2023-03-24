@@ -6,7 +6,7 @@ const drinkBehavior = { canDrop: true, canStack: true, canTrade: true };
 export const shopDrinks: Array<BaseItem> = [
     {
         name: 'Waterbottle',
-        icon: 'crate',
+        icon: '@AthenaPlugins/icons/open-source-shop/waterbottle.png',
         behavior: drinkBehavior,
         data: {
             amount: 25,

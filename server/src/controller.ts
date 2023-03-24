@@ -29,7 +29,7 @@ export async function loadShops() {
                     color: shop.blipColor,
                     text: shop.name,
                     scale: shop.blipScale,
-                    uid: `OSS-Shop-${shop.dbName}-${i}`,
+                    uid: `OSS-Shop-${shop.name}-${i}`,
                 });
             }
             if (location.ped) {
@@ -40,7 +40,7 @@ export async function loadShops() {
                     maxDistance: 100,
                     animations: location.ped.animations,
                     dimension: 0,
-                    uid: `OSS-PED-${shop.dbName}-${i}`,
+                    uid: `OSS-PED-${shop.name}-${i}`,
                 });
             }
 
@@ -48,7 +48,7 @@ export async function loadShops() {
                 position: new alt.Vector3(location.x, location.y, location.z),
                 description: OSS_TRANSLATIONS.openShop,
                 range: shop.interactionRange || shopConfig.interactionRange,
-                uid: `OSS-IC-${shop.dbName}-${i}`,
+                uid: `OSS-IC-${shop.name}-${i}`,
                 debug: false,
                 callback: (player: alt.Player) => createShopCallback(player, shop, location),
             });

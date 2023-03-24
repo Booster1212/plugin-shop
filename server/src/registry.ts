@@ -15,7 +15,6 @@ import { vanillaUnicornLocations } from './shopLists/vanillaUnicorn';
 export const ShopRegistry: IShop[] = [
     {
         name: '24/7 Shop',
-        dbName: '24-7-Shop',
         blipSprite: 59,
         blipColor: 2,
         blipScale: 1,
@@ -23,7 +22,7 @@ export const ShopRegistry: IShop[] = [
             items: [
                 { dbName: 'shop-bread', price: 75 },
                 { dbName: 'shop-hotdog', price: 375 },
-                { dbName: 'shop-water', price: 250 },
+                { dbName: 'shop-water', price: 250, icon: 'waterbottle' },
                 { dbName: 'shop-cola', price: 250 },
                 { dbName: 'shop-energy', price: 300 },
             ],
@@ -32,7 +31,6 @@ export const ShopRegistry: IShop[] = [
     },
     {
         name: 'Seller Example',
-        dbName: 'SellerExample',
         shopType: ShopType.SELL,
         blipSprite: 52,
         blipColor: 1,
@@ -44,7 +42,6 @@ export const ShopRegistry: IShop[] = [
     },
     {
         name: 'LTD',
-        dbName: 'LTD',
         blipSprite: 59,
         blipColor: 2,
         blipScale: 1,
@@ -59,7 +56,6 @@ export const ShopRegistry: IShop[] = [
     },
     {
         name: 'Robs Liquor',
-        dbName: 'RobsLiquor',
         blipSprite: 59,
         blipColor: 2,
         blipScale: 1,
@@ -74,7 +70,6 @@ export const ShopRegistry: IShop[] = [
     },
     {
         name: 'Juice',
-        dbName: 'Juice',
         blipSprite: 59,
         blipColor: 2,
         blipScale: 1,
@@ -89,7 +84,6 @@ export const ShopRegistry: IShop[] = [
     },
     {
         name: 'Liquor ACE',
-        dbName: 'LiquorACE',
         blipSprite: 59,
         blipColor: 2,
         blipScale: 1,
@@ -104,7 +98,6 @@ export const ShopRegistry: IShop[] = [
     },
     {
         name: 'Tool Shop',
-        dbName: 'ToolShop',
         blipSprite: 59,
         blipColor: 2,
         blipScale: 1,
@@ -119,21 +112,19 @@ export const ShopRegistry: IShop[] = [
     },
     {
         name: 'Ammunation',
-        dbName: 'Ammunation',
         blipSprite: 110,
         blipColor: 2,
         blipScale: 1,
         data: {
             items: [
-                { dbName: 'Pistol', price: 50000 },
-                { dbName: 'Railgun', price: 500000 },
+                { dbName: 'appistol', price: 50000 },
+                { dbName: 'assaultrifle', price: 500000 },
             ],
         },
         locations: ammunationLocations,
     },
     {
         name: 'Tequi-la-la',
-        dbName: 'Tequi-la-la',
         blipSprite: 93,
         blipColor: 48,
         blipScale: 1,
@@ -148,7 +139,6 @@ export const ShopRegistry: IShop[] = [
     },
     {
         name: 'Bahama Mamas',
-        dbName: 'BahamaMamas',
         blipSprite: 93,
         blipColor: 48,
         blipScale: 1,
@@ -163,7 +153,6 @@ export const ShopRegistry: IShop[] = [
     },
     {
         name: 'Vanilla Unicorn',
-        dbName: 'VanillaUnicorn',
         blipSprite: 93,
         blipColor: 48,
         blipScale: 1,
