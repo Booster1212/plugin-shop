@@ -2,10 +2,9 @@ import * as alt from 'alt-server';
 import * as Athena from '@AthenaServer/api';
 
 import { ShopEvents } from '@AthenaPlugins/open-source-shop/shared/enums/ShopEvents';
-import { OSS_TRANSLATIONS } from '@AthenaPlugins/open-source-shop/shared/enums/Translations';
 import { CurrencyTypes } from '../../../../shared/enums/currency';
-import { slot } from '@AthenaServer/systems/inventory';
-import { modifyItemQuantity } from '@AthenaServer/systems/inventory/manager';
+import { ShopTranslations } from '@AthenaPlugins/open-source-shop/shared/enums/Translations';
+import { ShopType } from '@AthenaPlugins/open-source-shop/shared/enums/ShopType';
 
 alt.onClient(
     ShopEvents.HANDLE_SHOP,
@@ -19,38 +18,40 @@ alt.onClient(
         const moneyType = usingCash ? CurrencyTypes.CASH : CurrencyTypes.BANK;
         const baseItemFound = await Athena.systems.inventory.factory.getBaseItemAsync(shopItem.dbName);
         const totalPrice = amount * shopItem.price;
-
-        if (type === 'buy') {
+        if (type === ShopType.BUY) {
             if (totalPrice > funds) {
-                Athena.player.emit.notification(player, OSS_TRANSLATIONS.notEnoughFunds);
+                Athena.player.emit.notification(player, ShopTranslations.notEnoughFunds);
                 return;
             }
 
-            await Athena.player.inventory.add(player, {
+            const isAdded = await Athena.player.inventory.add(player, {
                 dbName: baseItemFound.dbName,
                 data: baseItemFound.data,
                 quantity: amount,
             });
 
-            Athena.player.currency.sub(player, moneyType, totalPrice);
-
-            Athena.player.emit.notification(player, `You've bought ${shopItem.name} x${amount} for ${totalPrice}$!`);
-        } else {
-            const hasAmountInInventory = Athena.player.inventory.has(player, baseItemFound.dbName, amount);
-
-            if (!hasAmountInInventory) {
-                Athena.player.emit.notification(
-                    player,
-                    `You don't have ${baseItemFound.name} x${amount} in your inventory.`,
-                );
+            if (!isAdded) {
+                Athena.player.emit.notification(player, `Can't add item. Inventory full?`);
                 return;
             }
 
-            const inventoryItem = playerData.inventory.find((x) => x.dbName === baseItemFound.dbName);
-            modifyItemQuantity(inventoryItem, amount, true);
+            Athena.player.currency.sub(player, moneyType, totalPrice);
+
+            Athena.player.emit.notification(player, `You've bought ${shopItem.name} x${amount} for ${totalPrice}$!`);
+        } else if (type === ShopType.SELL) {
+            const isRemoved = await Athena.player.inventory.sub(player, {
+                dbName: baseItemFound.dbName,
+                quantity: amount,
+            });
+
+            if (!isRemoved) {
+                Athena.player.emit.notification(player, `You don't have x${amount} of ${baseItemFound.name}!`);
+                return;
+            }
+
             Athena.player.currency.add(player, moneyType, totalPrice);
 
-            Athena.player.emit.notification(player, `You've sold ${shopItem} x${amount} for ${totalPrice}`);
+            Athena.player.emit.notification(player, `You've sold ${baseItemFound.name} x${amount} for ${totalPrice}$!`);
         }
     },
 );

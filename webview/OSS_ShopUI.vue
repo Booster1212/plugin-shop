@@ -5,11 +5,7 @@
                 <div class="shopItem" v-for="(shopItem, index) in filteredItems" :key="index">
                     <div class="item" v-if="ShopSystem.ShopItems">
                         <div class="image" v-if="shopItem.image !== 'crate'">
-                            <img
-                                :src="ResolvePath(`@AthenaPlugins/icons/open-source-shop/${shopItem.image}.png`)"
-                                id="Images"
-                                alt="shopBg"
-                            />
+                            <img :src="ResolvePath(`${shopItem.image}`)" id="Images" alt="shopBg" />
                         </div>
                         <div class="image" v-else>
                             <img :src="ResolvePath(`../../assets/icons/crate.png`)" id="Images" alt="shopBg" />
@@ -26,6 +22,7 @@
                                 v-model="selectedAmount[index]"
                                 @change="updateInput(this)"
                                 maxlength="3"
+                                oninput="this.value = Math.abs(this.value)"
                             />
                             <template v-if="shopAcceptsCard">
                                 <Button class="buyButton" :color="buttonColor" @click="changeMoneyType">
@@ -130,34 +127,28 @@ export default defineComponent({
         },
     },
     methods: {
-        updateInput(input) {
+        updateInput(input: number) {
             if (input.value.length > input.maxLength) {
                 input.value = input.value.slice(0, input.maxLength);
             }
-            if (input.value < 0) {
+
+            if (input.value < 1) {
                 input.value = 1;
             }
         },
         addCommas(nStr: string) {
-            nStr += '';
-            let x = nStr.split('.');
-            let x1 = x[0];
-            let x2 = x.length > 1 ? '.' + x[1] : '';
-            let rgx = /(\d+)(\d{3})/;
-            while (rgx.test(x1)) {
-                x1 = x1.replace(rgx, '$1' + '.' + '$2');
-            }
-            return x1 + x2;
+            const [x1, x2] = nStr.toString().split('.');
+            const rgx = /(\d+)(\d{3})/;
+            let formatted = x1.replace(rgx, '$1.$2');
+            if (x2) formatted += `.${x2}`;
+            return formatted;
         },
-        fillShopItems(shopItems: Array<string | number>[], type: string, shopName: string, acceptsCard: boolean) {
-            const shopSystem = { ...this.ShopSystem };
-
-            this.ShopSystem = shopSystem;
-            this.shopName = shopName;
-            this.shopAcceptsCard = acceptsCard;
-
-            shopSystem.ShopItems = shopItems;
-
+        fillShopItems(shopItems, type: string, shopName: string, acceptsCard: boolean) {
+            this.ShopSystem = {
+                ShopItems: shopItems,
+                ShopName: shopName,
+                AcceptsCard: acceptsCard,
+            };
             if (type === 'sell') {
                 this.buttonText = 'Sell';
                 this.buttonColor = 'red';
@@ -169,18 +160,9 @@ export default defineComponent({
             }
         },
         buyShopItem(index: number) {
-            const shopSystem = { ...this.ShopSystem };
-            const selectedAmount = this.selectedAmount[index] || 1;
-
-            this.ShopSystem = shopSystem;
-
-            WebViewEvents.emitServer(
-                ShopEvents.HANDLE_SHOP,
-                this.filteredItems[index],
-                selectedAmount,
-                this.shopType,
-                this.usingCash,
-            );
+            const { filteredItems, shopType, usingCash } = this;
+            const selectedAmount = this.selectedAmount[index] ?? 1;
+            WebViewEvents.emitServer(ShopEvents.HANDLE_SHOP, filteredItems[index], selectedAmount, shopType, usingCash);
         },
         changeMoneyType() {
             if (this.shopAcceptsCard) {
@@ -189,9 +171,7 @@ export default defineComponent({
             }
         },
         closePage() {
-            if ('alt' in window) {
-                WebViewEvents.emitClient(ShopEvents.CLOSE_SHOP);
-            }
+            window.alt?.WebViewEvents.emitClient(ShopEvents.CLOSE_SHOP);
         },
         ResolvePath,
     },
@@ -233,7 +213,7 @@ export default defineComponent({
     margin-right: 10%;
 }
 .shopItem .image {
-    max-height: 150px;
+    max-height: 128px;
 }
 .shopItem .descriptions {
     position: relative;
@@ -265,8 +245,8 @@ export default defineComponent({
     overflow-x: hidden;
 }
 #Images {
-    width: 64px;
-    height: 64px;
+    width: 128px;
+    height: 128px;
     max-height: 128px;
     padding-top: 20px;
 }

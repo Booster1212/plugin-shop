@@ -1,4 +1,4 @@
-import effects from '@AthenaShared/enums/effects';
+import { ShopEvents } from '@AthenaPlugins/open-source-shop/shared/enums/ShopEvents';
 import { BaseItem } from '@AthenaShared/interfaces/item';
 
 const drinkBehavior = { canDrop: true, canStack: true, canTrade: true };
@@ -10,34 +10,31 @@ export const shopDrinks: Array<BaseItem> = [
         behavior: drinkBehavior,
         data: {
             amount: 25,
-            event: effects.EFFECT_WATER,
-            sound: 'item_eat',
         },
         dbName: 'shop-water',
         weight: 1,
+        consumableEventToCall: ShopEvents.DRINK_EFFECT,
     },
     {
         name: 'Energy Drink',
-        icon: 'crate',
+        icon: '@AthenaPlugins/icons/open-source-shop/energydrink.png',
         behavior: drinkBehavior,
         data: {
             amount: 10,
-            event: effects.EFFECT_WATER,
-            sound: 'item_eat',
         },
         dbName: 'shop-energy',
         weight: 0.25,
+        consumableEventToCall: ShopEvents.DRINK_EFFECT,
     },
     {
         name: 'Cola',
-        icon: 'crate',
+        icon: '@AthenaPlugins/icons/open-source-shop/cola.png',
         behavior: drinkBehavior,
         data: {
             amount: 5,
-            event: effects.EFFECT_WATER,
-            sound: 'item_eat',
         },
         dbName: 'shop-cola',
         weight: 0.75,
+        consumableEventToCall: ShopEvents.DRINK_EFFECT,
     },
 ];
