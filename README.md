@@ -10,7 +10,7 @@ Herewith we bring a free store system for the Athena Framework which is under th
 The store system is completely adapted to the Athena Framework and only things that are already integrated into the Athena Framework (Core) are used.
 
 -   Features
-    -   Athena Framework (4.0.2)
+    -   Athena Framework (v5.0.0)
     -   Custom Shops (Buy/Sell)
     -   Searchbar
     -   Choose between cash-only or cash and bank
@@ -24,8 +24,7 @@ The store system is completely adapted to the Athena Framework and only things t
 
 ### Installing
 
--   Clone Repository (https://github.com/Booster1212/OpenSourceShop.git)
--   Copy the plugin folder into your src/core/plugins folder
+-   Clone Repository (https://github.com/Booster1212/OpenSourceShop.git) directly into src/core/plugins.
 
 ## Help
 
