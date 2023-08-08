@@ -203,14 +203,11 @@ export default defineComponent({
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
         'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 700;
-    font-weight: none;
     font-size: 1em;
-    background: rgb(0, 0, 0);
+    background: #000;
     border: 1px solid rgba(29, 126, 171, 0.5);
-    padding-bottom: 10%;
-    margin-top: 10%;
-    margin-left: 10%;
-    margin-right: 10%;
+    padding: 1rem;
+    margin: 1rem;
 }
 .shopItem .image {
     max-height: 128px;

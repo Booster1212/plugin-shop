@@ -1,4 +1,5 @@
 import { IShopLocation } from '@AthenaPlugins/open-source-shop/shared/interfaces/IShopLocation';
+import vendingMachines from '@AthenaShared/information/vendingMachines';
 
 /* <-- AMMUNATION --> */
 export const ammunationLocations: IShopLocation[] = [
@@ -77,4 +78,8 @@ export const toolShopLocations: IShopLocation[] = [
 /* <-- Vanilla Unicorn --> */
 export const vanillaUnicornLocations: IShopLocation[] = [
     { x: 127.16043853759766, y: -1283.4989013671875, z: 29.2630615234375, isBlip: true },
+];
+
+export const vendingMachinesShop: IShopLocation[] = [
+    ...vendingMachines.map((machine) => ({ ...machine, isBlip: false })),
 ];

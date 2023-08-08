@@ -9,8 +9,8 @@ import { IShopLocation } from '@AthenaPlugins/open-source-shop/shared/interfaces
 import { shopConfig } from './config';
 import { ShopTranslations } from '@AthenaPlugins/open-source-shop/shared/enums/Translations';
 
-export async function loadShops() {
-    ShopRegistry.forEach(async (shop) => {
+export function loadShops() {
+    ShopRegistry.forEach((shop) => {
         if (
             (shopConfig.randomizeSellers && shop.shopType === ShopType.SELL) ||
             (shopConfig.randomizeBuyers && (!shop.shopType || shop.shopType === ShopType.BUY))
@@ -22,7 +22,7 @@ export async function loadShops() {
         }
 
         shop.locations.forEach((location, i) => {
-            if (location.isBlip) {
+            if (location.isBlip && shop.data.blip) {
                 Athena.controllers.blip.append({
                     pos: new alt.Vector3(location.x, location.y, location.z),
                     shortRange: shop.data.blip.shortRange,
@@ -58,7 +58,7 @@ export async function loadShops() {
     });
 }
 
-export async function createShopCallback(player: alt.Player, shop: IShop, location: IShopLocation) {
+export function createShopCallback(player: alt.Player, shop: IShop, location: IShopLocation) {
     let currentShop = shop;
     let dataItems = [];
     let acceptsCard = location.shopAcceptsCard || false;
