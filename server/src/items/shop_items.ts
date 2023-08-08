@@ -41,3 +41,5 @@ export const bahamaMamasShops: Array<{ dbName: string; price: number }> = [{ dbN
 export const vanillaUnicornShops: Array<{ dbName: string; price: number }> = [{ dbName: 'shop-beer', price: 425 }];
 
 export const toolShops: Array<{ dbName: string; price: number }> = [{ dbName: 'shop-water', price: 250 }];
+
+export const vendingMachines: Array<{ dbName: string; price: number }> = [{ dbName: 'shop-water', price: 500 }];

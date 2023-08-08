@@ -11,7 +11,7 @@ export interface IShop {
     data: {
         items?: IShopItem[];
         interactionRange?: number;
-        blip: {
+        blip?: {
             shortRange: boolean;
             sprite: number;
             color: number;

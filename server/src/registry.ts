@@ -170,4 +170,13 @@ export const ShopRegistry: IShop[] = [
         },
         locations: ShopLocations.vanillaUnicornLocations,
     },
+    {
+        name: 'Vending Machine',
+        shopType: ShopType.BUY,
+        data: {
+            items: [...ShopItems.vendingMachines],
+            interactionRange: 2,
+        },
+        locations: ShopLocations.vendingMachinesShop,
+    },
 ];
