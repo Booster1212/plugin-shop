@@ -35,3 +35,36 @@ alt.onClient(ShopEvents.BUY_ITEMS_FROM_CART, async (player: alt.Player, cartItem
 
     console.log(`All items added successfully.`);
 });
+
+alt.onClient(ShopEvents.SELL_ITEMS_FROM_CART, async (player: alt.Player, cartItems: Array<any>) => {
+    const playerData = Athena.document.character.get(player);
+    const cartData = Object.values(cartItems);
+
+    let totalPrice = 0;
+    let allItemsRemoved = true; // Assume all items are removed by default
+
+    for (const item of cartData) {
+        const baseItemFound = item;
+        const isRemoved = await Athena.player.inventory.sub(player, {
+            dbName: baseItemFound.dbName,
+            quantity: baseItemFound.quantity,
+        });
+
+        if (!isRemoved) {
+            allItemsRemoved = false; // If any item couldn't be removed, set to false
+        }
+
+        const itemTotalPrice = item.quantity * item.price;
+        totalPrice += itemTotalPrice;
+    }
+
+    if (allItemsRemoved && totalPrice > 0) {
+        playerData.cash += totalPrice;
+
+        console.log(`Sold items for a total of $${totalPrice}`);
+    } else {
+        Athena.player.emit.notification(player, `Can't sell items. Something went wrong.`);
+    }
+
+    console.log(`All items sold successfully.`);
+});

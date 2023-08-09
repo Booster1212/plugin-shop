@@ -45,9 +45,12 @@
                     <p class="total-price">Total Price: {{ calculateTotalPrice() }}$</p>
                     <p class="total-quantity">Amount of Items in Total: {{ calculateTotalQuantity() }}</p>
                 </div>
-                <div class="payment-buttons">
+                <div class="payment-buttons" v-if="shopType === ShopType.BUY">
                     <button class="payment-button cash" @click="buyItems">Pay with Cash</button>
                     <button class="payment-button ec-card">Pay with EC Card</button>
+                </div>
+                <div class="payment-buttons" v-else>
+                    <button class="payment-button cash" @click="sellItems">Sell</button>
                 </div>
             </div>
         </div>
@@ -59,6 +62,7 @@ import resolvePath from '@utility/pathResolver';
 import WebViewEvents from '@utility/webViewEvents';
 import { onMounted, ref } from 'vue';
 import { ShopEvents } from '../shared/enums/ShopEvents';
+import { ShopType } from '../shared/enums/ShopType';
 
 const availableItems = ref([]);
 
@@ -112,6 +116,9 @@ const buyItems = () => {
     WebViewEvents.emitServer(ShopEvents.BUY_ITEMS_FROM_CART, cartItems.value);
 };
 
+const sellItems = () => {
+    WebViewEvents.emitServer(ShopEvents.SELL_ITEMS_FROM_CART, cartItems.value);
+};
 onMounted(() => {
     if ('alt' in window) {
         WebViewEvents.emitClient(`OSS_ShopUI:Ready`);
