@@ -62,9 +62,10 @@ alt.onClient(ShopEvents.SELL_ITEMS_FROM_CART, async (player: alt.Player, cartIte
         playerData.cash += totalPrice;
 
         console.log(`Sold items for a total of $${totalPrice}`);
+        console.log(`All items sold successfully.`);
     } else {
         Athena.player.emit.notification(player, `Can't sell items. Something went wrong.`);
+        return false;
     }
-
-    console.log(`All items sold successfully.`);
+    return true;
 });

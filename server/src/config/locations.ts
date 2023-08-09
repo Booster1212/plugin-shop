@@ -81,5 +81,5 @@ export const vanillaUnicornLocations: IShopLocation[] = [
 ];
 
 export const vendingMachinesShop: IShopLocation[] = [
-    ...vendingMachines.map((machine) => ({ ...machine, isBlip: false })),
+    ...vendingMachines.map((machine) => ({ ...machine, isBlip: false, isVendingMachine: true })),
 ];

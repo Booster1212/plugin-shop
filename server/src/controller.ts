@@ -8,9 +8,11 @@ import { IShop } from '@AthenaPlugins/open-source-shop/shared/interfaces/IShop';
 import { IShopLocation } from '@AthenaPlugins/open-source-shop/shared/interfaces/IShopLocation';
 import { shopConfig } from './config';
 import { ShopTranslations } from '@AthenaPlugins/open-source-shop/shared/enums/Translations';
+import { PlayerShops } from './playerShops';
+import { Player } from 'alt-client';
 
-export function loadShops() {
-    ShopRegistry.forEach((shop) => {
+export async function loadShops() {
+    ShopRegistry.forEach((shop, index) => {
         if (
             (shopConfig.randomizeSellers && shop.shopType === ShopType.SELL) ||
             (shopConfig.randomizeBuyers && (!shop.shopType || shop.shopType === ShopType.BUY))
@@ -21,7 +23,11 @@ export function loadShops() {
             });
         }
 
-        shop.locations.forEach((location, i) => {
+        shop.locations.forEach(async (location, i) => {
+            if (shopConfig.useDatabase) {
+                await PlayerShops.handleDatabase(shop, location);
+            }
+
             if (location.isBlip && shop.data.blip) {
                 Athena.controllers.blip.append({
                     pos: new alt.Vector3(location.x, location.y, location.z),
@@ -56,6 +62,10 @@ export function loadShops() {
             });
         });
     });
+
+    if (shopConfig.useDatabase) {
+        await PlayerShops.buildStorages();
+    }
 }
 
 export function createShopCallback(player: alt.Player, shop: IShop, location: IShopLocation) {
