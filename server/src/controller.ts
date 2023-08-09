@@ -71,7 +71,13 @@ export function createShopCallback(player: alt.Player, shop: IShop, location: IS
             price: item.price,
         };
 
-        dataItems.push({ name: states.name, dbName: states.dbName, price: states.price, image: currentItem.icon });
+        dataItems.push({
+            name: states.name,
+            dbName: states.dbName,
+            price: states.price,
+            image: currentItem.icon,
+            quantity: 1,
+        });
     }
     alt.emitClient(player, ShopEvents.OPEN_SHOP, dataItems, shop.shopType, shop.name, acceptsCard);
 }

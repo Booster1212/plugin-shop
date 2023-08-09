@@ -12,6 +12,7 @@ const state = {
     action: '',
     shopName: '',
     cardAccepted: false,
+    quantity: 0,
 };
 
 class InternalFunctions implements ViewModel {
