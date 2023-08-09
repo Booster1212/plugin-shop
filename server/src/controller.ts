@@ -27,7 +27,7 @@ export function loadShops() {
                     pos: new alt.Vector3(location.x, location.y, location.z),
                     shortRange: shop.data.blip.shortRange,
                     sprite: shop.data.blip.sprite,
-                    color: shop.data.blip.sprite,
+                    color: shop.data.blip.color,
                     text: shop.name,
                     scale: shop.data.blip.scale,
                     uid: `OSS-Shop-${shop.name}-${i}`,

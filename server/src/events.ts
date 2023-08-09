@@ -41,7 +41,7 @@ alt.onClient(ShopEvents.SELL_ITEMS_FROM_CART, async (player: alt.Player, cartIte
     const cartData = Object.values(cartItems);
 
     let totalPrice = 0;
-    let allItemsRemoved = true; // Assume all items are removed by default
+    let allItemsRemoved = true;
 
     for (const item of cartData) {
         const baseItemFound = item;
@@ -51,7 +51,7 @@ alt.onClient(ShopEvents.SELL_ITEMS_FROM_CART, async (player: alt.Player, cartIte
         });
 
         if (!isRemoved) {
-            allItemsRemoved = false; // If any item couldn't be removed, set to false
+            allItemsRemoved = false;
         }
 
         const itemTotalPrice = item.quantity * item.price;
