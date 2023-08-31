@@ -6,6 +6,7 @@ export interface IShopLocation {
     y: number;
     z: number;
     isBlip?: boolean; //Enable/Disable blip e.g. none for Vendors. Already defined from Athena in shared/information
+    isVendingMachine?: boolean;
     shopAcceptsCard?: boolean; // default is false
     ped?: {
         model: string;

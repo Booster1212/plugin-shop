@@ -11,7 +11,7 @@ export const ShopRegistry: IShop[] = [
         data: {
             blip: {
                 sprite: 59,
-                color: 1,
+                color: 2,
                 scale: 1,
                 shortRange: true,
             },
@@ -26,7 +26,7 @@ export const ShopRegistry: IShop[] = [
         data: {
             blip: {
                 sprite: 52,
-                color: 2,
+                color: 1,
                 scale: 1,
                 shortRange: true,
             },
@@ -41,7 +41,7 @@ export const ShopRegistry: IShop[] = [
         data: {
             blip: {
                 sprite: 59,
-                color: 1,
+                color: 2,
                 scale: 1,
                 shortRange: true,
             },
@@ -56,7 +56,7 @@ export const ShopRegistry: IShop[] = [
         data: {
             blip: {
                 sprite: 59,
-                color: 1,
+                color: 2,
                 scale: 1,
                 shortRange: true,
             },
@@ -71,7 +71,7 @@ export const ShopRegistry: IShop[] = [
         data: {
             blip: {
                 sprite: 59,
-                color: 1,
+                color: 2,
                 scale: 1,
                 shortRange: true,
             },
@@ -86,7 +86,7 @@ export const ShopRegistry: IShop[] = [
         data: {
             blip: {
                 sprite: 59,
-                color: 1,
+                color: 2,
                 scale: 1,
                 shortRange: true,
             },
@@ -101,7 +101,7 @@ export const ShopRegistry: IShop[] = [
         data: {
             blip: {
                 sprite: 59,
-                color: 1,
+                color: 2,
                 scale: 1,
                 shortRange: true,
             },
@@ -116,7 +116,7 @@ export const ShopRegistry: IShop[] = [
         data: {
             blip: {
                 sprite: 110,
-                color: 1,
+                color: 2,
                 scale: 1,
                 shortRange: true,
             },

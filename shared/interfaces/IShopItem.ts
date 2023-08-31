@@ -3,3 +3,9 @@ export interface IShopItem {
     price: number; // Price of the item.
     name?: string; // Optional: The name of the Item. Default is name from Item-Factory
 }
+// TODO: Add
+/* 
+export interface OSSItem {
+    name: string;
+}
+*/

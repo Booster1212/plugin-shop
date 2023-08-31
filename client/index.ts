@@ -1,59 +1,48 @@
 import * as alt from 'alt-client';
-import * as Athena from '@AthenaClient/api';
-
-import ViewModel from '../../../client/models/viewModel';
+import * as AthenaClient from '@AthenaClient/api';
+import { onTicksStart } from '@AthenaClient/events/onTicksStart';
 import { ShopEvents } from '../shared/enums/ShopEvents';
-import { IShopItem } from '../shared/interfaces/IShopItem';
 
-const PAGE_NAME = 'OSS_ShopUI';
+function init() {
+    const page = new AthenaClient.webview.Page({
+        name: 'OSS_ShopUI',
+        callbacks: {
+            onReady: async () => {},
+            onClose: () => {},
+        },
+        options: {
+            onOpen: {
+                focus: true,
+                hideHud: true,
+                hideOverlays: true,
+                setIsMenuOpenToTrue: true,
+                showCursor: true,
+                disableControls: 'all',
+                disablePauseMenu: true,
+            },
+            onClose: {
+                hideCursor: true,
+                showHud: true,
+                showOverlays: true,
+                unfocus: true,
+                setIsMenuOpenToFalse: true,
+                enableControls: true,
+                enablePauseMenu: true,
+            },
+        },
+    });
 
-const state = {
-    items: [] as Array<IShopItem>,
-    action: '',
-    shopName: '',
-    cardAccepted: false,
-};
+    alt.onServer(ShopEvents.OPEN_SHOP, () => {
+        if (typeof page !== 'undefined') {
+            page.open();
+        }
+    });
 
-class InternalFunctions implements ViewModel {
-    static async open() {
-        Athena.webview.setOverlayVisible(PAGE_NAME, false);
-
-        Athena.webview.on(`${PAGE_NAME}:Ready`, InternalFunctions.ready);
-        Athena.webview.openPages([PAGE_NAME], true, InternalFunctions.close);
-
-        Athena.webview.focus();
-        Athena.webview.showCursor(true);
-
-        alt.toggleGameControls(false);
-
-        alt.Player.local.isMenuOpen = true;
-    }
-
-    static async close() {
-        alt.toggleGameControls(true);
-        Athena.webview.setOverlaysVisible(true);
-
-        Athena.webview.closePages([PAGE_NAME]);
-        Athena.webview.unfocus();
-        Athena.webview.showCursor(false);
-
-        alt.Player.local.isMenuOpen = false;
-    }
-
-    static async ready() {
-        Athena.webview.emit(ShopEvents.SET_ITEMS, state.items, state.action, state.shopName, state.cardAccepted);
-    }
+    alt.onServer('', () => {
+        if (typeof page !== 'undefined') {
+            page.close(true);
+        }
+    });
 }
 
-alt.onServer(ShopEvents.OPEN_SHOP, (shopItems, type, name, acceptsCard) => {
-    state.items = shopItems;
-    state.action = type;
-    state.shopName = name;
-    state.cardAccepted = acceptsCard;
-
-    InternalFunctions.open();
-});
-
-Athena.webview.on(ShopEvents.CLOSE_SHOP, () => {
-    InternalFunctions.close();
-});
+onTicksStart.add(init);

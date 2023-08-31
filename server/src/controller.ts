@@ -9,8 +9,8 @@ import { IShopLocation } from '@AthenaPlugins/open-source-shop/shared/interfaces
 import { shopConfig } from './config';
 import { ShopTranslations } from '@AthenaPlugins/open-source-shop/shared/enums/Translations';
 
-export function loadShops() {
-    ShopRegistry.forEach((shop) => {
+export async function loadShops() {
+    ShopRegistry.forEach((shop, index) => {
         if (
             (shopConfig.randomizeSellers && shop.shopType === ShopType.SELL) ||
             (shopConfig.randomizeBuyers && (!shop.shopType || shop.shopType === ShopType.BUY))
@@ -21,13 +21,13 @@ export function loadShops() {
             });
         }
 
-        shop.locations.forEach((location, i) => {
+        shop.locations.forEach(async (location, i) => {
             if (location.isBlip && shop.data.blip) {
                 Athena.controllers.blip.append({
                     pos: new alt.Vector3(location.x, location.y, location.z),
                     shortRange: shop.data.blip.shortRange,
                     sprite: shop.data.blip.sprite,
-                    color: shop.data.blip.sprite,
+                    color: shop.data.blip.color,
                     text: shop.name,
                     scale: shop.data.blip.scale,
                     uid: `OSS-Shop-${shop.name}-${i}`,
@@ -71,9 +71,16 @@ export function createShopCallback(player: alt.Player, shop: IShop, location: IS
             price: item.price,
         };
 
-        dataItems.push({ name: states.name, dbName: states.dbName, price: states.price, image: currentItem.icon });
+        dataItems.push({
+            name: states.name,
+            dbName: states.dbName,
+            price: states.price,
+            image: currentItem.icon,
+            quantity: 1,
+        });
     }
-    alt.emitClient(player, ShopEvents.OPEN_SHOP, dataItems, shop.shopType, shop.name, acceptsCard);
+    alt.emitClient(player, ShopEvents.OPEN_SHOP);
+    Athena.webview.emit(player, ShopEvents.SET_ITEMS, dataItems, shop.shopType, shop.name, acceptsCard);
 }
 
 export function getRandomInt(min: number, max: number) {
@@ -102,6 +109,7 @@ export function drinkEffect(player: alt.Player, slot: number, type: 'inventory' 
 
     item.quantity = 1;
     Athena.player.inventory.sub(player, item);
+    data.water += 25;
 }
 
 export function drinkEffectAlcoholic(player: alt.Player, slot: number, type: 'inventory' | 'toolbar') {
