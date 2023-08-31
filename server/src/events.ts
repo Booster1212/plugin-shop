@@ -34,6 +34,7 @@ alt.onClient(ShopEvents.BUY_ITEMS_FROM_CART, async (player: alt.Player, cartItem
     }
 
     console.log(`All items added successfully.`);
+    Athena.webview.emit(player, ShopEvents.RESET_CART);
 });
 
 alt.onClient(ShopEvents.SELL_ITEMS_FROM_CART, async (player: alt.Player, cartItems: Array<any>) => {

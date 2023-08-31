@@ -8,8 +8,6 @@ import { IShop } from '@AthenaPlugins/open-source-shop/shared/interfaces/IShop';
 import { IShopLocation } from '@AthenaPlugins/open-source-shop/shared/interfaces/IShopLocation';
 import { shopConfig } from './config';
 import { ShopTranslations } from '@AthenaPlugins/open-source-shop/shared/enums/Translations';
-import { PlayerShops } from './playerShops';
-import { Player } from 'alt-client';
 
 export async function loadShops() {
     ShopRegistry.forEach((shop, index) => {
@@ -24,10 +22,6 @@ export async function loadShops() {
         }
 
         shop.locations.forEach(async (location, i) => {
-            if (shopConfig.useDatabase) {
-                await PlayerShops.handleDatabase(shop, location);
-            }
-
             if (location.isBlip && shop.data.blip) {
                 Athena.controllers.blip.append({
                     pos: new alt.Vector3(location.x, location.y, location.z),
@@ -62,10 +56,6 @@ export async function loadShops() {
             });
         });
     });
-
-    if (shopConfig.useDatabase) {
-        await PlayerShops.buildStorages();
-    }
 }
 
 export function createShopCallback(player: alt.Player, shop: IShop, location: IShopLocation) {
@@ -89,7 +79,8 @@ export function createShopCallback(player: alt.Player, shop: IShop, location: IS
             quantity: 1,
         });
     }
-    alt.emitClient(player, ShopEvents.OPEN_SHOP, dataItems, shop.shopType, shop.name, acceptsCard);
+    alt.emitClient(player, ShopEvents.OPEN_SHOP);
+    Athena.webview.emit(player, ShopEvents.SET_ITEMS, dataItems, shop.shopType, shop.name, acceptsCard);
 }
 
 export function getRandomInt(min: number, max: number) {
@@ -118,6 +109,7 @@ export function drinkEffect(player: alt.Player, slot: number, type: 'inventory' 
 
     item.quantity = 1;
     Athena.player.inventory.sub(player, item);
+    data.water += 25;
 }
 
 export function drinkEffectAlcoholic(player: alt.Player, slot: number, type: 'inventory' | 'toolbar') {

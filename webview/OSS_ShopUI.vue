@@ -45,12 +45,9 @@
                     <p class="total-price">Total Price: {{ calculateTotalPrice() }}$</p>
                     <p class="total-quantity">Amount of Items in Total: {{ calculateTotalQuantity() }}</p>
                 </div>
-                <div class="payment-buttons" v-if="shopType === ShopType.BUY">
+                <div class="payment-buttons">
                     <button class="payment-button cash" @click="buyItems">Pay with Cash</button>
                     <button class="payment-button ec-card">Pay with EC Card</button>
-                </div>
-                <div class="payment-buttons" v-else>
-                    <button class="payment-button cash" @click="sellItems">Sell</button>
                 </div>
             </div>
         </div>
@@ -62,9 +59,16 @@ import resolvePath from '@utility/pathResolver';
 import WebViewEvents from '@utility/webViewEvents';
 import { onMounted, ref } from 'vue';
 import { ShopEvents } from '../shared/enums/ShopEvents';
-import { ShopType } from '../shared/enums/ShopType';
 
-const availableItems = ref([]);
+const availableItems = ref([
+    {
+        id: 0,
+        name: 'Test',
+        image: '@AthenaPlugins/icons/open-source-shop/bread.png',
+        price: 250,
+        quantity: 1,
+    },
+]);
 
 const cartItems = ref([]);
 const shopType = ref('');
@@ -116,91 +120,56 @@ const buyItems = () => {
     WebViewEvents.emitServer(ShopEvents.BUY_ITEMS_FROM_CART, cartItems.value);
 };
 
-const sellItems = () => {
-    WebViewEvents.emitServer(ShopEvents.SELL_ITEMS_FROM_CART, cartItems.value);
+const resetCart = () => {
+    cartItems.value = [];
 };
+
 onMounted(() => {
     if ('alt' in window) {
         WebViewEvents.emitClient(`OSS_ShopUI:Ready`);
         WebViewEvents.on(ShopEvents.SET_ITEMS, fillShopItems);
+        WebViewEvents.on(ShopEvents.RESET_CART, resetCart);
     }
 });
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-.shopWrapper {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    min-width: 100vw;
-}
-.shopContainer {
-    width: 60vw;
-    padding: 0px;
-    height: auto;
-}
-.shopItem {
-    position: relative;
-    color: white;
-    user-select: none;
-    height: auto;
-    margin-bottom: 10px;
-}
-.shopItem .item {
-    color: white;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-        'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: 700;
-    font-size: 1em;
-    background: #000;
-    border: 1px solid rgba(29, 126, 171, 0.5);
-    padding: 1rem;
-    margin: 1rem;
-}
-.shopItem .image {
-    max-height: 128px;
-}
-.shopItem .descriptions {
-    position: relative;
-    margin-top: 1.5vh;
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-    overflow: hidden;
-    max-height: 4.4em;
-    line-height: 1.4em;
-    text-align: center;
-    padding-left: 5%;
-    padding-right: 5%;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-        'Open Sans', 'Helvetica Neue', sans-serif;
-}
-.shopBackground {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.95);
-    left: 10vw;
-    top: 10vh;
-    height: 80vh;
+.shop-wrapper {
+    height: 70vh;
     display: flex;
+    justify-content: center; /* Horizontally center the content */
     background-color: #f2f2f200;
     font-family: Arial, sans-serif;
 }
-
 .shop-content {
     display: flex;
     align-items: flex-start;
-    padding: 2rem;
     gap: 1rem;
 }
 
 .item-wrapper {
-    height: 75vh;
+    height: 100%;
     width: 70vw;
-    background-color: #030303;
+    background-color: #000000;
     overflow-y: scroll;
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 4px 4px 12px rgba(97, 41, 41, 0.1);
+
+    /* Hide the scrollbar track */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer / Edge */
+
+    /* Hide the thumb */
+    &::-webkit-scrollbar {
+        width: 0.2em;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: transparent;
+    }
+
+    /* Make the content scrollable */
+    overflow: auto;
 }
 
 .items {
@@ -282,6 +251,7 @@ onMounted(() => {
     align-items: center;
     gap: 1rem;
     padding: 0.5rem 0;
+    width: 70%;
 }
 
 .cart-item-quantity {
@@ -339,7 +309,7 @@ onMounted(() => {
 }
 
 .payment-button.ec-card {
-    background-color: #e74c3c;
+    background-color: #27ae60;
 }
 
 .payment-button:hover {
