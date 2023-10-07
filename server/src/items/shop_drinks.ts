@@ -1,4 +1,4 @@
-import { ShopEvents } from '@AthenaPlugins/open-source-shop/shared/enums/ShopEvents';
+import { ShopEvents } from '@AthenaPlugins/plugin-shop/shared/enums/ShopEvents';
 import { BaseItem } from '@AthenaShared/interfaces/item';
 
 const drinkBehavior = { canDrop: true, canStack: true, canTrade: true };

@@ -59,12 +59,13 @@ import resolvePath from '@utility/pathResolver';
 import WebViewEvents from '@utility/webViewEvents';
 import { onMounted, ref } from 'vue';
 import { ShopEvents } from '../shared/enums/ShopEvents';
+import { ShopType } from '../shared/enums/ShopType';
 
 const availableItems = ref([
     {
         id: 0,
         name: 'Test',
-        image: '@AthenaPlugins/icons/open-source-shop/bread.png',
+        image: '@AthenaPlugins/icons/plugin-shop/bread.png',
         price: 250,
         quantity: 1,
     },
@@ -117,7 +118,11 @@ const fillShopItems = (shopItems, type: string, shopName: string, acceptsCard: b
 };
 
 const buyItems = () => {
-    WebViewEvents.emitServer(ShopEvents.BUY_ITEMS_FROM_CART, cartItems.value);
+    if (shopType.value === ShopType.BUY) {
+        WebViewEvents.emitServer(ShopEvents.BUY_ITEMS_FROM_CART, cartItems.value);
+    } else {
+        WebViewEvents.emitServer(ShopEvents.SELL_ITEMS_FROM_CART, cartItems.value);
+    }
 };
 
 const resetCart = () => {

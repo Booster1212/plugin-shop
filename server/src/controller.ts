@@ -2,22 +2,24 @@ import * as alt from 'alt-server';
 import * as Athena from '@AthenaServer/api';
 
 import { ShopRegistry } from './registry';
-import { ShopType } from '@AthenaPlugins/open-source-shop/shared/enums/ShopType';
-import { ShopEvents } from '@AthenaPlugins/open-source-shop/shared/enums/ShopEvents';
-import { IShop } from '@AthenaPlugins/open-source-shop/shared/interfaces/IShop';
-import { IShopLocation } from '@AthenaPlugins/open-source-shop/shared/interfaces/IShopLocation';
+import { ShopType } from '@AthenaPlugins/plugin-shop/shared/enums/ShopType';
+import { ShopEvents } from '@AthenaPlugins/plugin-shop/shared/enums/ShopEvents';
+import { IShop } from '@AthenaPlugins/plugin-shop/shared/interfaces/IShop';
+import { IShopLocation } from '@AthenaPlugins/plugin-shop/shared/interfaces/IShopLocation';
 import { shopConfig } from './config';
-import { ShopTranslations } from '@AthenaPlugins/open-source-shop/shared/enums/Translations';
+import { ShopTranslations } from '@AthenaPlugins/plugin-shop/shared/enums/Translations';
 
 export async function loadShops() {
-    ShopRegistry.forEach((shop, index) => {
+    ShopRegistry.forEach((shop) => {
         if (
             (shopConfig.randomizeSellers && shop.shopType === ShopType.SELL) ||
             (shopConfig.randomizeBuyers && (!shop.shopType || shop.shopType === ShopType.BUY))
         ) {
             shop.data.items.forEach((item) => {
-                const registryPrice = shop.data.items.find((itemToFind) => itemToFind.dbName === item.dbName).price;
-                item.price = getRandomInt(1, registryPrice);
+                const registryItem = shop.data.items.find((itemToFind) => itemToFind.dbName === item.dbName);
+                if (registryItem) {
+                    item.price = getRandomInt(1, registryItem.price);
+                }
             });
         }
 
@@ -98,6 +100,8 @@ export function foodEffect(player: alt.Player, slot: number, type: 'inventory' |
 
     item.quantity = 1;
     Athena.player.inventory.sub(player, item);
+
+    data.food += 25;
 }
 
 export function drinkEffect(player: alt.Player, slot: number, type: 'inventory' | 'toolbar') {

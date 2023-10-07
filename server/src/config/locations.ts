@@ -1,4 +1,4 @@
-import { IShopLocation } from '@AthenaPlugins/open-source-shop/shared/interfaces/IShopLocation';
+import { IShopLocation } from '@AthenaPlugins/plugin-shop/shared/interfaces/IShopLocation';
 import vendingMachines from '@AthenaShared/information/vendingMachines';
 
 /* <-- AMMUNATION --> */

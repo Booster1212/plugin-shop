@@ -1,10 +1,10 @@
 import * as Athena from '@AthenaServer/api';
-import * as Shop from '@AthenaPlugins/open-source-shop/server/src/controller';
+import * as Shop from '@AthenaPlugins/plugin-shop/server/src/controller';
 
 import { shopFood } from './shop_food';
 import { shopDrinks } from './shop_drinks';
 import { shopDrinksAlcoholic } from './shop_drinks_alcoholic';
-import { ShopEvents } from '@AthenaPlugins/open-source-shop/shared/enums/ShopEvents';
+import { ShopEvents } from '@AthenaPlugins/plugin-shop/shared/enums/ShopEvents';
 
 const itemsToAdd = [...shopFood, ...shopDrinks, ...shopDrinksAlcoholic];
 

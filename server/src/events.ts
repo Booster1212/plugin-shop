@@ -1,6 +1,6 @@
 import * as alt from 'alt-server';
 import * as Athena from '@AthenaServer/api';
-import { ShopEvents } from '@AthenaPlugins/open-source-shop/shared/enums/ShopEvents';
+import { ShopEvents } from '@AthenaPlugins/plugin-shop/shared/enums/ShopEvents';
 
 alt.onClient(ShopEvents.BUY_ITEMS_FROM_CART, async (player: alt.Player, cartItems: Array<any>) => {
     const playerData = Athena.document.character.get(player);
