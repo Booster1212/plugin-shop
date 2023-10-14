@@ -6,7 +6,7 @@ const drinkBehavior = { canDrop: true, canStack: true, canTrade: true };
 export const shopDrinks: Array<BaseItem> = [
     {
         name: 'Waterbottle',
-        icon: '@AthenaPlugins/icons/open-source-shop/waterbottle.png',
+        icon: '@AthenaPlugins/icons/plugin-shop/waterbottle.png',
         behavior: drinkBehavior,
         data: {
             amount: 25,
@@ -17,7 +17,7 @@ export const shopDrinks: Array<BaseItem> = [
     },
     {
         name: 'Energy Drink',
-        icon: '@AthenaPlugins/icons/open-source-shop/energydrink.png',
+        icon: '@AthenaPlugins/icons/plugin-shop/energydrink.png',
         behavior: drinkBehavior,
         data: {
             amount: 10,
@@ -28,7 +28,7 @@ export const shopDrinks: Array<BaseItem> = [
     },
     {
         name: 'Cola',
-        icon: '@AthenaPlugins/icons/open-source-shop/cola.png',
+        icon: '@AthenaPlugins/icons/plugin-shop/cola.png',
         behavior: drinkBehavior,
         data: {
             amount: 5,

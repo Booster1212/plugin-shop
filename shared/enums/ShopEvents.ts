@@ -9,4 +9,5 @@ export const enum ShopEvents {
     DRINK_EFFECT = 'open-source-shop:drink-effect',
     FOOD_EFFECT = 'open-source-shop:food-effect',
     RESET_CART = 'open-source-shop:reset-cart',
+    REQUEST_SHOP_ITEMS = 'open-source-shop:request-shop-items',
 }

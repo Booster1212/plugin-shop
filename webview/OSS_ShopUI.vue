@@ -6,7 +6,7 @@
                     <div class="item" v-for="item in availableItems" :key="item.id">
                         <div class="item-content">
                             <div class="item-icon" v-if="item.image">
-                                <img :src="resolvePath(`${item.image}`)" id="images" alt="item-Image" />
+                                <img :src="resolvePath(item.image)" id="images" alt="item-Image" />
                             </div>
                             <div class="item-details">
                                 <h4>{{ item.name }} ({{ item.price }}$)</h4>
@@ -110,7 +110,7 @@ const calculateTotalQuantity = () => {
     return cartItems.value.reduce((total, item) => total + item.quantity, 0);
 };
 
-const fillShopItems = (shopItems, type: string, shopName: string, acceptsCard: boolean) => {
+const fillShopItems = (shopItems: any, type: string, shopName: string, acceptsCard: boolean) => {
     availableItems.value = shopItems;
     shopType.value = type;
 
@@ -131,7 +131,7 @@ const resetCart = () => {
 
 onMounted(() => {
     if ('alt' in window) {
-        WebViewEvents.emitClient(`OSS_ShopUI:Ready`);
+        WebViewEvents.emitServer(ShopEvents.REQUEST_SHOP_ITEMS);
         WebViewEvents.on(ShopEvents.SET_ITEMS, fillShopItems);
         WebViewEvents.on(ShopEvents.RESET_CART, resetCart);
     }
@@ -140,7 +140,7 @@ onMounted(() => {
 
 <style scoped>
 .shop-wrapper {
-    height: 70vh;
+    height: 600px;
     display: flex;
     justify-content: center; /* Horizontally center the content */
     background-color: #f2f2f200;
@@ -154,7 +154,7 @@ onMounted(() => {
 
 .item-wrapper {
     height: 100%;
-    width: 70vw;
+    width: 1050px;
     background-color: #000000;
     overflow-y: scroll;
     padding: 2rem;

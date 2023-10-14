@@ -14,8 +14,8 @@ function init() {
             onOpen: {
                 focus: true,
                 hideHud: true,
-                hideOverlays: true,
                 setIsMenuOpenToTrue: true,
+                hideOverlays: false,
                 showCursor: true,
                 disableControls: 'all',
                 disablePauseMenu: true,
@@ -23,7 +23,6 @@ function init() {
             onClose: {
                 hideCursor: true,
                 showHud: true,
-                showOverlays: true,
                 unfocus: true,
                 setIsMenuOpenToFalse: true,
                 enableControls: true,
@@ -35,12 +34,6 @@ function init() {
     alt.onServer(ShopEvents.OPEN_SHOP, () => {
         if (typeof page !== 'undefined') {
             page.open();
-        }
-    });
-
-    alt.onServer('', () => {
-        if (typeof page !== 'undefined') {
-            page.close(true);
         }
     });
 }

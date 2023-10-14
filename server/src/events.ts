@@ -3,6 +3,8 @@ import * as Athena from '@AthenaServer/api';
 import { ShopEvents } from '@AthenaPlugins/plugin-shop/shared/enums/ShopEvents';
 
 alt.onClient(ShopEvents.BUY_ITEMS_FROM_CART, async (player: alt.Player, cartItems: Array<any>) => {
+    const Notify = await Athena.systems.plugins.useAPI('notify');
+
     const playerData = Athena.document.character.get(player);
     const cartData = Object.values(cartItems);
 
@@ -35,6 +37,7 @@ alt.onClient(ShopEvents.BUY_ITEMS_FROM_CART, async (player: alt.Player, cartItem
 
     console.log(`All items added successfully.`);
     Athena.webview.emit(player, ShopEvents.RESET_CART);
+    Notify.send(player, 1, 10, 'Shopsystem', `All Items were bought successfull. Paid: ${totalPrice}$!`);
 });
 
 alt.onClient(ShopEvents.SELL_ITEMS_FROM_CART, async (player: alt.Player, cartItems: Array<any>) => {

@@ -7,7 +7,7 @@ export const shopFood: Array<BaseItem> = [
     {
         name: 'Bread',
         weight: 0.25,
-        icon: '@AthenaPlugins/icons/open-source-shop/bread.png',
+        icon: '@AthenaPlugins/icons/plugin-shop/bread.png',
         behavior: foodBehavior,
         data: {
             amount: 25,
@@ -18,7 +18,7 @@ export const shopFood: Array<BaseItem> = [
     {
         name: 'Hotdog',
         weight: 1,
-        icon: '@AthenaPlugins/icons/open-source-shop/hotdog.png',
+        icon: '@AthenaPlugins/icons/plugin-shop/hotdog.png',
         behavior: foodBehavior,
         data: {
             amount: 25,
@@ -29,7 +29,7 @@ export const shopFood: Array<BaseItem> = [
     {
         name: 'Pizza',
         weight: 2.5,
-        icon: '@AthenaPlugins/icons/open-source-shop/pizza.png',
+        icon: '@AthenaPlugins/icons/plugin-shop/pizza.png',
         behavior: foodBehavior,
         data: {
             amount: 25,

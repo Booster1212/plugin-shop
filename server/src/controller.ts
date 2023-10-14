@@ -81,8 +81,13 @@ export function createShopCallback(player: alt.Player, shop: IShop, location: IS
             quantity: 1,
         });
     }
+
     alt.emitClient(player, ShopEvents.OPEN_SHOP);
-    Athena.webview.emit(player, ShopEvents.SET_ITEMS, dataItems, shop.shopType, shop.name, acceptsCard);
+    alt.onClient(ShopEvents.REQUEST_SHOP_ITEMS, (player: alt.Player) => {
+        Athena.webview.emit(player, ShopEvents.SET_ITEMS, dataItems, shop.shopType, shop.name, acceptsCard);
+        console.log(`Shop requested Data from Vue Side.. Setting...`);
+        console.log(JSON.stringify(dataItems, undefined, 4));
+    });
 }
 
 export function getRandomInt(min: number, max: number) {
