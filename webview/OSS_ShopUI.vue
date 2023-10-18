@@ -55,7 +55,7 @@ import resolvePath from '@utility/pathResolver.js';
 import Icon from '@components/Icon.vue';
 
 const availableItems = ref([
-    {
+    /* {
         name: 'Assault Rifle',
         image: '@AthenaPlugins/icons/plugin-shop/bread.png',
         price: 250,
@@ -114,7 +114,7 @@ const availableItems = ref([
         image: '@AthenaPlugins/icons/plugin-shop/bread.png',
         price: 250,
         quantity: 1,
-    },
+    }, */
 ]);
 
 const cartItems = ref([]);
@@ -251,7 +251,7 @@ onMounted(() => {
 }
 
 #item-btn + p {
-    margin: 0 10px; /* Add spacing between buttons and the amount text */
+    margin: 0 10px;
 }
 .item #button {
     position: absolute;
@@ -295,7 +295,7 @@ onMounted(() => {
 
 .left-button,
 .right-button {
-    background-color: #3498db; /* Replace with your button color */
+    background-color: #3498db;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -366,21 +366,21 @@ onMounted(() => {
 .amount {
     font-size: 20px;
     font-weight: bold;
-    color: #3498db; /* Color for the total amount */
+    color: #3498db;
 }
 
 .shop-wrapper::-webkit-scrollbar {
-    width: 0px; /* Make the scrollbar very thin */
+    width: 0px;
 }
 
 .shop-wrapper::-webkit-scrollbar-thumb {
-    background: transparent; /* Make the thumb transparent */
+    background: transparent;
 }
 #items::-webkit-scrollbar {
-    width: 0px; /* Make the scrollbar very thin */
+    width: 0px;
 }
 
 #items::-webkit-scrollbar-thumb {
-    background: transparent; /* Make the thumb transparent */
+    background: transparent;
 }
 </style>
