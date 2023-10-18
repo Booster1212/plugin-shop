@@ -1,5 +1,5 @@
-import { ShopEvents } from '@AthenaPlugins/plugin-shop/shared/enums/ShopEvents';
-import { BaseItem } from '@AthenaShared/interfaces/item';
+import { ShopEvents } from '@AthenaPlugins/plugin-shop/shared/enums/ShopEvents.js';
+import { BaseItem } from '@AthenaShared/interfaces/item.js';
 
 const foodBehavior = { canDrop: true, canStack: true, canTrade: true };
 

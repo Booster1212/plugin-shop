@@ -1,7 +1,7 @@
 import * as alt from 'alt-client';
-import * as AthenaClient from '@AthenaClient/api';
-import { onTicksStart } from '@AthenaClient/events/onTicksStart';
-import { ShopEvents } from '../shared/enums/ShopEvents';
+import * as AthenaClient from '@AthenaClient/api/index.js';
+import { onTicksStart } from '@AthenaClient/events/onTicksStart.js';
+import { ShopEvents } from '../shared/enums/ShopEvents.js';
 
 function init() {
     const page = new AthenaClient.webview.Page({

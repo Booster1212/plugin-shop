@@ -1,70 +1,116 @@
 <template>
     <div class="shop-wrapper">
-        <div class="shop-content">
-            <div class="item-wrapper">
-                <div class="items">
-                    <div class="item" v-for="item in availableItems" :key="item.id">
-                        <div class="item-content">
-                            <div class="item-icon" v-if="item.image">
-                                <img :src="resolvePath(item.image)" id="images" alt="item-Image" />
-                            </div>
-                            <div class="item-details">
-                                <h4>{{ item.name }} ({{ item.price }}$)</h4>
-                                <div class="add-to-cart">
-                                    <button class="remove-button" @click="addToCart(item)">Add to Cart</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="item" v-for="(item, index) in availableItems" :key="index">
+            <div id="image">
+                <img :src="resolvePath(item.image)" alt="item-background" />
             </div>
-            <div class="shopping-cart">
-                <h3>Shopping Cart</h3>
-                <div class="cart-items">
-                    <div class="cart-item" v-for="item in cartItems" :key="item.id">
-                        <div class="cart-item-icon">
-                            <img
-                                :src="resolvePath(`${item.image}`)"
-                                id="cart-image"
-                                alt="cartImage"
-                                style="width: 64px; height: 64px"
-                            />
-                        </div>
-                        <div class="cart-item-details">
-                            <p class="cart-item-name">{{ item.name }}</p>
-                            <div class="cart-item-quantity">
-                                <button class="quantity-button" @click="decreaseQuantity(item)">-</button>
-                                <p class="quantity">{{ item.quantity }}</p>
-                                <button class="quantity-button" @click="increaseQuantity(item)">+</button>
-                            </div>
-                            <button class="remove-button" @click="removeFromCart(item)">Remove</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="cart-total">
-                    <p class="total-price">Total Price: {{ calculateTotalPrice() }}$</p>
-                    <p class="total-quantity">Amount of Items in Total: {{ calculateTotalQuantity() }}</p>
-                </div>
-                <div class="payment-buttons">
-                    <button class="payment-button cash" @click="buyItems">Pay with Cash</button>
-                    <button class="payment-button ec-card">Pay with EC Card</button>
-                </div>
+            <div id="item-data">
+                <p>{{ item.name }} | ${{ item.price }}</p>
             </div>
+            <div id="amount-buttons">
+                <button id="item-btn" @click="decreaseQuantity(item)">
+                    <Icon icon="icon-minus" :size="24"></Icon>
+                </button>
+                <p>{{ item.quantity }}</p>
+                <button id="item-btn" @click="increaseQuantity(item)"><Icon icon="icon-plus" :size="24"></Icon></button>
+            </div>
+            <button id="button" @click="addToCart(item)">Add to cart</button>
+        </div>
+    </div>
+    <div class="shop-cart">
+        <div id="items">
+            <ul class="item-list">
+                <li v-for="(item, index) in cartItems" :key="index" class="cart-item">
+                    <div class="item-info">
+                        <div class="item-icon">
+                            <img :src="resolvePath(item.image)" alt="item-background" class="item-icon" />
+                        </div>
+                        <span class="item-name">{{ item.name }} [x{{ item.quantity }}]</span>
+                    </div>
+                    <div class="item-price">$ {{ item.price }}</div>
+                    <div class="item-remove" @click="removeFromCart(item)">
+                        <Icon icon="icon-trash" :size="24"></Icon>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="cart-buttons">
+            <button class="left-button" @click="buyItems()">Pay with Cash</button>
+            <button class="right-button">Pay with EC Card</button>
+        </div>
+        <div class="total-price">
+            <p>Total Price:</p>
+            <p class="amount">$ {{ calculateTotalPrice() }}</p>
+            <!-- Replace with your dynamic total amount -->
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import resolvePath from '@utility/pathResolver';
-import WebViewEvents from '@utility/webViewEvents';
+import WebViewEvents from '@utility/webViewEvents.js';
 import { onMounted, ref } from 'vue';
-import { ShopEvents } from '../shared/enums/ShopEvents';
-import { ShopType } from '../shared/enums/ShopType';
+import { ShopEvents } from '../shared/enums/ShopEvents.js';
+import { ShopType } from '../shared/enums/ShopType.js';
+import resolvePath from '@utility/pathResolver.js';
+import Icon from '@components/Icon.vue';
 
 const availableItems = ref([
     {
-        id: 0,
-        name: 'Test',
+        name: 'Assault Rifle',
+        image: '@AthenaPlugins/icons/plugin-shop/bread.png',
+        price: 250,
+        quantity: 1,
+    },
+    {
+        name: 'Test 2',
+        image: '@AthenaPlugins/icons/plugin-shop/beer.png',
+        price: 250,
+        quantity: 1,
+    },
+    {
+        name: 'Test 3',
+        image: '@AthenaPlugins/icons/plugin-shop/bread.png',
+        price: 250,
+        quantity: 1,
+    },
+    {
+        name: 'Test 4',
+        image: '@AthenaPlugins/icons/plugin-shop/bread.png',
+        price: 250,
+        quantity: 1,
+    },
+    {
+        name: 'Test 5',
+        image: '@AthenaPlugins/icons/plugin-shop/bread.png',
+        price: 250,
+        quantity: 1,
+    },
+    {
+        name: 'Test 6',
+        image: '@AthenaPlugins/icons/plugin-shop/bread.png',
+        price: 250,
+        quantity: 1,
+    },
+    {
+        name: 'Test 7',
+        image: '@AthenaPlugins/icons/plugin-shop/bread.png',
+        price: 250,
+        quantity: 1,
+    },
+    {
+        name: 'Test 8',
+        image: '@AthenaPlugins/icons/plugin-shop/bread.png',
+        price: 250,
+        quantity: 1,
+    },
+    {
+        name: 'Test 9',
+        image: '@AthenaPlugins/icons/plugin-shop/bread.png',
+        price: 250,
+        quantity: 1,
+    },
+    {
+        name: 'Test 10',
         image: '@AthenaPlugins/icons/plugin-shop/bread.png',
         price: 250,
         quantity: 1,
@@ -74,7 +120,7 @@ const availableItems = ref([
 const cartItems = ref([]);
 const shopType = ref('');
 
-const addToCart = (item) => {
+const addToCart = (item: { name: string; quantity: number }) => {
     const existingItem = cartItems.value.find((cartItem) => cartItem.name === item.name);
     if (existingItem) {
         existingItem.quantity += item.quantity;
@@ -83,7 +129,7 @@ const addToCart = (item) => {
     }
 };
 
-const removeFromCart = (item) => {
+const removeFromCart = (item: { id: number }) => {
     const index = cartItems.value.findIndex((cartItem) => cartItem.id === item.id);
     if (index !== -1) {
         cartItems.value.splice(index, 1);
@@ -137,193 +183,204 @@ onMounted(() => {
     }
 });
 </script>
-
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+
 .shop-wrapper {
+    display: grid;
+
     height: 600px;
-    display: flex;
-    justify-content: center; /* Horizontally center the content */
-    background-color: #f2f2f200;
-    font-family: Arial, sans-serif;
-}
-.shop-content {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-}
+    width: 1040px;
 
-.item-wrapper {
-    height: 100%;
-    width: 1050px;
-    background-color: #000000;
-    overflow-y: scroll;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 4px 4px 12px rgba(97, 41, 41, 0.1);
+    background: linear-gradient(127deg, #07141d 4.01%, #040f17 71.45%);
+    filter: drop-shadow(0px 4px 4px rgba(11, 13, 27, 0.25));
+    opacity: 0.95;
 
-    /* Hide the scrollbar track */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer / Edge */
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 0px;
 
-    /* Hide the thumb */
-    &::-webkit-scrollbar {
-        width: 0.2em;
-    }
-    &::-webkit-scrollbar-thumb {
-        background-color: transparent;
-    }
-
-    /* Make the content scrollable */
     overflow: auto;
-}
+    font-family: 'Oswald', sans-serif;
 
-.items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
+    padding-bottom: 40px;
 
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
 .item {
-    flex: 0 0 calc(30% - 1rem);
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem;
-    background-color: #3c558140;
-    border-radius: 12px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
+    flex-direction: column;
+    position: relative;
 
-.item-icon {
-    margin-bottom: 1rem;
+    width: 80%;
+    height: 280px;
+    border-radius: 5px;
+    font-size: 16px;
+    background: radial-gradient(50% 50% at 50% 50%, #19242d 0%, #0d1821 100%);
+    margin: 10%;
+    margin-bottom: 0%;
 }
+.item #image {
+    margin-top: 15px;
+    width: 128px;
+    height: 128px;
 
-.item-icon > #images {
-    max-width: 128px;
-    max-height: 128px;
+    background-size: contain;
 }
-
-.item-price {
-    margin-top: 0.5rem;
-    color: #777777;
-}
-
-.add-to-cart {
+.item #amount-buttons {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 1rem;
 }
 
-.shopping-cart {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 2rem;
-    background-color: #2b2929;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.cart-items {
-    overflow-x: hidden;
-    overflow-y: scroll;
-    width: 20vw;
-    height: 75vh;
-    margin-top: 1rem;
-}
-
-.cart-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.5rem 0;
-}
-
-.cart-item-icon {
-    font-size: 1.5rem;
-}
-
-.cart-item-name {
-    width: 100px;
-    margin: 0;
-}
-
-.cart-item-details {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.5rem 0;
-    width: 70%;
-}
-
-.cart-item-quantity {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.quantity-button {
-    background-color: #cccccc;
-    color: #333333;
-    border: none;
-    border-radius: 50%;
-    width: 2rem;
-    height: 2rem;
-    font-size: 1rem;
+#item-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-}
 
-.quantity {
-    font-size: 1.2rem;
-    margin: 0;
-}
-.remove-button {
-    background-color: #ff4b5c;
-    color: white;
+    width: 30px;
+    height: 30px;
+    background: #4171cc;
+
     border: none;
-    border-radius: 6px;
-    padding: 0.3rem 0.5rem;
+    border-radius: 10px;
     cursor: pointer;
-}
 
-.total-price {
-    margin-top: 1rem;
-    font-weight: bold;
-}
-
-.payment-button {
-    background-color: #3498db;
     color: white;
+}
+
+#item-btn + p {
+    margin: 0 10px; /* Add spacing between buttons and the amount text */
+}
+.item #button {
+    position: absolute;
+    bottom: 0%;
+    transform: translateY(50%);
+    width: 120px;
+    height: 30px;
+    border-radius: 3px;
     border: none;
-    border-radius: 4px;
-    padding: 1rem 2rem;
-    margin-top: 1rem;
-    font-size: 1rem;
+    background: #4171cc;
+    box-shadow: 0px 6px 20px 0px rgba(255, 255, 255, 0.3) inset;
+    color: white;
+    transition: 0.5s ease-in-out;
+}
+
+.item #button:hover {
+    background-color: #224b99;
+    transition: 0.5s ease-in-out;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+}
+.shop-cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 352px;
+    height: 640px;
+    flex-shrink: 0;
+    border-radius: 0px 10px 10px 0px;
+    background: linear-gradient(0deg, #0d1821 0%, #0d1821 100%), #d9d9d9;
+    font-family: 'Oswald', sans-serif;
+    color: white !important;
+    margin-right: 10%;
 }
 
-.payment-button.cash {
-    background-color: #27ae60;
+.cart-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    margin-top: 15px;
 }
 
-.payment-button.ec-card {
-    background-color: #27ae60;
+.left-button,
+.right-button {
+    background-color: #3498db; /* Replace with your button color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.payment-button:hover {
-    background-color: #2980b9;
+.shop-cart #items {
+    margin-top: 25px;
+    width: 300px;
+    height: 500px;
+    border-radius: 10px;
+    background: rgba(44, 43, 43, 0.2);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow: auto;
 }
-.payment-buttons {
+
+.item-list {
+    list-style: none;
+    padding: 0;
+}
+
+.cart-item {
+    background-color: #4171cc;
+    margin: 15px;
+    padding: 10px;
+    border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 2rem;
+}
+
+.item-info {
+    display: flex;
+    align-items: center;
+}
+
+.item-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+}
+
+.item-name {
+    min-width: 140px;
+    max-width: 140px;
+    font-size: 20px;
+    text-align: justify;
+    text-justify: inter-character;
+}
+
+.item-price {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.total-price {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.total-price p {
+    margin: 0;
+}
+
+.amount {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3498db; /* Color for the total amount */
+}
+
+.shop-wrapper::-webkit-scrollbar {
+    width: 0px; /* Make the scrollbar very thin */
+}
+
+.shop-wrapper::-webkit-scrollbar-thumb {
+    background: transparent; /* Make the thumb transparent */
+}
+#items::-webkit-scrollbar {
+    width: 0px; /* Make the scrollbar very thin */
+}
+
+#items::-webkit-scrollbar-thumb {
+    background: transparent; /* Make the thumb transparent */
 }
 </style>

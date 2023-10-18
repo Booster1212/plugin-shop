@@ -1,13 +1,13 @@
 import * as alt from 'alt-server';
-import * as Athena from '@AthenaServer/api';
+import * as Athena from '@AthenaServer/api/index.js';
 
-import { ShopRegistry } from './registry';
-import { ShopType } from '@AthenaPlugins/plugin-shop/shared/enums/ShopType';
-import { ShopEvents } from '@AthenaPlugins/plugin-shop/shared/enums/ShopEvents';
-import { IShop } from '@AthenaPlugins/plugin-shop/shared/interfaces/IShop';
-import { IShopLocation } from '@AthenaPlugins/plugin-shop/shared/interfaces/IShopLocation';
-import { shopConfig } from './config';
-import { ShopTranslations } from '@AthenaPlugins/plugin-shop/shared/enums/Translations';
+import { ShopRegistry } from './registry.js';
+import { ShopType } from '@AthenaPlugins/plugin-shop/shared/enums/ShopType.js';
+import { ShopEvents } from '@AthenaPlugins/plugin-shop/shared/enums/ShopEvents.js';
+import { IShop } from '@AthenaPlugins/plugin-shop/shared/interfaces/IShop.js';
+import { IShopLocation } from '@AthenaPlugins/plugin-shop/shared/interfaces/IShopLocation.js';
+import { shopConfig } from './config/index.js';
+import { ShopTranslations } from '@AthenaPlugins/plugin-shop/shared/enums/Translations.js';
 
 export async function loadShops() {
     ShopRegistry.forEach((shop) => {
@@ -40,7 +40,7 @@ export async function loadShops() {
                 Athena.controllers.staticPed.append({
                     model: location.ped.model,
                     pos: location.ped.pos,
-                    heading: location.ped.heading,
+                    rotation: location.ped.heading,
                     maxDistance: 100,
                     animations: location.ped.animations,
                     dimension: 0,

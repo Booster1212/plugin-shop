@@ -1,5 +1,5 @@
-import { IShopLocation } from '@AthenaPlugins/plugin-shop/shared/interfaces/IShopLocation';
-import vendingMachines from '@AthenaShared/information/vendingMachines';
+import { IShopLocation } from '@AthenaPlugins/plugin-shop/shared/interfaces/IShopLocation.js';
+import vendingMachines from '@AthenaShared/information/vendingMachines.js';
 
 /* <-- AMMUNATION --> */
 export const ammunationLocations: IShopLocation[] = [

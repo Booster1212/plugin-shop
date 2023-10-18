@@ -1,12 +1,18 @@
 import * as alt from 'alt-server';
-import * as Athena from '@AthenaServer/api';
-import { ShopEvents } from '@AthenaPlugins/plugin-shop/shared/enums/ShopEvents';
+import * as Athena from '@AthenaServer/api/index.js';
+import { ShopEvents } from '@AthenaPlugins/plugin-shop/shared/enums/ShopEvents.js';
+import { icons } from '@AthenaPlugins/plugin-notifications/shared/config.js';
 
 alt.onClient(ShopEvents.BUY_ITEMS_FROM_CART, async (player: alt.Player, cartItems: Array<any>) => {
     const Notify = await Athena.systems.plugins.useAPI('notify');
 
     const playerData = Athena.document.character.get(player);
     const cartData = Object.values(cartItems);
+
+    if (cartData.length === 0) {
+        Notify.send(player, icons['icon-warning'], 10, 'Open Source Shop', 'There are no items in your cart.');
+        return;
+    }
 
     let totalPrice = 0;
 
@@ -19,6 +25,8 @@ alt.onClient(ShopEvents.BUY_ITEMS_FROM_CART, async (player: alt.Player, cartItem
             return;
         }
     }
+
+    if (!Athena.player.currency.sub(player, 'cash', totalPrice)) return;
 
     for (const item of cartData) {
         const baseItemFound = item;
@@ -35,9 +43,14 @@ alt.onClient(ShopEvents.BUY_ITEMS_FROM_CART, async (player: alt.Player, cartItem
         }
     }
 
-    console.log(`All items added successfully.`);
     Athena.webview.emit(player, ShopEvents.RESET_CART);
-    Notify.send(player, 1, 10, 'Shopsystem', `All Items were bought successfull. Paid: ${totalPrice}$!`);
+    Notify.send(
+        player,
+        icons['icon-info2'],
+        10,
+        'Open Source Shop',
+        `Successfully purchased items. Total: $${totalPrice}`,
+    );
 });
 
 alt.onClient(ShopEvents.SELL_ITEMS_FROM_CART, async (player: alt.Player, cartItems: Array<any>) => {
@@ -63,10 +76,9 @@ alt.onClient(ShopEvents.SELL_ITEMS_FROM_CART, async (player: alt.Player, cartIte
     }
 
     if (allItemsRemoved && totalPrice > 0) {
-        playerData.cash += totalPrice;
-
         console.log(`Sold items for a total of $${totalPrice}`);
         console.log(`All items sold successfully.`);
+        Athena.player.currency.add(player, 'cash', totalPrice);
     } else {
         Athena.player.emit.notification(player, `Can't sell items. Something went wrong.`);
         return false;

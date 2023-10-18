@@ -1,8 +1,8 @@
-import * as ShopLocations from '@AthenaPlugins/plugin-shop/server/src/config/locations';
-import * as ShopItems from '@AthenaPlugins/plugin-shop/server/src/items/shop_items';
+import * as ShopLocations from '@AthenaPlugins/plugin-shop/server/src/config/locations.js';
+import * as ShopItems from '@AthenaPlugins/plugin-shop/server/src/items/shop_items.js';
 
-import { ShopType } from '@AthenaPlugins/plugin-shop/shared/enums/ShopType';
-import { IShop } from '@AthenaPlugins/plugin-shop/shared/interfaces/IShop';
+import { ShopType } from '@AthenaPlugins/plugin-shop/shared/enums/ShopType.js';
+import { IShop } from '@AthenaPlugins/plugin-shop/shared/interfaces/IShop.js';
 
 export const ShopRegistry: IShop[] = [
     {
