@@ -20,15 +20,15 @@
     <div class="shop-cart">
         <div id="items">
             <ul class="item-list">
-                <li v-for="(item, index) in cartItems" :key="index" class="cart-item">
+                <li v-for="(cartitem, index) in cartItems" :key="index" class="cart-item">
                     <div class="item-info">
                         <div class="item-icon">
-                            <img :src="resolvePath(item.image)" alt="item-background" class="item-icon" />
+                            <img :src="resolvePath(cartitem.image)" alt="item-background" class="item-icon" />
                         </div>
-                        <span class="item-name">{{ item.name }} [x{{ item.quantity }}]</span>
+                        <span class="item-name">{{ cartitem.name }} [x{{ cartitem.quantity }}]</span>
                     </div>
-                    <div class="item-price">$ {{ item.price }}</div>
-                    <div class="item-remove" @click="removeFromCart(item)">
+                    <div class="item-price">$ {{ cartitem.price }}</div>
+                    <div class="item-remove" @click="removeFromCart(cartitem)">
                         <Icon icon="icon-trash" :size="24"></Icon>
                     </div>
                 </li>
@@ -40,8 +40,7 @@
         </div>
         <div class="total-price">
             <p>Total Price:</p>
-            <p class="amount">$ {{ calculateTotalPrice() }}</p>
-            <!-- Replace with your dynamic total amount -->
+            <p class="amount">$ {{ calculateTotalPrice() }} | Total Items: {{ calculateTotalQuantity() }}</p>
         </div>
     </div>
 </template>
@@ -136,11 +135,11 @@ const removeFromCart = (item: { id: number }) => {
     }
 };
 
-const increaseQuantity = (item) => {
+const increaseQuantity = (item: { quantity: number }) => {
     item.quantity++;
 };
 
-const decreaseQuantity = (item) => {
+const decreaseQuantity = (item: { id: number; quantity: number }) => {
     if (item.quantity > 1) {
         item.quantity--;
     } else {

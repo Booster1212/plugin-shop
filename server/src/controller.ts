@@ -83,10 +83,9 @@ export function createShopCallback(player: alt.Player, shop: IShop, location: IS
     }
 
     alt.emitClient(player, ShopEvents.OPEN_SHOP);
+
     alt.onClient(ShopEvents.REQUEST_SHOP_ITEMS, (player: alt.Player) => {
         Athena.webview.emit(player, ShopEvents.SET_ITEMS, dataItems, shop.shopType, shop.name, acceptsCard);
-        console.log(`Shop requested Data from Vue Side.. Setting...`);
-        console.log(JSON.stringify(dataItems, undefined, 4));
     });
 }
 
