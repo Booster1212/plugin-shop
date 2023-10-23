@@ -21,7 +21,7 @@ alt.onClient(ShopEvents.BUY_ITEMS_FROM_CART, async (player: alt.Player, cartItem
         totalPrice += itemTotalPrice;
 
         if (totalPrice > playerData.cash) {
-            Athena.player.emit.notification(player, `Not enough money`);
+            Notify.send(player, icons['icon-dangerous'], 10, "Open Source Shop", `You dont have enough money.`);
             return;
         }
     }
