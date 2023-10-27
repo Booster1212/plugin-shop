@@ -1,6 +1,4 @@
 export const shopConfig = {
-    name: 'Athena Framework - Open Source Shop',
-    version: 'v3',
-    randomizeBuyers: false, // Will randomize output of vending machines as well.
-    randomizeSellers: false, // Randomize drug dealer prices for examples (based on list.)
+    randomizeBuyers: false,
+    randomizeSellers: false,
 };

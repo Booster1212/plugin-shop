@@ -1,13 +1,11 @@
 import * as ShopLocations from '@AthenaPlugins/plugin-shop/server/src/config/locations.js';
-import * as ShopItems from '@AthenaPlugins/plugin-shop/server/src/items/shop_items.js';
+import * as Interface from '../../shared/interface/Shop.js';
+import { coreItems } from './items/24-7Shops/itemlist.js';
 
-import { ShopType } from '@AthenaPlugins/plugin-shop/shared/enums/ShopType.js';
-import { IShop } from '@AthenaPlugins/plugin-shop/shared/interfaces/IShop.js';
-
-export const ShopRegistry: IShop[] = [
+export const ShopRegistry: Interface.Shop[] = [
     {
         name: '24/7 Shop',
-        shopType: ShopType.BUY,
+        type: 'Buy',
         data: {
             blip: {
                 sprite: 59,
@@ -15,14 +13,14 @@ export const ShopRegistry: IShop[] = [
                 scale: 1,
                 shortRange: true,
             },
-            items: [...ShopItems.coreShops],
+            items: [...coreItems],
             interactionRange: 2,
         },
         locations: ShopLocations.coreShopLocations,
     },
     {
         name: 'Example Selling Store',
-        shopType: ShopType.SELL,
+        type: 'Sell',
         data: {
             blip: {
                 sprite: 52,
@@ -30,14 +28,14 @@ export const ShopRegistry: IShop[] = [
                 scale: 1,
                 shortRange: true,
             },
-            items: [...ShopItems.sellingShops],
+            items: [],
             interactionRange: 2,
         },
         locations: ShopLocations.sellerExampleLocations,
     },
     {
         name: 'LTD',
-        shopType: ShopType.BUY,
+        type: 'Buy',
         data: {
             blip: {
                 sprite: 59,
@@ -45,14 +43,14 @@ export const ShopRegistry: IShop[] = [
                 scale: 1,
                 shortRange: true,
             },
-            items: [...ShopItems.ltdShops],
+            items: [],
             interactionRange: 2,
         },
         locations: ShopLocations.ltdLocations,
     },
     {
         name: 'Robs Liquor',
-        shopType: ShopType.BUY,
+        type: 'Buy',
         data: {
             blip: {
                 sprite: 59,
@@ -60,14 +58,14 @@ export const ShopRegistry: IShop[] = [
                 scale: 1,
                 shortRange: true,
             },
-            items: [...ShopItems.robsLiquorShops],
+            items: [],
             interactionRange: 2,
         },
         locations: ShopLocations.robsLiquorLocations,
     },
     {
         name: 'Juice',
-        shopType: ShopType.BUY,
+        type: 'Buy',
         data: {
             blip: {
                 sprite: 59,
@@ -75,14 +73,14 @@ export const ShopRegistry: IShop[] = [
                 scale: 1,
                 shortRange: true,
             },
-            items: [...ShopItems.juiceShops],
+            items: [],
             interactionRange: 2,
         },
         locations: ShopLocations.juiceLocations,
     },
     {
         name: 'Liquor ACE',
-        shopType: ShopType.BUY,
+        type: 'Buy',
         data: {
             blip: {
                 sprite: 59,
@@ -90,14 +88,14 @@ export const ShopRegistry: IShop[] = [
                 scale: 1,
                 shortRange: true,
             },
-            items: [...ShopItems.liquorAceShops],
+            items: [],
             interactionRange: 2,
         },
         locations: ShopLocations.liquorAceLocations,
     },
     {
         name: 'Tool Shop',
-        shopType: ShopType.BUY,
+        type: 'Buy',
         data: {
             blip: {
                 sprite: 59,
@@ -105,14 +103,14 @@ export const ShopRegistry: IShop[] = [
                 scale: 1,
                 shortRange: true,
             },
-            items: [...ShopItems.toolShops],
+            items: [],
             interactionRange: 2,
         },
         locations: ShopLocations.toolShopLocations,
     },
     {
         name: 'Ammunation',
-        shopType: ShopType.BUY,
+        type: 'Buy',
         data: {
             blip: {
                 sprite: 110,
@@ -120,14 +118,14 @@ export const ShopRegistry: IShop[] = [
                 scale: 1,
                 shortRange: true,
             },
-            items: [...ShopItems.ammunationShops],
+            items: [],
             interactionRange: 2,
         },
         locations: ShopLocations.ammunationLocations,
     },
     {
         name: 'Tequi-la-la',
-        shopType: ShopType.BUY,
+        type: 'Buy',
         data: {
             blip: {
                 sprite: 93,
@@ -135,14 +133,14 @@ export const ShopRegistry: IShop[] = [
                 scale: 1,
                 shortRange: true,
             },
-            items: [...ShopItems.tequilalaShops],
+            items: [],
             interactionRange: 2,
         },
         locations: ShopLocations.tequiLaLaLocations,
     },
     {
         name: 'Bahama Mamas',
-        shopType: ShopType.BUY,
+        type: 'Buy',
         data: {
             blip: {
                 sprite: 93,
@@ -150,14 +148,14 @@ export const ShopRegistry: IShop[] = [
                 scale: 1,
                 shortRange: true,
             },
-            items: [...ShopItems.bahamaMamasShops],
+            items: [],
             interactionRange: 2,
         },
         locations: ShopLocations.bahamaMamasLocations,
     },
     {
         name: 'Vanilla Unicorn',
-        shopType: ShopType.BUY,
+        type: 'Buy',
         data: {
             blip: {
                 sprite: 93,
@@ -165,16 +163,16 @@ export const ShopRegistry: IShop[] = [
                 scale: 1,
                 shortRange: true,
             },
-            items: [...ShopItems.vanillaUnicornShops],
+            items: [],
             interactionRange: 2,
         },
         locations: ShopLocations.vanillaUnicornLocations,
     },
     {
         name: 'Vending Machine',
-        shopType: ShopType.BUY,
+        type: 'Buy',
         data: {
-            items: [...ShopItems.vendingMachines],
+            items: [],
             interactionRange: 2,
         },
         locations: ShopLocations.vendingMachinesShop,

@@ -5,7 +5,7 @@ import { ShopEvents } from '../shared/enums/ShopEvents.js';
 
 function init() {
     const page = new AthenaClient.webview.Page({
-        name: 'OSS_ShopUI',
+        name: 'Shop',
         callbacks: {
             onReady: async () => {},
             onClose: () => {},
